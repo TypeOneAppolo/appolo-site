@@ -643,12 +643,23 @@ if (window.gsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
   let cy = window.innerHeight / 2;
 
   function makeBands() {
-    const base = Math.min(window.innerWidth, window.innerHeight);
-    return [
+    const W = window.innerWidth, H = window.innerHeight;
+    const base = Math.min(W, H);
+    const bands = [
       { rx: base * 0.24, ry: base * 0.24 * 0.52, tilt: -0.14, speed:  0.16 },
       { rx: base * 0.37, ry: base * 0.37 * 0.50, tilt:  0.10, speed: -0.12 },
       { rx: base * 0.50, ry: base * 0.50 * 0.48, tilt: -0.07, speed:  0.085 }
     ];
+    // keep the rings inside the viewport so words don't clip off the sides
+    // (matters on narrow / portrait phones). Shrink all bands proportionally
+    // if the outer ring + room for a word would overflow the width.
+    const margin = base < 600 ? 66 : 120;
+    const maxOuter = W / 2 - margin;
+    if (bands[2].rx > maxOuter) {
+      const k = maxOuter / bands[2].rx;
+      bands.forEach(b => { b.rx *= k; b.ry *= k; });
+    }
+    return bands;
   }
   let bands = makeBands();
 
@@ -751,7 +762,7 @@ function startLego() {
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x000000);
-  scene.fog = new THREE.Fog(0x000000, 70, 150);
+  // fog is set later, once we know how far the camera must sit to fit the word
 
   const camera = new THREE.PerspectiveCamera(
     42, window.innerWidth / window.innerHeight, 0.1, 240);
@@ -821,6 +832,23 @@ function startLego() {
     }
   studGrp.scale.set(0.001, 0.001, 0.001); scene.add(studGrp);
 
+  // ---- fit the (wide) word into the viewport ----
+  // The word is wide; on narrow / portrait screens the horizontal FOV shrinks,
+  // so push the camera back enough that APPOLO fits across the width.
+  function computeFit() {
+    const aspect = window.innerWidth / window.innerHeight;
+    const vHalf = THREE.MathUtils.degToRad(21);                 // half of the 42° vertical FOV
+    const hHalf = Math.atan(Math.tan(vHalf) * aspect);          // resulting half horizontal FOV
+    const needDist = (plateW * 0.62) / Math.tan(hHalf);         // distance to fit word + margin
+    const baseDist = Math.hypot(26, 28);                        // distance at the default framing
+    return Math.max(1, needDist / baseDist);
+  }
+  const fit = computeFit();
+  camera.position.set(0, 26 * fit, 28 * fit);
+  scene.fog = new THREE.Fog(0x000000, 50 * fit, 120 * fit);
+  camera.far = 240 * Math.max(1, fit);
+  camera.updateProjectionMatrix();
+
   // ---- subtle landing dust (shared geometry, single neutral tint) ----
   const ringGeo = new THREE.RingGeometry(0.25, 0.45, 18);
   function spawnPuff(x, z) {
@@ -869,9 +897,9 @@ function startLego() {
 
   // ---- gentle camera move to a clean 3/4 view (loop reads these params) ----
   const camTarget = new THREE.Vector3(0, 0.5, 0);
-  const camMove = { ang: 0, rad: 28, h: 26 };        // matches initial camera position
+  const camMove = { ang: 0, rad: 28 * fit, h: 26 * fit };   // scaled to fit the viewport
   tl.to(camMove, {
-    ang: -0.5, rad: 31, h: 22,                        // ~29° arc + slight pull/lower
+    ang: -0.5, rad: 31 * fit, h: 22 * fit,                  // ~29° arc + slight pull/lower
     duration: 1.8, ease: 'power2.inOut'
   }, lastEnd + 0.15);
 
