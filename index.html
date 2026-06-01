@@ -68,12 +68,17 @@
   #orbits { position: absolute; inset: 0; pointer-events: none; }
   .orbit-word {
     position: absolute; top: 0; left: 0;
-    color: #000;
+    color: #111;
     font-family: var(--sans);
-    font-weight: 500;
+    font-weight: 600;
     font-size: clamp(11px, 1.6vw, 18px);
     letter-spacing: 0.04em;
     white-space: nowrap;
+    background: #fff;
+    border: 1.5px solid #111;
+    padding: 9px 15px;
+    border-radius: 999px;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.14);
     transform-origin: center center;
     will-change: transform, opacity;
     user-select: none;
@@ -633,99 +638,114 @@ if (window.gsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
 })();
 
 /* ================================================================ *
- *  SECTION 1 — ORBITING WORDS (tidy nested bands)
+ *  SECTION 1 — FALLING WORDS (gravity, drop in one by one, pile up)
  * ================================================================ */
 (function intro() {
   const WORDS = ["ROBLOX DEV","LUA","GAME SYSTEMS","UI","AI","PHYSICS","PROC ANIM","16","UK","HIRED?"];
   const wrap = document.getElementById('orbits');
   const rings = document.getElementById('rings');
-  let cx = window.innerWidth / 2;
-  let cy = window.innerHeight / 2;
+  const keycap = document.getElementById('enter');
 
-  function makeBands() {
-    const W = window.innerWidth, H = window.innerHeight;
-    const base = Math.min(W, H);
-    const bands = [
-      { rx: base * 0.24, ry: base * 0.24 * 0.52, tilt: -0.14, speed:  0.16 },
-      { rx: base * 0.37, ry: base * 0.37 * 0.50, tilt:  0.10, speed: -0.12 },
-      { rx: base * 0.50, ry: base * 0.50 * 0.48, tilt: -0.07, speed:  0.085 }
-    ];
-    // keep the rings inside the viewport so words don't clip off the sides
-    // (matters on narrow / portrait phones). Shrink all bands proportionally
-    // if the outer ring + room for a word would overflow the width.
-    const margin = base < 600 ? 66 : 120;
-    const maxOuter = W / 2 - margin;
-    if (bands[2].rx > maxOuter) {
-      const k = maxOuter / bands[2].rx;
-      bands.forEach(b => { b.rx *= k; b.ry *= k; });
-    }
-    return bands;
-  }
-  let bands = makeBands();
+  rings.style.display = 'none';   // no orbital rings in the falling layout
 
-  const layout = [3, 3, 4];
-  const sats = [];
-  let wi = 0;
-  layout.forEach((count, b) => {
-    for (let k = 0; k < count && wi < WORDS.length; k++, wi++) {
-      const el = document.createElement('div');
-      el.className = 'orbit-word';
-      el.textContent = WORDS[wi];
-      if (WORDS[wi] === 'HIRED?') el.style.fontWeight = 700;
-      wrap.appendChild(el);
-      sats.push({ el, band: b, phase: (k / count) * Math.PI * 2 });
-    }
+  // Build the word chips up front (hidden) so we can measure them.
+  const items = WORDS.map(label => {
+    const el = document.createElement('div');
+    el.className = 'orbit-word';
+    el.textContent = label;
+    if (label === 'HIRED?') el.style.fontWeight = 700;
+    el.style.opacity = '0';
+    wrap.appendChild(el);
+    return { el, w: el.offsetWidth, h: el.offsetHeight, body: null };
   });
 
-  function drawRings() {
-    rings.setAttribute('width', window.innerWidth);
-    rings.setAttribute('height', window.innerHeight);
-    rings.innerHTML = '';
-    bands.forEach(bd => {
-      const e = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
-      e.setAttribute('cx', cx); e.setAttribute('cy', cy);
-      e.setAttribute('rx', bd.rx); e.setAttribute('ry', bd.ry);
-      e.setAttribute('transform', `rotate(${bd.tilt * 57.2958} ${cx} ${cy})`);
-      e.setAttribute('fill', 'none');
-      e.setAttribute('stroke', '#000');
-      e.setAttribute('stroke-width', '1');
-      e.setAttribute('stroke-opacity', '0.06');
-      rings.appendChild(e);
+  // No physics engine? Just stack them along the bottom so the screen isn't empty.
+  if (!window.Matter) {
+    let x = 24;
+    const baseY = window.innerHeight - 70;
+    items.forEach(it => {
+      if (x + it.w > window.innerWidth - 24) x = 24;
+      it.el.style.opacity = '1';
+      it.el.style.transform = `translate(${x}px, ${baseY}px)`;
+      x += it.w + 14;
     });
+    window.__stopIntro = () => {};
+    return;
   }
-  drawRings();
 
-  let raf, start = performance.now(), running = true;
-  function frame(now) {
+  const { Engine, Runner, Bodies, Body, Composite } = Matter;
+  let W = window.innerWidth, H = window.innerHeight;
+
+  const engine = Engine.create();
+  engine.gravity.y = 1;
+  const world = engine.world;
+
+  // floor + side walls (thick, so fast chips can't tunnel through)
+  const t = 200;
+  const floor = Bodies.rectangle(W / 2, H + t / 2, W * 3, t, { isStatic: true });
+  const left  = Bodies.rectangle(-t / 2, H / 2, t, H * 3, { isStatic: true });
+  const right = Bodies.rectangle(W + t / 2, H / 2, t, H * 3, { isStatic: true });
+  Composite.add(world, [floor, left, right]);
+
+  // the APPOLO button is a solid obstacle — chips bounce off it and pile on top
+  const kr = keycap.getBoundingClientRect();
+  const keycapBody = Bodies.rectangle(
+    kr.left + kr.width / 2, kr.top + kr.height / 2, kr.width, kr.height,
+    { isStatic: true, chamfer: { radius: 14 } }
+  );
+  Composite.add(world, keycapBody);
+
+  // drop the chips in one at a time from the top
+  let dropIndex = 0;
+  let dropTimer = null;
+  function dropNext() {
+    if (dropIndex >= items.length) return;
+    const it = items[dropIndex++];
+    const x = it.w / 2 + 20 + Math.random() * (W - it.w - 40);
+    const body = Bodies.rectangle(x, -40, it.w, it.h, {
+      restitution: 0.5, friction: 0.5, frictionAir: 0.01, density: 0.002,
+      chamfer: { radius: Math.min(it.h / 2 - 1, 14) }
+    });
+    Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.12);
+    it.body = body;
+    it.el.style.opacity = '1';
+    Composite.add(world, body);
+    dropTimer = setTimeout(dropNext, 230 + Math.random() * 160);
+  }
+  dropTimer = setTimeout(dropNext, 450);
+
+  let raf, running = true;
+  function frame() {
     if (!running) return;
-    const t = (now - start) / 1000;
-    sats.forEach(s => {
-      const bd = bands[s.band];
-      const a = t * bd.speed + s.phase;
-      const lx = Math.cos(a) * bd.rx;
-      const ly = Math.sin(a) * bd.ry;
-      const ct = Math.cos(bd.tilt), st = Math.sin(bd.tilt);
-      const x = cx + lx * ct - ly * st;
-      const y = cy + lx * st + ly * ct;
-      const depth = (Math.sin(a) + 1) / 2;
-      const scale = 0.72 + depth * 0.5;
-      const op = 0.22 + depth * 0.78;
-      s.el.style.transform =
-        `translate(${x}px, ${y}px) translate(-50%, -50%) scale(${scale.toFixed(3)})`;
-      s.el.style.opacity = op.toFixed(3);
-      s.el.style.zIndex = Math.round(depth * 10);
+    items.forEach(it => {
+      if (!it.body) return;
+      const { x, y } = it.body.position;
+      it.el.style.transform =
+        `translate(${x - it.w / 2}px, ${y - it.h / 2}px) rotate(${it.body.angle}rad)`;
     });
     raf = requestAnimationFrame(frame);
   }
   raf = requestAnimationFrame(frame);
 
+  const runner = Runner.create();
+  Runner.run(runner, engine);
+
   window.addEventListener('resize', () => {
-    cx = window.innerWidth / 2; cy = window.innerHeight / 2;
-    bands = makeBands();
-    drawRings();
+    W = window.innerWidth; H = window.innerHeight;
+    Body.setPosition(floor, { x: W / 2, y: H + t / 2 });
+    Body.setPosition(left,  { x: -t / 2, y: H / 2 });
+    Body.setPosition(right, { x: W + t / 2, y: H / 2 });
+    const r = keycap.getBoundingClientRect();
+    Body.setPosition(keycapBody, { x: r.left + r.width / 2, y: r.top + r.height / 2 });
   });
 
-  window.__stopIntro = () => { running = false; cancelAnimationFrame(raf); };
+  window.__stopIntro = () => {
+    running = false;
+    cancelAnimationFrame(raf);
+    clearTimeout(dropTimer);
+    Runner.stop(runner);
+    Engine.clear(engine);
+  };
 })();
 
 /* ================================================================ *
