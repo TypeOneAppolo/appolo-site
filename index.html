@@ -2,1184 +2,2068 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>APPOLO — Roblox Dev</title>
-<meta name="description" content="Appolo — 16. I build Roblox games people actually play. Combat systems, AI, physics, procedural animation." />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-<!-- Fonts: geometric sans + mono + a handwriting face for marginalia -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet" />
+<title>appolo's stuff</title>
+
+<!-- ============================================================ -->
+<!-- LINK PREVIEW (discord / twitter / imessage)                   -->
+<!-- If you put this on a real domain, swap the two URLs below     -->
+<!-- for the full https://... version. Discord ignores relative    -->
+<!-- image paths on some CDNs.                                     -->
+<!-- ============================================================ -->
+<meta name="description" content="i'm 16 and i make roblox games. i do the coding side, combat, AI, movement and camera. my main game has 160k visits." />
+<meta name="theme-color" content="#0F53C6" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="appolo" />
+<meta property="og:title" content="appolo, 16, roblox dev" />
+<meta property="og:description" content="i'm 16 and i've been using roblox studio since i was 10. i mostly do the coding side, combat, AI, movement and camera stuff. my main game has 160k visits." />
+<meta property="og:image" content="og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="index.html" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="appolo, 16, roblox dev" />
+<meta name="twitter:description" content="i'm 16 and i make roblox games. i do the coding side, combat, AI, movement and camera. my main game has 160k visits." />
+<meta name="twitter:image" content="og.png" />
 
 <style>
-  /* ---------------------------------------------------------------- *
-   *  TOKENS
-   * ---------------------------------------------------------------- */
-  :root {
-    --bg: #0d0d0d;
-    --fg: #f0f0f0;
-    --muted: #7a7a7a;
-    --accent: #2BD46A;          /* emerald */
-    --accent-rgb: 43,212,106;
-    --line: #232323;
-    --sans: "Space Grotesk", system-ui, sans-serif;
-    --mono: "Space Mono", ui-monospace, monospace;
-    --hand: "Caveat", cursive;
+/* ================================================================ *
+ *  TOKENS - luna (blue) colour scheme, xp 2001
+ * ================================================================ */
+:root {
+  /* window chrome */
+  --luna-edge:   #0A3EA8;
+  --luna-1:      #0C57C8;
+  --luna-2:      #1B6FE8;
+  --luna-3:      #3D95F5;
+  --luna-deep:   #0A246A;
+
+  /* dialog / toolbar face */
+  --face:        #ECE9D8;
+  --face-lit:    #FFFFFF;
+  --face-shade:  #ACA899;
+  --face-dark:   #716F64;
+  --toolbar-1:   #FDFDF9;
+  --toolbar-2:   #E7E5D4;
+
+  /* fields */
+  --field:       #FFFFFF;
+  --field-edge:  #7F9DB9;
+
+  /* selection */
+  --sel:         #316AC5;
+  --sel-soft:    #DCEAFB;
+
+  /* task pane */
+  --pane-1:      #7BA2E7;
+  --pane-2:      #5B87D8;
+  --grp-top:     #F5F9FE;
+  --grp-bot:     #CFE0FA;
+  --grp-body:    #D8E5F8;
+  --grp-title:   #1C50A8;
+
+  --ink:         #000000;
+  --ink-soft:    #45443C;
+  --ink-grey:    #6E6D63;
+  --link:        #1C50A8;
+  --green:       #3D9B21;
+
+  --ui:      Tahoma, Verdana, "DejaVu Sans", sans-serif;
+  --display: "Trebuchet MS", Tahoma, Verdana, sans-serif;
+  --mono:    "Lucida Console", "Consolas", "Courier New", monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+
+body {
+  font-family: var(--ui);
+  font-size: 13px;
+  color: var(--ink);
+  background: #245EDB;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--sel); color: #fff; }
+
+:focus-visible {
+  outline: 1px dotted #000;
+  outline-offset: 1px;
+}
+
+/* ================================================================ *
+ *  DESKTOP - a bliss-ish wallpaper, drawn not photographed
+ * ================================================================ */
+#desktop {
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(120% 70% at 78% 6%,  rgba(255,255,255,.34), transparent 55%),
+    radial-gradient(90%  50% at 18% 18%, rgba(255,255,255,.22), transparent 60%),
+    linear-gradient(180deg,
+      #1B5FC0 0%, #2A72CC 22%, #4E92D9 44%,
+      #8CBEE8 62%, #C7E1F3 74%, #E7F2F9 79%, #E7F2F9 100%);
+}
+#hill {
+  position: absolute; inset: auto 0 0 0; height: 46%;
+  display: block; width: 100%;
+}
+
+/* ================================================================ *
+ *  SHARED CHROME BITS
+ * ================================================================ */
+.icon { width: 16px; height: 16px; flex: none; display: block; }
+.icon-24 { width: 24px; height: 24px; }
+.icon-32 { width: 32px; height: 32px; }
+.icon-48 { width: 48px; height: 48px; }
+
+/* sunken 1px xp field */
+.sunken {
+  border: 1px solid var(--field-edge);
+  background: var(--field);
+}
+
+/* ================================================================ *
+ *  1 - WELCOME / LOG ON SCREEN
+ * ================================================================ */
+#welcome {
+  position: fixed; inset: 0; z-index: 300;
+  background: linear-gradient(180deg,
+    #143C8C 0%, #1B4FA8 8%, #3E7ED6 26%,
+    #5A97E3 50%, #3E7ED6 74%, #1B4FA8 92%, #143C8C 100%);
+  display: grid;
+  grid-template-rows: 1fr auto 1fr;
+  color: #fff;
+  overflow: hidden;
+}
+.rule {
+  height: 1px; width: 100%;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0) 0%, rgba(255,214,140,.85) 12%,
+    rgba(255,255,255,.95) 50%, rgba(255,214,140,.85) 88%, rgba(255,255,255,0) 100%);
+  box-shadow: 0 0 10px rgba(255,220,160,.55);
+}
+#welcome .band {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  align-items: center;
+  gap: clamp(20px, 6vw, 70px);
+  padding: clamp(26px, 6vh, 60px) clamp(20px, 6vw, 70px);
+}
+.welcome-left { text-align: right; }
+.welcome-left .mark {
+  font-family: var(--display);
+  font-size: clamp(26px, 4.4vw, 46px);
+  font-weight: 700; letter-spacing: -.02em;
+  text-shadow: 0 2px 6px rgba(0,0,0,.35);
+}
+.welcome-left .mark b { font-weight: 400; opacity: .85; }
+.welcome-left p {
+  margin-top: 10px;
+  font-size: clamp(13px, 1.5vw, 16px);
+  color: #DCEAFB;
+  text-shadow: 0 1px 3px rgba(0,0,0,.4);
+}
+.vrule {
+  width: 1px; height: min(150px, 22vh);
+  background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.75), rgba(255,255,255,0));
+}
+#logon {
+  display: flex; align-items: center; gap: 16px;
+  background: none; border: 0; cursor: pointer;
+  padding: 10px 18px 10px 10px; border-radius: 6px;
+  color: #fff; text-align: left; font: inherit;
+  transition: background .15s;
+}
+#logon:hover, #logon:focus-visible { background: rgba(255,255,255,.16); }
+#logon .tile {
+  width: 62px; height: 62px; flex: none;
+  border: 2px solid rgba(255,255,255,.9);
+  border-radius: 3px; background: #fff;
+  box-shadow: 0 3px 10px rgba(0,0,0,.35);
+  display: grid; place-items: center;
+}
+#logon .who { font-family: var(--display); font-size: 26px; font-weight: 700; }
+#logon .cta { font-size: 12.5px; color: #CFE2F8; margin-top: 2px; }
+#logon:hover .cta { color: #fff; }
+
+/* ================================================================ *
+ *  2 - BRICK BUILD (three.js)
+ * ================================================================ */
+#build {
+  position: fixed; inset: 0; z-index: 200;
+  display: none; cursor: pointer;
+  background: #8FC2E8;
+}
+#build canvas { display: block; }
+#build .skip {
+  position: absolute; right: 18px; bottom: 16px;
+  font-size: 11.5px; color: rgba(255,255,255,.9);
+  text-shadow: 0 1px 3px rgba(0,0,0,.5);
+  letter-spacing: .02em;
+}
+
+/* ================================================================ *
+ *  3 - THE WINDOW
+ * ================================================================ */
+#win {
+  position: fixed;
+  top: 26px; left: 26px; right: 26px; bottom: 56px;
+  z-index: 20;
+  display: none;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--face);
+  border: 3px solid var(--luna-1);
+  border-top: 0;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 18px 44px rgba(0,20,60,.45), 0 3px 10px rgba(0,20,60,.3);
+}
+#win.shown { display: flex; }
+#win.maxed { top: 0; left: 0; right: 0; bottom: 30px; border-radius: 0; border-left-width: 0; border-right-width: 0; }
+#win.away  { display: none; }
+
+/* ---- title bar ---- */
+.titlebar {
+  flex: none;
+  height: 29px;
+  display: flex; align-items: center; gap: 6px;
+  padding: 0 4px 0 6px;
+  border-radius: 5px 5px 0 0;
+  background:
+    linear-gradient(180deg,
+      #1E7BEC 0%, #4FA2F7 5%, #2E86F0 12%,
+      #1668DF 40%, #0F5CD2 78%, #0B51C0 92%, #1668DF 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.45), inset 1px 0 0 rgba(255,255,255,.25);
+  color: #fff;
+  user-select: none;
+}
+.titlebar .title {
+  font-family: var(--display);
+  font-size: 15px; font-weight: 700;
+  letter-spacing: .01em;
+  text-shadow: 1px 1px 1px rgba(0,20,60,.6);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.titlebar .spacer { flex: 1; }
+.tb-btn {
+  width: 22px; height: 22px; flex: none;
+  border: 1px solid rgba(255,255,255,.75);
+  border-radius: 3px;
+  display: grid; place-items: center;
+  cursor: pointer; padding: 0;
+  background: linear-gradient(180deg, #6BB2FA, #2C7BE5 45%, #1157C8);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+}
+.tb-btn:hover { filter: brightness(1.16); }
+.tb-btn:active { filter: brightness(.9); }
+.tb-btn.close { background: linear-gradient(180deg, #F79479, #E1563A 45%, #C0341C); margin-left: 2px; }
+.tb-btn svg { width: 10px; height: 10px; stroke: #fff; stroke-width: 1.7; fill: none; }
+
+/* ---- menu bar ---- */
+.menubar {
+  flex: none;
+  display: flex; align-items: stretch;
+  height: 21px;
+  background: var(--face);
+  border-bottom: 1px solid #D6D2C2;
+  position: relative; z-index: 40;
+}
+.menubar button {
+  font: inherit; font-size: 11.5px;
+  background: none; border: 0; cursor: default;
+  padding: 0 8px; color: var(--ink);
+}
+.menubar button:hover,
+.menubar button[aria-expanded="true"] { background: var(--sel); color: #fff; }
+
+.dropdown {
+  position: absolute; top: 21px; left: 0;
+  min-width: 178px;
+  background: var(--face);
+  border: 1px solid var(--face-shade);
+  box-shadow: 2px 2px 4px rgba(0,0,0,.28);
+  padding: 2px;
+  display: none;
+}
+.dropdown.open { display: block; }
+.dropdown i {
+  display: block; height: 1px; margin: 3px 2px;
+  background: var(--face-shade); border-bottom: 1px solid var(--face-lit);
+}
+.dropdown button {
+  display: flex; align-items: center; gap: 8px;
+  width: 100%; text-align: left;
+  font: inherit; font-size: 11.5px;
+  padding: 4px 18px 4px 8px;
+  background: none; border: 0; cursor: default; color: var(--ink);
+}
+.dropdown button:not([disabled]):hover { background: var(--sel); color: #fff; }
+.dropdown button[disabled] { color: var(--face-shade); text-shadow: 1px 1px 0 var(--face-lit); }
+.dropdown button .tick { width: 12px; font-size: 11px; }
+
+/* ---- toolbar ---- */
+.toolbar {
+  flex: none;
+  display: flex; align-items: center; gap: 2px;
+  padding: 3px 4px;
+  height: 34px;
+  background: linear-gradient(180deg, var(--toolbar-1), var(--toolbar-2));
+  border-bottom: 1px solid #D6D2C2;
+}
+.tool {
+  display: flex; align-items: center; gap: 5px;
+  font: inherit; font-size: 11.5px;
+  background: none; border: 1px solid transparent; border-radius: 3px;
+  padding: 3px 7px; cursor: default; color: var(--ink);
+}
+.tool:not([disabled]):hover {
+  border-color: #B4C8E8;
+  background: linear-gradient(180deg, #FDFEFF, #DDEAFB);
+}
+.tool[disabled] { opacity: .42; }
+.tool .caret { font-size: 8px; color: var(--ink-grey); }
+.tool-sep { width: 1px; height: 20px; margin: 0 4px; background: #CDC9B8; border-right: 1px solid #FBFAF4; }
+.toolbar .flag { margin-left: auto; padding-right: 6px; opacity: .9; }
+
+/* ---- address bar ---- */
+.addressbar {
+  flex: none;
+  display: flex; align-items: center; gap: 6px;
+  padding: 3px 5px 5px;
+  background: linear-gradient(180deg, var(--toolbar-2), #DEDBC9);
+  border-bottom: 1px solid #B5B09C;
+}
+.addressbar > label { font-size: 11.5px; color: var(--ink-soft); padding-left: 3px; }
+.addr {
+  flex: 1; min-width: 0;
+  display: flex; align-items: center; gap: 6px;
+  height: 22px; padding: 0 6px;
+  border: 1px solid var(--field-edge);
+  background: var(--field);
+}
+.addr span {
+  font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-family: var(--mono); letter-spacing: -.01em;
+}
+.addr .caret { margin-left: auto; font-size: 8px; color: var(--ink-grey); }
+.go {
+  display: flex; align-items: center; gap: 4px;
+  font: inherit; font-size: 11.5px;
+  background: none; border: 1px solid transparent; border-radius: 3px;
+  padding: 2px 8px 2px 5px; cursor: default;
+}
+.go:hover { border-color: #B4C8E8; background: linear-gradient(180deg, #FDFEFF, #DDEAFB); }
+
+/* ---- body: task pane + content ---- */
+.winbody { flex: 1; display: flex; min-height: 0; }
+
+/* ---- task pane ---- */
+.taskpane {
+  position: relative;               /* offsetTop of .grp is measured against this */
+  flex: none; width: 208px;
+  overflow-y: auto; overflow-x: hidden;
+  padding: 10px 8px 14px;
+  background: linear-gradient(180deg, var(--pane-1), var(--pane-2));
+  border-right: 1px solid #4C79C6;
+  scrollbar-width: thin;
+}
+.grp { margin-bottom: 12px; }
+.grp > h4 {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11.5px; font-weight: 700; color: var(--grp-title);
+  padding: 4px 8px;
+  border-radius: 4px 4px 0 0;
+  background: linear-gradient(90deg, var(--grp-top), var(--grp-bot));
+}
+.grp > div {
+  background: var(--grp-body);
+  border-radius: 0 0 4px 4px;
+  padding: 7px 9px 9px;
+}
+.grp a, .grp button.pane-act {
+  display: flex; align-items: center; gap: 7px;
+  font: inherit; font-size: 11.5px; color: var(--link);
+  background: none; border: 0; cursor: pointer; text-align: left;
+  padding: 3px 0; width: 100%;
+}
+.grp a:hover, .grp button.pane-act:hover { color: #0A2F7A; text-decoration: underline; }
+.grp a[aria-current="true"] { font-weight: 700; }
+
+#details-body { font-size: 11.5px; color: #12305F; line-height: 1.5; }
+#details-body .dt-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+#details-body .dt-name { font-weight: 700; font-size: 12px; color: #0C2B5C; }
+#details-body .dt-kind { color: #34558E; }
+#details-body p { margin-top: 6px; }
+#details-body dl { margin-top: 7px; display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; }
+#details-body dt { color: #34558E; }
+#details-body dd { font-weight: 700; color: #0C2B5C; }
+#details-body a {
+  display: inline; width: auto; gap: 0; padding: 0;
+  text-decoration: underline; font-weight: 700;
+}
+
+/* video preview, the way explorer shows a thumbnail for media files */
+.preview {
+  display: block; position: relative;
+  width: 100%; padding: 0; margin: 9px 0 2px;
+  border: 1px solid #3C6BB8; background: #000;
+  cursor: pointer; overflow: hidden; line-height: 0;
+}
+.preview video { display: block; width: 100%; height: auto; }
+.preview .play {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  background: rgba(4,14,34,.3);
+  transition: opacity .18s;
+}
+.preview:hover .play { opacity: 0; }
+.preview .play i {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,.94);
+  box-shadow: 0 2px 6px rgba(0,0,0,.45);
+  display: grid; place-items: center;
+}
+.preview .play i::after {
+  content: ""; margin-left: 3px;
+  border-style: solid; border-width: 7px 0 7px 12px;
+  border-color: transparent transparent transparent #0C3F8C;
+}
+.preview .cap {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 3px 6px; line-height: 1.3;
+  font-size: 10px; color: #fff;
+  background: rgba(4,14,34,.72);
+}
+
+/* ---- content pane ---- */
+#content {
+  position: relative;               /* section offsetTop is measured against this */
+  flex: 1; min-width: 0;
+  overflow-y: auto; overflow-x: hidden;
+  background: var(--field);
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+}
+@media (prefers-reduced-motion: reduce) { #content { scroll-behavior: auto; } }
+
+.section { padding: 30px clamp(18px, 4vw, 42px) 10px; }
+/* the last section needs room beneath it, otherwise it can never scroll to the
+   top of the pane and "contact" never becomes the current folder */
+.section:last-of-type { padding-bottom: clamp(60px, 24vh, 190px); }
+
+/* section header, xp "folder banner" style */
+.banner {
+  display: flex; align-items: center; gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #E2E2E2;
+  margin-bottom: 18px;
+}
+.banner h2 {
+  font-family: var(--display);
+  font-size: clamp(19px, 2.6vw, 26px);
+  font-weight: 700; color: #0A3B8C; letter-spacing: -.01em;
+}
+.banner p { font-size: 12.5px; color: var(--ink-grey); margin-top: 1px; }
+
+/* ---- hero ---- */
+#hero { padding-top: 34px; }
+.hero-grid { display: flex; gap: clamp(16px, 3vw, 30px); align-items: flex-start; }
+.hero-copy { min-width: 0; }
+.eyebrow {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+  color: var(--ink-grey); text-transform: uppercase;
+}
+.hero-h {
+  font-family: var(--display);
+  font-size: clamp(30px, 5.6vw, 54px);
+  font-weight: 700; line-height: 1.02; letter-spacing: -.025em;
+  margin: 8px 0 0;
+  color: #0A3B8C;
+}
+.hero-h em {
+  font-style: normal;
+  background: linear-gradient(180deg, var(--luna-2), var(--luna-1));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero-p { margin-top: 16px; max-width: 58ch; font-size: 14px; line-height: 1.65; color: #26262A; }
+.hero-p + .hero-p { margin-top: 11px; }
+.hero-cta { display: flex; gap: 9px; margin-top: 22px; flex-wrap: wrap; }
+
+/* xp push button */
+.xpbtn {
+  font: inherit; font-size: 12px;
+  padding: 5px 16px; min-width: 92px;
+  border: 1px solid #7B7A6E; border-radius: 3px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F3F2EA 46%, #E2DFCE 52%, #EDEBDE 100%);
+  box-shadow: inset 0 0 0 1px #FFFFFF;
+  cursor: pointer; color: var(--ink);
+}
+.xpbtn:hover { border-color: var(--luna-2); background: linear-gradient(180deg, #FFFFFF, #FDF6DF 46%, #FBE9AE 52%, #FDF3D6); }
+.xpbtn:active { background: linear-gradient(180deg, #DEDBCB, #EFEDE2); box-shadow: none; }
+.xpbtn.primary {
+  border-color: #2A6CB8; font-weight: 700; color: #0A2F6E;
+  background: linear-gradient(180deg, #FFFFFF, #E6F0FC 46%, #C9DFF8 52%, #E4EFFC);
+}
+.xpbtn.primary:hover { background: linear-gradient(180deg, #FFFFFF, #F0F7FF 46%, #D8EAFF 52%, #EEF6FF); }
+
+.hero-note {
+  display: none;
+  flex: none; width: 214px;
+  padding: 11px 12px;
+  font-size: 11.5px; line-height: 1.5; color: #4A4633;
+  background: #FFFFE1;
+  border: 1px solid #C9C08C;
+  box-shadow: 1px 1px 3px rgba(0,0,0,.12);
+}
+.hero-note b { display: block; margin-bottom: 4px; color: #2A2716; }
+@media (min-width: 1020px) { .hero-note { display: block; } }
+
+/* ---- about ---- */
+.prose p { font-size: 14px; line-height: 1.68; color: #26262A; max-width: 62ch; }
+.prose p + p { margin-top: 13px; }
+.prose b { color: #0A3B8C; }
+
+/* ---- skills: tiles view ---- */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+  gap: 2px;
+}
+.tile {
+  display: flex; align-items: flex-start; gap: 9px;
+  padding: 7px 8px;
+  border: 1px solid transparent; border-radius: 2px;
+}
+.tile:hover { background: var(--sel-soft); border-color: #B6D2F2; }
+.tile b { display: block; font-size: 12.5px; font-weight: 400; }
+.tile span { display: block; font-size: 11px; color: var(--ink-grey); margin-top: 2px; line-height: 1.4; }
+.tile-ico { flex: none; }
+
+/* ---- work: details view ---- */
+.listing { border: 1px solid #D8D8D8; }
+.cols {
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) 1.15fr .85fr .8fr;
+  background: var(--face);
+  border-bottom: 1px solid var(--face-shade);
+}
+.cols span {
+  font-size: 11px; font-weight: 400; color: #2C2C28;
+  padding: 4px 9px; text-align: left;
+  border-right: 1px solid var(--face-shade);
+  box-shadow: inset -1px 0 0 var(--face-lit), inset 0 1px 0 var(--face-lit);
+}
+.cols span:last-child { border-right: 0; }
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) 1.15fr .85fr .8fr;
+  align-items: center;
+  border: 1px solid transparent;
+  cursor: default;
+  font-size: 12.5px;
+}
+/* .row-desc sits between rows, so adjacent-sibling would never match */
+.row ~ .row { border-top-color: #F0F0F0; }
+.row > * { padding: 7px 9px; min-width: 0; }
+.row .nm { display: flex; align-items: center; gap: 8px; }
+.row .nm b { font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row .ty, .row .sz, .row .md { color: var(--ink-grey); font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row .sz { font-family: var(--mono); font-size: 11px; }
+.row:hover { background: var(--sel-soft); }
+.row.sel, .row.sel:hover { background: var(--sel); color: #fff; }
+.row.sel .ty, .row.sel .sz, .row.sel .md { color: #D6E5FB; }
+.row-desc { display: none; }
+
+.listing-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 8px;
+  margin-top: 12px;
+  font-size: 12px; color: var(--ink-grey);
+}
+.listing-foot a { color: var(--link); text-decoration: underline; }
+
+/* ---- contact ---- */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(18px, 3vw, 34px); align-items: start; }
+.links { display: flex; flex-direction: column; }
+.links a, .links button {
+  display: flex; align-items: center; gap: 10px;
+  font: inherit; font-size: 13px;
+  padding: 8px 9px;
+  border: 1px solid transparent; border-radius: 2px;
+  background: none; cursor: pointer; text-align: left; color: var(--ink);
+}
+.links a:hover, .links button:hover { background: var(--sel-soft); border-color: #B6D2F2; }
+.links .k { width: 66px; flex: none; color: var(--ink-grey); font-size: 11.5px; }
+.links .v { font-family: var(--mono); font-size: 12px; overflow: hidden; text-overflow: ellipsis; }
+
+.signoff {
+  margin-top: 26px; padding-top: 12px;
+  border-top: 1px solid #E2E2E2;
+  font-size: 11.5px; color: var(--ink-grey); line-height: 1.6;
+}
+
+/* ---- status bar ---- */
+.statusbar {
+  flex: none;
+  display: flex; align-items: stretch; gap: 2px;
+  height: 20px; padding: 2px;
+  background: var(--face);
+  border-top: 1px solid var(--face-lit);
+  font-size: 11px; color: var(--ink-soft);
+}
+.statusbar div {
+  display: flex; align-items: center; gap: 6px;
+  padding: 0 7px;
+  border: 1px solid var(--face-shade);
+  border-right-color: var(--face-lit); border-bottom-color: var(--face-lit);
+  white-space: nowrap; overflow: hidden;
+}
+.statusbar .sb-1 { flex: 1; min-width: 0; }
+.statusbar .sb-2 { flex: none; }
+
+/* ================================================================ *
+ *  TASKBAR
+ * ================================================================ */
+#taskbar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 100;
+  height: 30px;
+  display: none; align-items: stretch;
+  background: linear-gradient(180deg, #2C64D6 0%, #3D7BEA 9%, #2A64DC 18%, #235BD3 88%, #1B4EC0 100%);
+  box-shadow: inset 0 1px 0 #4E8BF0, 0 -1px 4px rgba(0,0,0,.25);
+  user-select: none;
+}
+#taskbar.shown { display: flex; }
+#start {
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--display); font-size: 15px; font-style: italic; font-weight: 700;
+  color: #fff; text-shadow: 1px 1px 1px rgba(0,40,0,.55);
+  padding: 0 18px 2px 9px;
+  border: 0; cursor: pointer;
+  border-radius: 0 9px 9px 0;
+  background: linear-gradient(180deg, #57A83E 0%, #4E9C33 8%, #3E8B25 40%, #2F7A18 90%, #40911F 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
+}
+#start:hover { filter: brightness(1.1); }
+#start[aria-expanded="true"] { filter: brightness(.9); }
+
+.tasks { display: flex; align-items: center; gap: 4px; padding: 3px 6px; flex: 1; min-width: 0; }
+.taskbtn {
+  display: flex; align-items: center; gap: 6px;
+  max-width: 190px; height: 100%;
+  font: inherit; font-size: 11.5px; color: #fff;
+  padding: 0 10px; border: 0; border-radius: 3px; cursor: pointer;
+  background: linear-gradient(180deg, #4B8DF0, #2E68DA);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), inset 0 -1px 0 rgba(0,0,0,.15);
+  white-space: nowrap; overflow: hidden;
+}
+.taskbtn.active { background: linear-gradient(180deg, #1D4FB8, #2A62D2); box-shadow: inset 1px 1px 3px rgba(0,0,0,.4); }
+
+.tray {
+  display: flex; align-items: center; gap: 9px;
+  padding: 0 11px 0 10px;
+  color: #fff; font-size: 11.5px;
+  background: linear-gradient(180deg, #1290E8 0%, #14A0EF 10%, #0F86DC 60%, #0C74C8 100%);
+  box-shadow: inset 1px 0 0 #0B5FA8, inset 2px 0 0 rgba(255,255,255,.16);
+}
+.tray svg { opacity: .95; }
+
+/* start menu */
+#startmenu {
+  position: fixed; left: 0; bottom: 30px; z-index: 110;
+  width: 258px; display: none;
+  border: 1px solid #0A3EA8; border-bottom: 0;
+  border-radius: 7px 7px 0 0;
+  overflow: hidden;
+  box-shadow: 3px -3px 14px rgba(0,0,0,.4);
+}
+#startmenu.open { display: block; }
+#startmenu .sm-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px;
+  background: linear-gradient(180deg, #1F7BEE, #0E5BD0 60%, #0B4FBC);
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
+}
+#startmenu .sm-head .av {
+  width: 34px; height: 34px; border: 2px solid rgba(255,255,255,.9);
+  border-radius: 3px; background: #fff; display: grid; place-items: center;
+}
+#startmenu .sm-head b { font-family: var(--display); font-size: 15px; }
+#startmenu .sm-body { background: #fff; padding: 5px; }
+#startmenu a, #startmenu button {
+  display: flex; align-items: center; gap: 9px;
+  width: 100%; font: inherit; font-size: 12px;
+  padding: 6px 8px; border: 0; border-radius: 2px;
+  background: none; cursor: pointer; text-align: left; color: var(--ink);
+}
+#startmenu a:hover, #startmenu button:hover { background: var(--sel); color: #fff; }
+#startmenu a span, #startmenu button span { display: block; }
+#startmenu a small, #startmenu button small { display: block; font-size: 10.5px; color: var(--ink-grey); }
+#startmenu a:hover small, #startmenu button:hover small { color: #CFE0FA; }
+#startmenu .sm-sep { height: 1px; background: #DDD; margin: 4px 6px; }
+#startmenu .sm-foot {
+  display: flex; justify-content: flex-end; gap: 12px;
+  padding: 7px 12px;
+  background: linear-gradient(180deg, #1F7BEE, #0E5BD0);
+  color: #fff; font-size: 11.5px;
+}
+
+/* ================================================================ *
+ *  DIALOGS + BALLOON
+ * ================================================================ */
+.overlay {
+  position: fixed; inset: 0; z-index: 400;
+  display: none; align-items: center; justify-content: center;
+  padding: 20px;
+  background: rgba(10,26,64,.4);
+}
+.overlay.open { display: flex; }
+.dialog {
+  background: var(--face);
+  border: 3px solid var(--luna-1); border-top: 0;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 14px 40px rgba(0,10,40,.5);
+  max-width: min(560px, 94vw);
+  display: flex; flex-direction: column;
+}
+.dialog .titlebar { border-radius: 5px 5px 0 0; }
+.dialog .dlg-body {
+  display: flex; gap: 14px;
+  padding: 18px 20px 14px;
+  font-size: 12.5px; line-height: 1.6;
+}
+.dialog .dlg-body p + p { margin-top: 9px; }
+.dialog .dlg-foot {
+  display: flex; justify-content: flex-end; gap: 8px;
+  padding: 0 20px 18px;
+}
+
+/* media player dialog */
+#player .dialog { max-width: min(960px, 94vw); }
+#player .dlg-body { display: block; padding: 6px 6px 4px; background: #0B0B12; }
+#player video { display: block; width: 100%; max-width: min(88vw, 940px); max-height: 70vh; background: #000; }
+#player .plate {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 6px 10px;
+  font-size: 11px; color: #BFD4EE;
+  background: linear-gradient(180deg, #1D3457, #101E36);
+  border-top: 1px solid #2E4F80;
+}
+#player .plate .nm { font-family: var(--mono); }
+
+/* balloon tip */
+#balloon {
+  position: fixed; right: 14px; bottom: 42px; z-index: 500;
+  max-width: 268px; display: none;
+  padding: 10px 12px 11px;
+  font-size: 11.5px; line-height: 1.5;
+  background: #FFFFE1; border: 1px solid #8B8776;
+  border-radius: 4px;
+  box-shadow: 2px 2px 8px rgba(0,0,0,.3);
+}
+#balloon.open { display: block; }
+#balloon b { display: block; margin-bottom: 3px; }
+#balloon::after {
+  content: ""; position: absolute; right: 22px; bottom: -9px;
+  border: 9px solid transparent; border-top-color: #FFFFE1; border-bottom: 0;
+  filter: drop-shadow(0 1px 0 #8B8776);
+}
+
+/* ================================================================ *
+ *  SCROLLBARS - xp classic
+ * ================================================================ */
+#content::-webkit-scrollbar, .taskpane::-webkit-scrollbar { width: 16px; }
+#content::-webkit-scrollbar-track, .taskpane::-webkit-scrollbar-track {
+  background: #F1F1F1;
+  background-image: linear-gradient(90deg, #E8E8E8, #F6F6F6);
+  border-left: 1px solid #D6D2C2;
+}
+#content::-webkit-scrollbar-thumb, .taskpane::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #FBFBFD 0%, #DCE7F8 35%, #B7CDF0 100%);
+  border: 1px solid #6E93CE; border-radius: 2px;
+}
+#content::-webkit-scrollbar-thumb:hover, .taskpane::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #FFFFFF, #E6F0FF 35%, #C9DDF8);
+}
+
+/* ================================================================ *
+ *  REVEALS
+ * ================================================================ */
+.reveal { opacity: 0; transform: translateY(12px); }
+.reveal.in {
+  opacity: 1; transform: none;
+  transition: opacity .45s ease, transform .5s cubic-bezier(.2,.75,.25,1);
+}
+
+/* ================================================================ *
+ *  RESPONSIVE
+ * ================================================================ */
+.places-strip { display: none; }
+
+@media (max-width: 900px) {
+  #win { top: 0; left: 0; right: 0; bottom: 30px; border-radius: 0; border-left: 0; border-right: 0; }
+  .titlebar { border-radius: 0; }
+  .taskpane { display: none; }
+  .menubar { display: none; }
+  .toolbar .flag { display: none; }
+
+  .places-strip {
+    flex: none;
+    display: flex; gap: 2px; overflow-x: auto;
+    padding: 5px 6px;
+    background: linear-gradient(180deg, #E9F1FC, #D2E2F7);
+    border-bottom: 1px solid #A9C2E4;
   }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { height: 100%; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--fg);
-    font-family: var(--sans);
-    -webkit-font-smoothing: antialiased;
-    overflow: hidden;
-    overscroll-behavior: none;
-  }
-  body.unlocked { overflow-y: auto; overflow-x: hidden; }
-
-  ::selection { background: var(--accent); color: #000; }
-  a { color: inherit; text-decoration: none; }
-
-  /* ---------------------------------------------------------------- *
-   *  GRAIN
-   * ---------------------------------------------------------------- */
-  #grain {
-    position: fixed; inset: 0;
-    pointer-events: none;
-    z-index: 9000;
-    opacity: 0.045;
-    mix-blend-mode: overlay;
-  }
-
-  /* ---------------------------------------------------------------- *
-   *  SECTION 1 — INTRO
-   * ---------------------------------------------------------------- */
-  #intro {
-    position: fixed; inset: 0;
-    background: #fff;
-    z-index: 100;
-    overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-  }
-  #orbits { position: absolute; inset: 0; pointer-events: none; }
-  .orbit-word {
-    position: absolute; top: 0; left: 0;
-    color: #111;
-    font-family: var(--sans);
-    font-weight: 600;
-    font-size: clamp(11px, 1.6vw, 18px);
-    letter-spacing: 0.04em;
+  .places-strip a {
+    flex: none; font-size: 11.5px; color: var(--link);
+    padding: 4px 9px; border: 1px solid transparent; border-radius: 3px;
     white-space: nowrap;
-    background: #fff;
-    border: 1.5px solid #111;
-    padding: 9px 15px;
-    border-radius: 999px;
-    box-shadow: 0 5px 12px rgba(0,0,0,0.14);
-    transform-origin: center center;
-    will-change: transform, opacity;
-    user-select: none;
   }
-  #rings { position: absolute; inset: 0; pointer-events: none; }
+  .places-strip a[aria-current="true"] { background: #fff; border-color: #A9C2E4; font-weight: 700; }
 
-  .keycap {
-    position: relative; z-index: 50;
-    font-family: var(--sans);
-    font-weight: 700;
-    font-size: clamp(20px, 4vw, 34px);
-    letter-spacing: 0.18em;
-    color: #111;
-    background: linear-gradient(#fff, #ededed);
-    border: none;
-    padding: 28px 44px 32px;
-    border-radius: 14px;
-    cursor: pointer;
-    box-shadow:
-      0 1px 0 #fff inset,
-      0 -6px 0 #cfcfcf inset,
-      0 10px 0 #bdbdbd,
-      0 14px 22px rgba(0,0,0,0.22);
-    transition: transform 0.12s cubic-bezier(.2,.8,.2,1),
-                box-shadow 0.12s cubic-bezier(.2,.8,.2,1);
-    -webkit-tap-highlight-color: transparent;
+  .contact-grid { grid-template-columns: 1fr; }
+  .preview { max-width: 340px; }
+  .cols, .row { grid-template-columns: minmax(0, 1fr) 92px; }
+  .cols span:nth-child(3), .cols span:nth-child(4),
+  .row .sz, .row .md { display: none; }
+  .row { cursor: pointer; }
+  .row.sel { border-radius: 2px 2px 0 0; }
+  .row-desc {
+    display: none;
+    padding: 0 10px 11px; font-size: 12.5px; line-height: 1.6;
+    background: var(--sel-soft); color: #16233B;
   }
-  .keycap:hover {
-    transform: translateY(2px);
-    box-shadow:
-      0 1px 0 #fff inset, 0 -6px 0 #cfcfcf inset,
-      0 8px 0 #bdbdbd, 0 11px 18px rgba(0,0,0,0.22);
-  }
-  .keycap:active {
-    transform: translateY(9px);
-    box-shadow:
-      0 1px 0 #fff inset, 0 -4px 0 #cfcfcf inset,
-      0 1px 0 #bdbdbd, 0 3px 8px rgba(0,0,0,0.25);
-  }
-  .keycap small {
-    display: block; margin-top: 8px;
-    font-family: var(--mono);
-    font-weight: 400; font-size: 10px;
-    letter-spacing: 0.3em; color: #999;
-  }
+  .row.sel + .row-desc { display: block; }
+  .row-desc a { color: var(--link); text-decoration: underline; }
 
-  /* ---------------------------------------------------------------- *
-   *  SECTION 2 — LEGO
-   * ---------------------------------------------------------------- */
-  #lego {
-    position: fixed; inset: 0;
-    background: #000; z-index: 90; display: none;
-  }
-  #lego canvas { display: block; }
+  #welcome .band { grid-template-columns: 1fr; text-align: center; gap: 22px; }
+  .welcome-left { text-align: center; }
+  .vrule { width: min(190px, 60vw); height: 1px; justify-self: center;
+           background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.75), rgba(255,255,255,0)); }
+  #logon { justify-content: center; }
+}
 
-  /* ---------------------------------------------------------------- *
-   *  NAV
-   * ---------------------------------------------------------------- */
-  .nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 60;
-    display: none; align-items: center; justify-content: space-between;
-    padding: 18px clamp(20px, 5vw, 48px);
-    background: linear-gradient(#0d0d0dF2, #0d0d0d00);
-    backdrop-filter: blur(2px);
-  }
-  .nav .brand {
-    font-family: var(--sans); font-weight: 700;
-    letter-spacing: 0.28em; font-size: 16px;
-  }
-  .nav .brand .dot { color: var(--accent); }
-  .nav .links { display: flex; gap: clamp(16px, 3vw, 34px); }
-  .nav .links a {
-    font-family: var(--mono); font-size: 12.5px;
-    letter-spacing: 0.12em; color: var(--muted);
-    transition: color 0.2s;
-  }
-  .nav .links a:hover { color: var(--accent); }
+@media (max-width: 560px) {
+  .hero-h { font-size: clamp(26px, 8.5vw, 38px); }
+  .section { padding-left: 14px; padding-right: 14px; }
+  .tray span { display: none; }
+  #start { font-size: 14px; padding: 0 13px 2px 7px; }
+  .listing-foot { font-size: 11.5px; }
+}
 
-  /* ---------------------------------------------------------------- *
-   *  PORTFOLIO SHELL
-   * ---------------------------------------------------------------- */
-  #portfolio {
-    position: relative; z-index: 10; display: none;
-  }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 40px); }
-  .section { position: relative; padding: clamp(90px, 12vh, 150px) 0 30px; scroll-margin-top: 80px; }
-
-  /* section eyebrow with scribble */
-  .eyebrow {
-    position: relative; display: inline-block;
-    font-family: var(--mono); font-size: 12px;
-    letter-spacing: 0.32em; color: var(--accent);
-    margin-bottom: 34px; text-transform: uppercase;
-  }
-  .scribble {
-    position: absolute; left: -4px; bottom: -13px;
-    width: 100%; min-width: 120px; height: 14px; overflow: visible; pointer-events: none;
-  }
-  .scribble path { fill: none; stroke: var(--accent); stroke-width: 2.4; stroke-linecap: round; }
-
-  /* handwriting margin notes */
-  .note {
-    font-family: var(--hand); font-size: clamp(20px, 2.4vw, 28px);
-    line-height: 1; color: var(--accent); opacity: 0.92;
-    pointer-events: none; position: absolute; white-space: nowrap;
-  }
-
-  /* ---- HERO ---- */
-  #hero {
-    min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
-    padding-top: 80px;
-  }
-  .hi { font-family: var(--mono); color: var(--accent); font-size: clamp(14px, 2vw, 18px); letter-spacing: 0.1em; margin-bottom: 18px; }
-  .hero-h {
-    font-size: clamp(40px, 9vw, 104px);
-    font-weight: 700; line-height: 0.98; letter-spacing: -0.03em;
-    max-width: 13ch;
-  }
-  .hero-h .hl { position: relative; color: var(--accent); white-space: nowrap; }
-  .circle-doodle {
-    position: absolute; left: -26px; top: -12px;
-    width: calc(100% + 40px); height: calc(100% + 26px);
-    overflow: visible; pointer-events: none;
-  }
-  .circle-doodle path { fill: none; stroke: var(--accent); stroke-width: 2.6; stroke-linecap: round; }
-  .hero-sub {
-    margin-top: 30px; max-width: 52ch;
-    font-size: clamp(16px, 1.9vw, 21px); line-height: 1.6; color: #c9c9c9;
-  }
-  .hero-cta { display: flex; gap: 16px; margin-top: 40px; flex-wrap: wrap; }
-  .btn {
-    font-family: var(--mono); font-size: 13px; letter-spacing: 0.08em;
-    padding: 14px 24px; border-radius: 4px; transition: transform .15s, filter .15s, background .2s, color .2s;
-  }
-  .btn-solid { background: var(--accent); color: #000; }
-  .btn-solid:hover { transform: translateY(-3px); filter: brightness(1.08); }
-  .btn-ghost { border: 1px solid var(--line); color: var(--fg); }
-  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-3px); }
-  .scroll-cue {
-    margin-top: 64px; font-family: var(--mono); font-size: 11px;
-    letter-spacing: 0.3em; color: var(--muted);
-  }
-
-  /* ---- SKILLS (draggable physics tags) ---- */
-  #skills-stage {
-    position: relative; width: 100%; height: 440px;
-    border: 1px dashed var(--line); border-radius: 8px;
-    overflow: hidden; touch-action: none;
-    background: radial-gradient(circle at 50% 40%, rgba(var(--accent-rgb),0.05), transparent 60%);
-  }
-  .skill-tag {
-    position: absolute; top: 0; left: 0;
-    font-family: var(--mono); font-size: 13px;
-    letter-spacing: 0.04em; color: var(--fg);
-    background: #1a1a1a; border: 1px solid #313131;
-    padding: 11px 16px; border-radius: 999px;
-    white-space: nowrap; user-select: none; cursor: grab;
-    will-change: transform; box-shadow: 0 6px 16px rgba(0,0,0,0.45);
-  }
-  .skill-tag.accent { background: var(--accent); color: #000; border-color: var(--accent); }
-  .skill-tag.grabbing { cursor: grabbing; }
-  .skills-hint {
-    font-family: var(--hand); font-size: clamp(20px,2.4vw,26px);
-    color: var(--accent); margin-top: 16px;
-    transform: rotate(-1.5deg); display: inline-block;
-  }
-
-  /* ---- ABOUT ---- */
-  .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(30px, 6vw, 80px); align-items: start; }
-  .about-copy p { font-size: clamp(15px, 1.6vw, 18px); line-height: 1.7; color: #cfcfcf; margin-bottom: 22px; max-width: 56ch; }
-  .about-copy p:last-child { margin-bottom: 0; }
-  .about-copy .em { color: var(--fg); }
-  .stats { display: flex; flex-direction: column; gap: 26px; padding-top: 6px; }
-  .stat { border-left: 2px solid var(--accent); padding-left: 18px; }
-  .stat b { display: block; font-size: clamp(30px, 4vw, 46px); font-weight: 700; line-height: 1; letter-spacing: -0.02em; }
-  .stat span { display: block; margin-top: 8px; font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
-
-  /* ---- WORK ---- */
-  .work-head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
-  .work-count { font-family: var(--mono); font-size: 13px; color: var(--muted); letter-spacing: 0.2em; }
-  .projects { margin-top: 20px; border-top: 1px solid var(--line); }
-  .proj {
-    position: relative; display: grid;
-    grid-template-columns: 90px 1fr; gap: clamp(16px, 4vw, 50px);
-    padding: 38px 14px; border-bottom: 1px solid var(--line);
-    transition: background .3s, padding-left .3s;
-  }
-  .proj:hover { background: #131313; padding-left: 24px; }
-  .proj .idx { font-family: var(--mono); font-size: 40px; font-weight: 700; color: #2a2a2a; line-height: 1; transition: color .3s; }
-  .proj:hover .idx { color: var(--accent); }
-  .proj .cat { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; }
-  .proj h3 { margin-top: 10px; font-size: clamp(24px, 3.4vw, 38px); font-weight: 700; letter-spacing: -0.02em; }
-  .proj .desc { margin-top: 12px; max-width: 60ch; font-size: clamp(14px, 1.6vw, 16.5px); line-height: 1.6; color: #b6b6b6; }
-  .proj .tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 16px 0 16px; }
-  .proj .tags span {
-    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.05em; color: #d8d8d8;
-    border: 1px solid var(--line); padding: 3px 8px; border-radius: 3px;
-  }
-  .proj .link {
-    font-family: var(--mono); font-size: 13px; letter-spacing: 0.06em; color: var(--accent);
-    display: inline-block; transition: transform .15s;
-  }
-  .proj .link:hover { transform: translateX(5px); }
-
-  /* ---- CONTACT ---- */
-  #contact { padding-bottom: 40px; }
-  .contact-h { font-size: clamp(34px, 7vw, 76px); font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
-  .contact-h .blink { color: var(--accent); animation: blink 1.1s steps(2, start) infinite; }
-  @keyframes blink { 50% { opacity: 0; } }
-  .contact-sub { margin-top: 22px; font-size: clamp(16px, 1.9vw, 20px); color: #c9c9c9; max-width: 46ch; line-height: 1.6; }
-  .contact-links { margin-top: 44px; display: flex; flex-direction: column; gap: 4px; font-family: var(--mono); font-size: clamp(15px, 2vw, 19px); }
-  .contact-links a { display: inline-flex; align-items: baseline; gap: 16px; padding: 10px 0; width: fit-content; transition: color .2s, text-shadow .2s; border-bottom: 1px solid transparent; }
-  .contact-links a .k { color: var(--accent); width: 90px; display: inline-block; }
-  .contact-links a:hover { color: var(--accent); text-shadow: 0 0 14px rgba(var(--accent-rgb),0.6); }
-  .note-reply { top: -6px; right: 4%; transform: rotate(6deg); }
-
-  footer {
-    margin-top: 90px; padding: 22px 0; border-top: 1px solid var(--line);
-    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
-    font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em;
-  }
-
-  /* ---- VIDEO LIGHTBOX ---- */
-  #lightbox {
-    position: fixed; inset: 0; z-index: 9500;
-    display: none; align-items: center; justify-content: center;
-    background: rgba(0,0,0,0.88); backdrop-filter: blur(6px);
-    padding: 24px;
-  }
-  #lightbox.open { display: flex; }
-  #lightbox .lb-frame {
-    position: relative;
-    border: 1px solid rgba(var(--accent-rgb), 0.45);
-    border-radius: 6px;
-    box-shadow: 0 0 60px rgba(var(--accent-rgb), 0.18), 0 30px 60px rgba(0,0,0,0.6);
-    background: #000;
-    max-width: 92vw;
-  }
-  #lightbox video {
-    display: block; max-width: 92vw; max-height: 80vh;
-    border-radius: 5px;
-  }
-  #lightbox .lb-close {
-    position: absolute; top: -14px; right: -14px;
-    width: 40px; height: 40px; border-radius: 50%;
-    background: var(--accent); color: #000; border: none;
-    font-family: var(--mono); font-size: 20px; font-weight: 700;
-    cursor: pointer; line-height: 1;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.5);
-    transition: transform .15s;
-  }
-  #lightbox .lb-close:hover { transform: scale(1.1) rotate(90deg); }
-  @media (max-width: 480px) {
-    #lightbox .lb-close { top: -8px; right: -8px; width: 34px; height: 34px; font-size: 17px; }
-  }
-
-  /* ---------------------------------------------------------------- *
-   *  RESPONSIVE
-   * ---------------------------------------------------------------- */
-  @media (max-width: 820px) {
-    .about-grid { grid-template-columns: 1fr; gap: 40px; }
-    .proj { grid-template-columns: 56px 1fr; gap: 18px; padding: 30px 6px; }
-    .proj .idx { font-size: 28px; }
-    .nav .brand { font-size: 14px; letter-spacing: 0.2em; }
-    .note { display: none; }
-  }
-  @media (max-width: 480px) {
-    .keycap { padding: 22px 32px 26px; }
-    .nav { padding: 14px 18px; }
-    .nav .links { gap: 14px; }
-    footer { flex-direction: column; }
-  }
-  @media (max-width: 820px) {
-    #skills-stage { height: 400px; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    .contact-h .blink { animation: none; }
-  }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
 </style>
 </head>
 <body>
 
-<!-- grain -->
-<svg id="grain" xmlns="http://www.w3.org/2000/svg">
-  <filter id="noise">
-    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
-  </filter>
-  <rect width="100%" height="100%" filter="url(#noise)"/>
+<!-- ============================================================ -->
+<!-- ICON SPRITE                                                   -->
+<!-- ============================================================ -->
+<svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+<defs>
+  <linearGradient id="gFB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD989"/><stop offset="1" stop-color="#EFA226"/></linearGradient>
+  <linearGradient id="gFF" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF4CC"/><stop offset="1" stop-color="#FBC44E"/></linearGradient>
+  <linearGradient id="gPaper" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E3EBF4"/></linearGradient>
+  <linearGradient id="gGrn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9CE86B"/><stop offset="1" stop-color="#2A8A10"/></linearGradient>
+  <linearGradient id="gGlobe" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B8E5FF"/><stop offset="1" stop-color="#1479C8"/></linearGradient>
+  <linearGradient id="gScr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DCE9F7"/><stop offset="1" stop-color="#8FAEC9"/></linearGradient>
+
+  <!-- the sheet of paper, shared by every document icon -->
+  <g id="g-paper">
+    <path d="M6.5 3h12.6L26 9.9V28a1 1 0 0 1-1 1H6.5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" fill="url(#gPaper)" stroke="#7D8FA6"/>
+    <path d="M19.1 3 26 9.9h-6.9Z" fill="#C9D8E8" stroke="#7D8FA6"/>
+  </g>
+</defs>
+
+<symbol id="i-folder" viewBox="0 0 32 32">
+  <path d="M2 7.6A1.6 1.6 0 0 1 3.6 6h8.1l2.6 3h14.1A1.6 1.6 0 0 1 30 10.6V25a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z" fill="url(#gFB)" stroke="#B57A16"/>
+  <path d="M5.3 12h24.9a1 1 0 0 1 .98 1.2l-2.5 12A2 2 0 0 1 26.7 27H3.3a1 1 0 0 1-.98-1.2l2.5-12A1 1 0 0 1 5.3 12Z" fill="url(#gFF)" stroke="#C58C1C"/>
+</symbol>
+
+<symbol id="i-file" viewBox="0 0 32 32">
+  <use href="#g-paper"/>
+  <g fill="#A3B4C7"><rect x="9" y="14" width="10" height="1.6"/><rect x="9" y="18" width="12" height="1.6"/><rect x="9" y="22" width="7" height="1.6"/></g>
+</symbol>
+
+<symbol id="i-lua" viewBox="0 0 32 32">
+  <use href="#g-paper"/>
+  <g fill="#A3B4C7"><rect x="9" y="13" width="10" height="1.6"/><rect x="9" y="17" width="8" height="1.6"/></g>
+  <circle cx="21.5" cy="22.5" r="7.2" fill="#0A2FB8" stroke="#fff" stroke-width="1.4"/>
+  <circle cx="24.3" cy="19.6" r="2.2" fill="#fff"/>
+</symbol>
+
+<symbol id="i-video" viewBox="0 0 32 32">
+  <use href="#g-paper"/>
+  <rect x="12" y="15" width="17" height="13" rx="1.5" fill="#132A4E" stroke="#0A1830"/>
+  <path d="M18 18.5v6.5l6-3.25Z" fill="#F6F9FF"/>
+</symbol>
+
+<symbol id="i-globe" viewBox="0 0 32 32">
+  <circle cx="16" cy="16" r="12.5" fill="url(#gGlobe)" stroke="#0B5A97"/>
+  <ellipse cx="16" cy="16" rx="5.6" ry="12.5" fill="none" stroke="#EAF6FF" stroke-width="1.1" opacity=".85"/>
+  <path d="M3.9 12h24.2M3.9 20h24.2" stroke="#EAF6FF" stroke-width="1.1" opacity=".85" fill="none"/>
+</symbol>
+
+<symbol id="i-mail" viewBox="0 0 32 32">
+  <rect x="3" y="7" width="26" height="18" rx="1.6" fill="#FDFDFB" stroke="#7D8FA6"/>
+  <path d="M3.8 8.2 16 17.4 28.2 8.2" fill="none" stroke="#7D8FA6" stroke-width="1.4"/>
+  <path d="M3 7h26l-13 9.6Z" fill="#E6EEF8"/>
+</symbol>
+
+<symbol id="i-computer" viewBox="0 0 32 32">
+  <rect x="3" y="5" width="26" height="17" rx="1.6" fill="#D8D4C4" stroke="#7A7768"/>
+  <rect x="5" y="7" width="22" height="13" fill="url(#gScr)" stroke="#5C7C99"/>
+  <path d="M11 22h10l1.6 4H9.4Z" fill="#D8D4C4" stroke="#7A7768"/>
+  <rect x="7" y="26" width="18" height="2.4" rx="1.2" fill="#C6C2B2" stroke="#7A7768"/>
+</symbol>
+
+<symbol id="i-back" viewBox="0 0 32 32">
+  <circle cx="16" cy="16" r="12.5" fill="url(#gGrn)" stroke="#1E6A0A"/>
+  <path d="M19.5 9.5 11.5 16l8 6.5Z" fill="#fff"/>
+</symbol>
+<symbol id="i-fwd" viewBox="0 0 32 32">
+  <circle cx="16" cy="16" r="12.5" fill="url(#gGrn)" stroke="#1E6A0A"/>
+  <path d="M12.5 9.5 20.5 16l-8 6.5Z" fill="#fff"/>
+</symbol>
+<symbol id="i-up" viewBox="0 0 32 32">
+  <path d="M2 9.6A1.6 1.6 0 0 1 3.6 8h8.1l2.6 3h14.1A1.6 1.6 0 0 1 30 12.6V25a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z" fill="url(#gFB)" stroke="#B57A16"/>
+  <path d="M16 12.5 23 20h-4v5.5h-6V20H9Z" fill="url(#gGrn)" stroke="#1E6A0A"/>
+</symbol>
+
+<symbol id="i-brick" viewBox="0 0 32 32">
+  <rect x="4" y="11" width="24" height="14" rx="1.6" fill="#3E9C1F" stroke="#276A11"/>
+  <rect x="4" y="11" width="24" height="4" fill="#57BE33" opacity=".7"/>
+  <g fill="#57BE33" stroke="#276A11"><rect x="8" y="7" width="6" height="5" rx="1.6"/><rect x="18" y="7" width="6" height="5" rx="1.6"/></g>
+</symbol>
+
+<symbol id="i-flag" viewBox="0 0 32 32">
+  <path d="M3 7.6 14.6 5.4v9.9H3Z" fill="#F35325"/>
+  <path d="M16.4 5.05 29 2.6v12.7H16.4Z" fill="#81BC06"/>
+  <path d="M3 17.1h11.6V27L3 24.4Z" fill="#05A6F0"/>
+  <path d="M16.4 17.1H29v12.3l-12.6-2.5Z" fill="#FFB900"/>
+</symbol>
+
+<symbol id="i-vol" viewBox="0 0 32 32">
+  <path d="M6 12h5l7-6v20l-7-6H6Z" fill="#fff"/>
+  <path d="M21 11c2.6 2.6 2.6 7.4 0 10M24.5 7.5c4.5 4.5 4.5 12.5 0 17" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+</symbol>
+<symbol id="i-net" viewBox="0 0 32 32">
+  <rect x="2" y="19" width="12" height="9" rx="1" fill="#DDE7F2" stroke="#3A567A"/>
+  <rect x="16" y="6" width="14" height="10" rx="1" fill="#DDE7F2" stroke="#3A567A"/>
+  <path d="M8 19v-4h15" fill="none" stroke="#3A567A" stroke-width="1.6"/>
+</symbol>
 </svg>
 
 <!-- ============================================================ -->
-<!-- SECTION 1 : INTRO                                             -->
+<!-- DESKTOP                                                       -->
 <!-- ============================================================ -->
-<section id="intro">
-  <svg id="rings" preserveAspectRatio="none"></svg>
-  <div id="orbits"></div>
-  <button class="keycap" id="enter">
-    APPOLO
-    <small>PRESS</small>
-  </button>
+<div id="desktop">
+  <svg id="hill" viewBox="0 0 1200 380" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="gHill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#9CCB4E"/><stop offset=".45" stop-color="#6DAB2B"/><stop offset="1" stop-color="#3E7A13"/>
+      </linearGradient>
+      <linearGradient id="gHill2" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#B4D96A"/><stop offset="1" stop-color="#69A628"/>
+      </linearGradient>
+    </defs>
+    <path d="M0 168 C 210 92, 430 78, 640 118 C 830 154, 1000 148, 1200 106 L1200 380 L0 380Z" fill="url(#gHill2)"/>
+    <path d="M0 224 C 230 152, 470 142, 700 182 C 900 216, 1050 210, 1200 178 L1200 380 L0 380Z" fill="url(#gHill)"/>
+  </svg>
+</div>
+
+<!-- ============================================================ -->
+<!-- 1 : WELCOME SCREEN                                            -->
+<!-- ============================================================ -->
+<section id="welcome">
+  <div class="rule" style="align-self:end"></div>
+  <div class="band">
+    <div class="welcome-left">
+      <div class="mark">appolo<b>.</b></div>
+      <p>to start, click your name</p>
+    </div>
+    <div class="vrule"></div>
+    <div>
+      <button id="logon">
+        <span class="tile"><svg class="icon-32" style="width:44px;height:44px"><use href="#i-brick"/></svg></span>
+        <span>
+          <span class="who">appolo</span>
+          <span class="cta">16, makes roblox games</span>
+        </span>
+      </button>
+    </div>
+  </div>
+  <div class="rule" style="align-self:start"></div>
 </section>
 
 <!-- ============================================================ -->
-<!-- SECTION 2 : LEGO                                              -->
+<!-- 2 : BRICK BUILD                                               -->
 <!-- ============================================================ -->
-<section id="lego"></section>
+<section id="build" aria-label="intro animation">
+  <p class="skip">click to skip</p>
+</section>
 
 <!-- ============================================================ -->
-<!-- NAV                                                          -->
+<!-- 3 : THE EXPLORER WINDOW                                       -->
 <!-- ============================================================ -->
-<nav class="nav" id="nav">
-  <span class="brand">APPOLO<span class="dot">.</span></span>
-  <span class="links">
-    <a href="#about">about</a>
-    <a href="#skills">skills</a>
-    <a href="#work">work</a>
-    <a href="#contact">contact</a>
-  </span>
-</nav>
+<div id="win" role="application" aria-label="appolo's stuff">
 
-<!-- ============================================================ -->
-<!-- SECTION 3 : PORTFOLIO                                         -->
-<!-- ============================================================ -->
-<main id="portfolio">
+  <!-- title bar -->
+  <div class="titlebar">
+    <svg class="icon"><use href="#i-folder"/></svg>
+    <span class="title" id="win-title">appolo's stuff</span>
+    <span class="spacer"></span>
+    <button class="tb-btn" id="btn-min" aria-label="minimise"><svg viewBox="0 0 10 10"><path d="M2 8h6"/></svg></button>
+    <button class="tb-btn" id="btn-max" aria-label="maximise"><svg viewBox="0 0 10 10"><path d="M1.5 2h7v6h-7z"/></svg></button>
+    <button class="tb-btn close" id="btn-close" aria-label="close"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></button>
+  </div>
 
-  <!-- HERO -->
-  <header class="section" id="hero">
-    <div class="wrap">
-      <p class="hi">hey, i'm appolo</p>
-      <h1 class="hero-h">
-        i build roblox
-        <span class="hl">games
-          <svg class="circle-doodle" viewBox="0 0 240 96" preserveAspectRatio="none">
-            <path d="M40 16 C 110 2, 214 8, 224 42 C 230 72, 150 90, 78 86 C 16 82, 4 54, 20 32 C 34 14, 84 9, 140 12"/>
-          </svg>
-        </span>
-        people actually play
-      </h1>
-      <p class="hero-sub">
-        16 years old, been at this since i was 10. i make combat systems, AI,
-        physics, procedural animation, whatever the game needs.
-      </p>
-      <div class="hero-cta">
-        <a class="btn btn-solid" href="#work">see my stuff →</a>
-        <a class="btn btn-ghost" href="#contact">hire me</a>
+  <!-- menu bar -->
+  <div class="menubar" id="menubar"></div>
+
+  <!-- toolbar -->
+  <div class="toolbar">
+    <button class="tool" id="nav-back" disabled>
+      <svg class="icon-24"><use href="#i-back"/></svg> Back <span class="caret">▼</span>
+    </button>
+    <button class="tool" id="nav-fwd" disabled aria-label="forward">
+      <svg class="icon-24"><use href="#i-fwd"/></svg>
+    </button>
+    <button class="tool" id="nav-up" aria-label="up one level">
+      <svg class="icon-24"><use href="#i-up"/></svg>
+    </button>
+    <span class="tool-sep"></span>
+    <button class="tool" id="nav-home">
+      <svg class="icon-24"><use href="#i-folder"/></svg> Folders
+    </button>
+    <span class="flag"><svg class="icon-24" style="width:26px;height:26px"><use href="#i-flag"/></svg></span>
+  </div>
+
+  <!-- address bar -->
+  <div class="addressbar">
+    <label for="addr">Address</label>
+    <div class="addr" id="addr">
+      <svg class="icon"><use href="#i-folder"/></svg>
+      <span id="addr-text">C:\appolo</span>
+      <span class="caret">▼</span>
+    </div>
+    <button class="go" id="go"><svg class="icon"><use href="#i-fwd"/></svg> Go</button>
+  </div>
+
+  <!-- mobile places strip -->
+  <nav class="places-strip" id="places-strip" aria-label="sections"></nav>
+
+  <div class="winbody">
+
+    <!-- ---------------- task pane ---------------- -->
+    <aside class="taskpane" id="taskpane">
+      <div class="grp">
+        <h4><svg class="icon"><use href="#i-folder"/></svg> Other Places</h4>
+        <div id="places"></div>
       </div>
-      <p class="scroll-cue">SCROLL ↓</p>
-    </div>
-  </header>
 
-  <!-- SKILLS (draggable) -->
-  <section class="section" id="skills">
-    <div class="wrap">
-      <span class="eyebrow">skills
-        <svg class="scribble" viewBox="0 0 130 14"><path d="M2 8 C 24 14, 42 3, 66 9 S 106 13, 128 7"/></svg>
-      </span>
-      <div id="skills-stage"></div>
-      <p class="skills-hint">grab them. throw them. they drift back ~</p>
-    </div>
-  </section>
+      <div class="grp" id="details-grp">
+        <h4><svg class="icon"><use href="#i-file"/></svg> Details</h4>
+        <div id="details-body"></div>
+      </div>
 
-  <!-- ABOUT -->
-  <section class="section" id="about">
-    <div class="wrap">
-      <span class="eyebrow">about
-        <svg class="scribble" viewBox="0 0 130 14"><path d="M2 8 C 24 3, 44 12, 66 7 S 108 4, 128 9"/></svg>
-      </span>
-      <h2 style="font-size:clamp(22px,3vw,32px);font-weight:700;letter-spacing:-0.02em;margin-bottom:34px;">a bit about me</h2>
-      <div class="about-grid">
-        <div class="about-copy">
-          <p>i got into coding by downloading roblox studio and messing around with
-            free models. ever since then i've been completely hooked on programming,
-            and now i'm pursuing a <span class="em">computer science</span> path in college.</p>
-          <p>i'm fluent in lua, but recently i've been branching out to other engines
-            like unreal engine 5. right now i'm learning c++ and honestly it's a whole
-            different world compared to lua — but i'm getting there.</p>
-          <p>most of my work is building the systems games actually need to function.
-            not surface level stuff. i'm talking <span class="em">AI behaviour trees, custom
-            physics, procedural animation, full UI frameworks</span> — the kind of stuff
-            you don't notice until it breaks.</p>
-        </div>
-        <div class="stats">
-          <div class="stat"><b>160k+</b><span>visits on my main game</span></div>
-          <div class="stat"><b>6 yrs</b><span>writing code almost daily</span></div>tr
-          <div class="stat"><b>16</b><span>years old, pursuing CS</span></div>
+      <div class="grp">
+        <h4><svg class="icon"><use href="#i-mail"/></svg> Tasks</h4>
+        <div>
+          <button class="pane-act" data-act="copy-email"><svg class="icon"><use href="#i-mail"/></svg> Copy my email</button>
+          <a href="https://www.roblox.com/users/profile?username=x8yv" target="_blank" rel="noopener"><svg class="icon"><use href="#i-globe"/></svg> Open my roblox</a>
+          <a href="https://www.roblox.com/games/82635139286925/Raise-a-Dr-House" target="_blank" rel="noopener"><svg class="icon"><use href="#i-brick"/></svg> Play my game</a>
         </div>
       </div>
-    </div>
-  </section>
+    </aside>
 
-  <!-- WORK -->
-  <section class="section" id="work">
-    <div class="wrap">
-      <span class="eyebrow">work
-        <svg class="scribble" viewBox="0 0 130 14"><path d="M2 9 C 26 4, 40 13, 64 8 S 104 3, 128 9"/></svg>
-      </span>
-      <div class="work-head">
-        <h2 style="font-size:clamp(22px,3vw,32px);font-weight:700;letter-spacing:-0.02em;">things i've made</h2>
-        <span class="work-count">01 — 05</span>
-      </div>
+    <!-- ---------------- content ---------------- -->
+    <main id="content">
 
-      <div class="projects">
-        <article class="proj">
-          <div class="idx">01</div>
-          <div>
-            <div class="cat">shipped game</div>
-            <h3>raise a dr house</h3>
-            <p class="desc">built this whole game myself. all the game logic, UI, progression
-              — no templates, no free models. over 160k people have played it and they keep
-              coming back, so i think the systems hold up pretty well. yes the concept is a bit
-              silly, but watch the show and you'll get it. seriously, go watch it.</p>
-            <div class="tags"><span>Lua</span><span>Game Logic</span><span>UI</span><span>Progression</span></div>
-            <a class="link" href="https://www.roblox.com/games/82635139286925/Raise-a-Dr-House" target="_blank" rel="noopener">play it →</a>
+      <!-- HERO -->
+      <section class="section" id="hero" data-path="C:\appolo" data-status="4 objects">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow reveal">appolo &nbsp;/&nbsp; 16 &nbsp;/&nbsp; united kingdom</p>
+            <h1 class="hero-h reveal">i make <em>roblox games</em></h1>
+            <p class="hero-p reveal">i'm 16 and i've been using roblox studio since i was 10. i mostly do
+              the coding side, combat, AI, movement and camera stuff.</p>
+            <p class="hero-p reveal">my main game has 160k visits.</p>
+            <div class="hero-cta reveal">
+              <button class="xpbtn primary" data-goto="work">See my projects</button>
+              <button class="xpbtn" data-goto="contact">Get in touch</button>
+            </div>
           </div>
-        </article>
 
-        <article class="proj">
-          <div class="idx">02</div>
-          <div>
-            <div class="cat">combat system</div>
-            <h3>lock-on targeting</h3>
-            <p class="desc">dark souls style lock on. you target an enemy and the camera
-              smoothly tracks them, you can switch between targets, and if they go behind a
-              wall or die mid lock it handles everything without the camera freaking out.</p>
-            <div class="tags"><span>Lua</span><span>Camera</span><span>Raycasting</span><span>Combat</span></div>
-            <a class="link video-link" href="#" data-video="lockon-demo.mp4">demo video →</a>
+          <div class="hero-note reveal">
+            <b>about this site</b>
+            i made it look like windows xp because i like how it looks. the projects list
+            works like the real one, click a row and it shows up on the left.
           </div>
-        </article>
+        </div>
+      </section>
 
-        <article class="proj">
-          <div class="idx">03</div>
+      <!-- ABOUT -->
+      <section class="section" id="about" data-path="C:\appolo\about me" data-status="4 objects">
+        <div class="banner reveal">
+          <svg class="icon-48" style="width:40px;height:40px"><use href="#i-folder"/></svg>
           <div>
-            <div class="cat">ai / pathfinding</div>
-            <h3>rts unit movement</h3>
-            <p class="desc">click somewhere and your units move there in formation. they
-              pathfind around obstacles, avoid bumping into each other, and you can queue up
-              commands. basically starcraft controls but in roblox.</p>
-            <div class="tags"><span>Lua</span><span>Pathfinding</span><span>Formations</span><span>RTS</span></div>
-            <a class="link video-link" href="#" data-video="rts-demo.mp4">demo video →</a>
+            <h2>about me</h2>
           </div>
-        </article>
+        </div>
 
-        <article class="proj">
-          <div class="idx">04</div>
+        <div class="prose reveal">
+          <p>i started using roblox studio when i was 10 because me and my friend wanted to
+            make a tycoon. we never finished it but i kept using studio anyway.</p>
+          <p><b>lua</b> is the language i know best. i'm learning c++ at the moment so i can
+            use unreal engine 5. it's a lot harder than lua.</p>
+          <p>most of what i make is systems. AI, pathfinding, physics, animation and UI.</p>
+          <p>i'm doing <b>computer science</b> at college. i want to make games outside of
+            roblox eventually.</p>
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section class="section" id="skills" data-path="C:\appolo\skills" data-status="12 objects">
+        <div class="banner reveal">
+          <svg class="icon-48" style="width:40px;height:40px"><use href="#i-folder"/></svg>
           <div>
-            <div class="cat">ui</div>
-            <h3>radial emote wheel</h3>
-            <p class="desc">radial selection menu that uses trig to position everything in a
-              circle. mouse angle picks which option is highlighted, works with any number of
-              items, and the transitions feel responsive.</p>
-            <div class="tags"><span>Lua</span><span>UI</span><span>Trig</span><span>Animation</span></div>
-            <a class="link video-link" href="#" data-video="emotewheel-demo.mp4">demo video →</a>
+            <h2>skills</h2>
+            <p>stuff i use</p>
           </div>
-        </article>
+        </div>
+        <div class="tiles reveal" id="tiles"></div>
+      </section>
 
-        <article class="proj">
-          <div class="idx">05</div>
+      <!-- WORK -->
+      <section class="section" id="work" data-path="C:\appolo\projects" data-status="5 objects">
+        <div class="banner reveal">
+          <svg class="icon-48" style="width:40px;height:40px"><use href="#i-folder"/></svg>
           <div>
-            <div class="cat">algorithm</div>
-            <h3>maze generator</h3>
-            <p class="desc">recursive backtracking that generates a unique solvable maze every
-              time you run it. also visualizes the algorithm step by step so you can watch it
-              carve the path out.</p>
-            <div class="tags"><span>Python</span><span>Algorithms</span><span>Procgen</span></div>
-            <a class="link" href="https://www.youtube.com/watch?v=ULdcywxUb48" target="_blank" rel="noopener">watch on youtube →</a>
+            <h2>projects</h2>
+            <p>click one to see what it is</p>
           </div>
-        </article>
-      </div>
-    </div>
-  </section>
+        </div>
 
-  <!-- CONTACT -->
-  <section class="section" id="contact">
-    <div class="wrap">
-      <span class="eyebrow">contact
-        <svg class="scribble" viewBox="0 0 130 14"><path d="M2 9 C 22 4, 46 13, 66 8 S 108 4, 128 10"/></svg>
-      </span>
-      <h2 class="contact-h">want something built?<span class="blink">_</span></h2>
-      <p class="contact-sub">commissions, collabs, or just wanna chat about game dev. i'm around.</p>
-      <div class="contact-links" style="position:relative;">
-        <span class="note note-reply">i actually reply →</span>
-        <a href="mailto:juck06547@gmail.com"><span class="k">email</span> juck06547@gmail.com</a>
-        <a href="https://www.roblox.com/users/profile?username=x8yv" target="_blank" rel="noopener"><span class="k">roblox</span> @x8yv</a>
-        <a href="#"><span class="k">discord</span> @appolo</a>
-      </div>
-      <footer>
-        <span>© <span id="year"></span> appolo</span>
-        <span>built between classes</span>
-      </footer>
-    </div>
-  </section>
+        <div class="listing reveal">
+          <div class="cols" aria-hidden="true">
+            <span>Name</span><span>Type</span><span>Size</span><span>Modified</span>
+          </div>
+          <div id="rows"></div>
+        </div>
 
-</main>
+        <p class="listing-foot reveal">
+          <span>the demos are just screen recordings.</span>
+          <a href="https://www.roblox.com/users/profile?username=x8yv" target="_blank" rel="noopener">my roblox profile</a>
+        </p>
+      </section>
 
-<!-- ============================================================ -->
-<!-- VIDEO LIGHTBOX                                                -->
-<!-- ============================================================ -->
-<div id="lightbox" aria-hidden="true">
-  <div class="lb-frame">
-    <button class="lb-close" id="lb-close" aria-label="close">×</button>
-    <video id="lb-video" controls playsinline preload="metadata"></video>
+      <!-- CONTACT -->
+      <section class="section" id="contact" data-path="C:\appolo\contact" data-status="4 objects">
+        <div class="banner reveal">
+          <svg class="icon-48" style="width:40px;height:40px"><use href="#i-mail"/></svg>
+          <div>
+            <h2>contact</h2>
+            <p>i check discord more than email</p>
+          </div>
+        </div>
+
+        <div class="contact-grid">
+          <div class="prose reveal">
+            <p>i take commissions and i'm up for collabs. you can message me about
+              anything game dev related.</p>
+          </div>
+
+          <div class="links reveal">
+            <a href="mailto:juck06547@gmail.com">
+              <svg class="icon-24"><use href="#i-mail"/></svg>
+              <span class="k">email</span><span class="v">juck06547@gmail.com</span>
+            </a>
+            <a href="https://www.roblox.com/users/profile?username=x8yv" target="_blank" rel="noopener">
+              <svg class="icon-24"><use href="#i-globe"/></svg>
+              <span class="k">roblox</span><span class="v">@x8yv</span>
+            </a>
+            <button data-act="copy-discord">
+              <svg class="icon-24"><use href="#i-computer"/></svg>
+              <span class="k">discord</span><span class="v">@lxfox9579</span>
+            </button>
+            <a href="https://www.youtube.com/watch?v=ULdcywxUb48" target="_blank" rel="noopener">
+              <svg class="icon-24"><use href="#i-video"/></svg>
+              <span class="k">youtube</span><span class="v">@appolo</span>
+            </a>
+          </div>
+        </div>
+
+        <p class="signoff reveal">
+          i made this site myself.<br>
+          &copy; <span id="year"></span> appolo
+        </p>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- status bar -->
+  <div class="statusbar">
+    <div class="sb-1" id="sb-1">5 objects</div>
+    <div class="sb-2"><svg class="icon"><use href="#i-computer"/></svg> My Computer</div>
   </div>
 </div>
 
 <!-- ============================================================ -->
-<!-- CDN                                                           -->
+<!-- TASKBAR                                                       -->
+<!-- ============================================================ -->
+<div id="taskbar">
+  <button id="start" aria-expanded="false" aria-controls="startmenu">
+    <svg class="icon-24" style="width:21px;height:21px"><use href="#i-flag"/></svg> start
+  </button>
+  <div class="tasks">
+    <button class="taskbtn active" id="taskbtn">
+      <svg class="icon"><use href="#i-folder"/></svg> appolo's stuff
+    </button>
+  </div>
+  <div class="tray">
+    <svg class="icon" viewBox="0 0 32 32"><use href="#i-net"/></svg>
+    <svg class="icon" viewBox="0 0 32 32"><use href="#i-vol"/></svg>
+    <span id="clock">00:00</span>
+  </div>
+</div>
+
+<div id="startmenu">
+  <div class="sm-head">
+    <span class="av"><svg style="width:26px;height:26px"><use href="#i-brick"/></svg></span>
+    <b>appolo</b>
+  </div>
+  <div class="sm-body">
+    <a href="https://www.roblox.com/games/82635139286925/Raise-a-Dr-House" target="_blank" rel="noopener">
+      <svg class="icon-24"><use href="#i-brick"/></svg>
+      <span>Raise a Dr House<small>my game, 160k visits</small></span>
+    </a>
+    <a href="https://www.roblox.com/users/profile?username=x8yv" target="_blank" rel="noopener">
+      <svg class="icon-24"><use href="#i-globe"/></svg>
+      <span>Roblox profile<small>@x8yv</small></span>
+    </a>
+    <a href="mailto:juck06547@gmail.com">
+      <svg class="icon-24"><use href="#i-mail"/></svg>
+      <span>Email me<small>juck06547@gmail.com</small></span>
+    </a>
+    <div class="sm-sep"></div>
+    <button data-act="copy-discord">
+      <svg class="icon-24"><use href="#i-computer"/></svg>
+      <span>Copy my discord<small>@lxfox9579</small></span>
+    </button>
+    <button data-goto="work">
+      <svg class="icon-24"><use href="#i-folder"/></svg>
+      <span>Projects<small>5 things i've made</small></span>
+    </button>
+  </div>
+  <div class="sm-foot">log off &nbsp;|&nbsp; turn off computer</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- DIALOGS                                                       -->
+<!-- ============================================================ -->
+<div class="overlay" id="msg-overlay">
+  <div class="dialog" style="width:440px">
+    <div class="titlebar">
+      <span class="title" id="msg-title">appolo's stuff</span>
+      <span class="spacer"></span>
+      <button class="tb-btn close" data-close="msg-overlay" aria-label="close"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></button>
+    </div>
+    <div class="dlg-body">
+      <svg class="icon-48" id="msg-icon"><use href="#i-computer"/></svg>
+      <div id="msg-text"></div>
+    </div>
+    <div class="dlg-foot"><button class="xpbtn primary" data-close="msg-overlay">OK</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="player">
+  <div class="dialog">
+    <div class="titlebar">
+      <svg class="icon"><use href="#i-video"/></svg>
+      <span class="title" id="pl-title">demo</span>
+      <span class="spacer"></span>
+      <button class="tb-btn close" data-close="player" aria-label="close"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></button>
+    </div>
+    <div class="dlg-body"><video id="pl-video" controls playsinline preload="metadata"></video></div>
+    <div class="plate"><span class="nm" id="pl-file"></span><span>screen recording, no edits</span></div>
+  </div>
+</div>
+
+<div id="balloon" role="status" aria-live="polite"></div>
+
+<!-- ============================================================ -->
+<!-- LIBS                                                          -->
 <!-- ============================================================ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 
 <script>
 /* ================================================================ *
- *  GLOBAL
+ *  DATA
  * ================================================================ */
-document.getElementById('year').textContent = new Date().getFullYear();
-if (window.gsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+const SECTIONS = [
+  { id: 'hero',    label: 'appolo (home)' },
+  { id: 'about',   label: 'about me' },
+  { id: 'skills',  label: 'skills' },
+  { id: 'work',    label: 'projects' },
+  { id: 'contact', label: 'contact' }
+];
+
+const SKILLS = [
+  ['Lua',                  'main language'],
+  ['Roblox Studio',        '6 years'],
+  ['AI / behaviour trees', 'enemy ai'],
+  ['Pathfinding',          'a* and avoidance'],
+  ['Procedural animation', 'ik legs'],
+  ['Custom physics',       'raycast characters'],
+  ['UI / UX',              'menus and hud'],
+  ['Luau types',           'about a year'],
+  ['Python',               'small tools'],
+  ['JavaScript',           'this site'],
+  ['Unreal Engine 5',      'learning'],
+  ['C++',                  'learning']
+];
+
+const PROJECTS = [
+  {
+    icon: '#i-brick', name: 'raise a dr house', type: 'Roblox Place',
+    size: '160,412 visits', mod: '2025',
+    desc: 'i made this one on my own. all the code, the ui and the progression. it has 160k visits.',
+    href: 'https://www.roblox.com/games/82635139286925/Raise-a-Dr-House',
+    cta: 'play it on roblox'
+  },
+  {
+    icon: '#i-lua', name: 'lock on targeting', type: 'Lua Module',
+    size: '412 KB', mod: '2025',
+    desc: 'lock on system like dark souls. the camera follows whoever you target and you can switch between enemies. it also handles the target dying or going behind a wall.',
+    video: 'lockon-demo.mp4', cta: 'watch the demo'
+  },
+  {
+    icon: '#i-lua', name: 'rts unit movement', type: 'Lua Module',
+    size: '680 KB', mod: '2025',
+    desc: 'click somewhere and your units walk there in formation. they path around obstacles and don\'t push each other. you can queue up commands with shift.',
+    video: 'rts-demo.mp4', cta: 'watch the demo'
+  },
+  {
+    icon: '#i-lua', name: 'radial emote wheel', type: 'Lua Module',
+    size: '96 KB', mod: '2024',
+    desc: 'radial menu made with trig. the mouse angle picks which option is highlighted. works with any number of options.',
+    video: 'emotewheel-demo.mp4', cta: 'watch the demo'
+  },
+  {
+    icon: '#i-file', name: 'maze generator', type: 'Lua Script',
+    size: '8 KB', mod: '2024',
+    desc: 'recursive backtracking. makes a random maze every time you run it and draws each step so you can watch it.',
+    href: 'https://www.youtube.com/watch?v=ULdcywxUb48',
+    cta: 'watch on youtube'
+  }
+];
+
+const MENUS = [
+  { label: 'File', items: [
+    { text: 'Open', disabled: true },
+    { text: 'Send To', disabled: true },
+    { sep: true },
+    { text: 'Close', act: 'close-win' }
+  ]},
+  { label: 'Edit', items: [
+    { text: 'Copy my email', act: 'copy-email' },
+    { text: 'Copy my discord', act: 'copy-discord' },
+    { sep: true },
+    { text: 'Select All', disabled: true }
+  ]},
+  { label: 'View', items: [
+    { text: 'Tiles', tick: '\u2022', disabled: true },
+    { text: 'Details', tick: '\u2022', disabled: true },
+    { sep: true },
+    { text: 'Refresh', act: 'refresh' }
+  ]},
+  { label: 'Favourites', items: [
+    { text: 'Add to Favourites', act: 'favourite' },
+    { text: 'Organise Favourites', disabled: true }
+  ]},
+  { label: 'Tools', items: [
+    { text: 'Map Network Drive', disabled: true },
+    { text: 'Folder Options', disabled: true }
+  ]}
+];
+
+const EMAIL = 'juck06547@gmail.com';
+const DISCORD = '@lxfox9579';
 
 /* ================================================================ *
- *  VIDEO LIGHTBOX
+ *  SMALL HELPERS
  * ================================================================ */
-(function lightbox() {
-  const box = document.getElementById('lightbox');
-  const video = document.getElementById('lb-video');
-  const closeBtn = document.getElementById('lb-close');
+const $  = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const svg = (id, cls = 'icon') =>
+  `<svg class="${cls}" aria-hidden="true"><use href="${id}"/></svg>`;
 
-  function open(src) {
-    video.src = src;
-    box.classList.add('open');
-    box.setAttribute('aria-hidden', 'false');
-    const p = video.play();
-    if (p && p.catch) p.catch(() => {});   // ignore autoplay block; controls are visible
-  }
-  function close() {
-    box.classList.remove('open');
-    box.setAttribute('aria-hidden', 'true');
-    video.pause();
-    video.removeAttribute('src');
-    video.load();                          // fully stop buffering/audio
-  }
+$('#year').textContent = new Date().getFullYear();
 
-  // delegate clicks from any .video-link
-  document.addEventListener('click', e => {
-    const link = e.target.closest('.video-link');
-    if (link) {
-      e.preventDefault();
-      open(link.dataset.video);
-    }
-  });
-  closeBtn.addEventListener('click', close);
-  box.addEventListener('click', e => { if (e.target === box) close(); });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && box.classList.contains('open')) close();
+let balloonTimer;
+function balloon(title, body) {
+  const el = $('#balloon');
+  el.innerHTML = `<b>${title}</b>${body}`;
+  el.classList.add('open');
+  clearTimeout(balloonTimer);
+  balloonTimer = setTimeout(() => el.classList.remove('open'), 3600);
+}
+
+function dialog(title, text, icon = '#i-computer') {
+  $('#msg-title').textContent = title;
+  $('#msg-text').innerHTML = text;
+  $('#msg-icon').innerHTML = `<use href="${icon}"/>`;
+  $('#msg-overlay').classList.add('open');
+  $('#msg-overlay .xpbtn').focus();
+}
+
+async function copy(text, what) {
+  try {
+    await navigator.clipboard.writeText(text);
+    balloon('copied', text);
+  } catch {
+    balloon(what, text);
+  }
+}
+
+/* ================================================================ *
+ *  BUILD THE UI
+ * ================================================================ */
+
+/* --- menu bar --- */
+(function buildMenus() {
+  const bar = $('#menubar');
+  MENUS.forEach((menu, i) => {
+    const btn = document.createElement('button');
+    btn.textContent = menu.label;
+    btn.setAttribute('aria-expanded', 'false');
+
+    const dd = document.createElement('div');
+    dd.className = 'dropdown';
+
+    menu.items.forEach(item => {
+      if (item.sep) { dd.appendChild(document.createElement('i')); return; }
+      const b = document.createElement('button');
+      b.innerHTML = `<span class="tick">${item.tick || ''}</span>${item.text}`;
+      if (item.disabled) b.disabled = true;
+      else b.dataset.act = item.act;
+      dd.appendChild(b);
+    });
+
+    const holder = document.createElement('div');
+    holder.style.position = 'relative';
+    holder.style.display = 'flex';
+    holder.appendChild(btn);
+    holder.appendChild(dd);
+    bar.appendChild(holder);
+
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const wasOpen = dd.classList.contains('open');
+      closeMenus();
+      if (!wasOpen) { dd.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
+    });
+    btn.addEventListener('mouseenter', () => {
+      if ($('.dropdown.open') && !dd.classList.contains('open')) {
+        closeMenus(); dd.classList.add('open'); btn.setAttribute('aria-expanded', 'true');
+      }
+    });
   });
 })();
 
-/* ================================================================ *
- *  SECTION 1 — FALLING WORDS (gravity, drop in one by one, pile up)
- * ================================================================ */
-(function intro() {
-  const WORDS = ["ROBLOX DEV","LUA","GAME SYSTEMS","UI","AI","PHYSICS","PROC ANIM","16","UK","HIRED?"];
-  const wrap = document.getElementById('orbits');
-  const rings = document.getElementById('rings');
-  const keycap = document.getElementById('enter');
+function closeMenus() {
+  $$('.dropdown.open').forEach(d => d.classList.remove('open'));
+  $$('.menubar button[aria-expanded]').forEach(b => b.setAttribute('aria-expanded', 'false'));
+}
 
-  rings.style.display = 'none';   // no orbital rings in the falling layout
+/* --- places (task pane + mobile strip) --- */
+(function buildPlaces() {
+  const pane = $('#places'), strip = $('#places-strip');
+  SECTIONS.forEach(s => {
+    const a = document.createElement('a');
+    a.href = '#' + s.id;
+    a.dataset.goto = s.id;
+    a.innerHTML = svg('#i-folder') + s.label;
+    pane.appendChild(a);
 
-  // Build the word chips up front (hidden) so we can measure them.
-  const items = WORDS.map(label => {
-    const el = document.createElement('div');
-    el.className = 'orbit-word';
-    el.textContent = label;
-    if (label === 'HIRED?') el.style.fontWeight = 700;
-    el.style.opacity = '0';
-    wrap.appendChild(el);
-    return { el, w: el.offsetWidth, h: el.offsetHeight, body: null };
+    const b = document.createElement('a');
+    b.href = '#' + s.id;
+    b.dataset.goto = s.id;
+    b.textContent = s.label;
+    strip.appendChild(b);
   });
+})();
 
-  // No physics engine? Just stack them along the bottom so the screen isn't empty.
-  if (!window.Matter) {
-    let x = 24;
-    const baseY = window.innerHeight - 70;
-    items.forEach(it => {
-      if (x + it.w > window.innerWidth - 24) x = 24;
-      it.el.style.opacity = '1';
-      it.el.style.transform = `translate(${x}px, ${baseY}px)`;
-      x += it.w + 14;
+/* --- skills tiles --- */
+(function buildTiles() {
+  $('#tiles').innerHTML = SKILLS.map(([name, note]) => `
+    <div class="tile">
+      <span class="tile-ico">${svg('#i-file', 'icon-32')}</span>
+      <span><b>${name}</b><span>${note}</span></span>
+    </div>`).join('');
+})();
+
+/* --- project rows --- */
+(function buildRows() {
+  const host = $('#rows');
+  PROJECTS.forEach((p, i) => {
+    const row = document.createElement('div');
+    row.className = 'row';
+    row.tabIndex = 0;
+    row.dataset.i = i;
+    row.innerHTML = `
+      <span class="nm">${svg(p.icon, 'icon-24')}<b>${p.name}</b></span>
+      <span class="ty">${p.type}</span>
+      <span class="sz">${p.size}</span>
+      <span class="md">${p.mod}</span>`;
+
+    // the preview slot is filled the first time the row is opened, so the page
+    // does not fetch three videos' worth of metadata before anyone asks for it
+    const desc = document.createElement('div');
+    desc.className = 'row-desc';
+    desc.innerHTML =
+      `<p>${p.desc}</p><div id="pv-${i}"></div><p><a href="#" data-open="${i}">${p.cta} &rsaquo;</a></p>`;
+
+    host.appendChild(row);
+    host.appendChild(desc);
+
+    row.addEventListener('click', () => select(i));
+    row.addEventListener('dblclick', () => openProject(i));
+    row.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(i); }
+      if (e.key === 'ArrowDown') { e.preventDefault(); focusRow(i + 1); }
+      if (e.key === 'ArrowUp')   { e.preventDefault(); focusRow(i - 1); }
     });
-    window.__stopIntro = () => {};
+  });
+})();
+
+function focusRow(i) {
+  const rows = $$('.row');
+  const r = rows[Math.max(0, Math.min(rows.length - 1, i))];
+  if (r) { r.focus(); select(+r.dataset.i); }
+}
+
+/* ================================================================ *
+ *  DETAILS PANE - the bit that makes this an actual explorer
+ * ================================================================ */
+const FOLDER_DETAILS = `
+  <div class="dt-head">${svg('#i-folder', 'icon-32')}
+    <span><span class="dt-name">projects</span><br><span class="dt-kind">File Folder</span></span>
+  </div>
+  <p>click one to see what it is.</p>
+  <dl><dt>Contains</dt><dd>${PROJECTS.length} items</dd><dt>Modified</dt><dd>2024 to 2025</dd></dl>`;
+
+let selected = -1;
+
+/* thumbnail for a demo. #t=1 tells the browser to show the frame at one second
+   instead of a black first frame, so we get a poster without shipping an image. */
+function previewHTML(p, i) {
+  if (!p.video) return '';
+  return `<button class="preview" data-open="${i}" aria-label="play the ${p.name} demo">
+      <video src="${p.video}#t=1" muted playsinline preload="metadata"></video>
+      <span class="play"><i></i></span>
+      <span class="cap">click to play</span>
+    </button>`;
+}
+
+/* preview plays muted while you hover it, opens properly when you click */
+function armPreviews(root) {
+  $$('.preview', root).forEach(btn => {
+    const v = btn.querySelector('video');
+    btn.addEventListener('mouseenter', () => {
+      v.muted = true;
+      const play = v.play();
+      if (play && play.catch) play.catch(() => {});
+    });
+    btn.addEventListener('mouseleave', () => {
+      v.pause();
+      try { v.currentTime = 1; } catch {}
+    });
+  });
+}
+
+function select(i) {
+  // on small screens the description expands inline, so tapping the open row shuts it
+  if (selected === i && matchMedia('(max-width: 900px)').matches) { clearSelection(); return; }
+  selected = i;
+  $$('.row').forEach(r => r.classList.toggle('sel', +r.dataset.i === i));
+  const p = PROJECTS[i];
+  $('#details-body').innerHTML = `
+    <div class="dt-head">${svg(p.icon, 'icon-32')}
+      <span><span class="dt-name">${p.name}</span><br><span class="dt-kind">${p.type}</span></span>
+    </div>
+    ${previewHTML(p, i)}
+    <p>${p.desc}</p>
+    <dl><dt>Size</dt><dd>${p.size}</dd><dt>Modified</dt><dd>${p.mod}</dd></dl>
+    <p><a href="#" data-open="${i}">${p.cta} &rsaquo;</a></p>`;
+  armPreviews($('#details-body'));
+
+  const slot = $(`#pv-${i}`);
+  if (slot && !slot.innerHTML) { slot.innerHTML = previewHTML(p, i); armPreviews(slot); }
+
+  $('#sb-1').textContent = `1 of ${PROJECTS.length} objects selected`;
+  $('#taskpane').scrollTo({ top: $('#details-grp').offsetTop - 10, behavior: 'smooth' });
+}
+
+function clearSelection() {
+  selected = -1;
+  $$('.row').forEach(r => r.classList.remove('sel'));
+  $('#details-body').innerHTML = FOLDER_DETAILS;
+  const work = document.getElementById('work');
+  if (work) $('#sb-1').textContent = work.dataset.status;
+}
+clearSelection();
+
+function openProject(i) {
+  const p = PROJECTS[i];
+  if (p.video) openPlayer(p.video, p.name);
+  else window.open(p.href, '_blank', 'noopener');
+}
+
+/* ================================================================ *
+ *  MEDIA PLAYER
+ * ================================================================ */
+function openPlayer(src, name) {
+  const v = $('#pl-video');
+  v.src = src;
+  $('#pl-title').textContent = name;
+  $('#pl-file').textContent = src;
+  $('#player').classList.add('open');
+  const play = v.play();
+  if (play && play.catch) play.catch(() => {});
+}
+function closePlayer() {
+  const v = $('#pl-video');
+  v.pause(); v.removeAttribute('src'); v.load();
+  $('#player').classList.remove('open');
+}
+
+/* ================================================================ *
+ *  NAVIGATION - back / forward / up actually work
+ * ================================================================ */
+const navHistory = ['hero'];
+let histAt = 0;
+let suppressScroll = false;
+let suppressTimer;
+
+function goto(id, push = true) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  suppressScroll = true;
+  $('#content').scrollTo({
+    top: el.offsetTop - 6,
+    behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+  });
+  clearTimeout(suppressTimer);
+  suppressTimer = setTimeout(() => { suppressScroll = false; }, 700);
+  setPath(id);
+  if (push && navHistory[histAt] !== id) {
+    navHistory.length = histAt + 1;
+    navHistory.push(id);
+    histAt = navHistory.length - 1;
+  }
+  updateNavButtons();
+}
+
+function updateNavButtons() {
+  $('#nav-back').disabled = histAt <= 0;
+  $('#nav-fwd').disabled  = histAt >= navHistory.length - 1;
+}
+
+function setPath(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  $('#addr-text').textContent = el.dataset.path;
+  if (selected < 0) $('#sb-1').textContent = el.dataset.status;
+  $$('[data-goto]').forEach(a => {
+    if (a.tagName === 'A') a.setAttribute('aria-current', a.dataset.goto === id ? 'true' : 'false');
+  });
+  $('#win-title').textContent = id === 'hero' ? "appolo's stuff" : el.dataset.path.split('\\').pop();
+  $('#taskbtn').innerHTML = svg('#i-folder') + $('#win-title').textContent;
+}
+
+$('#nav-back').addEventListener('click', () => { if (histAt > 0) { histAt--; goto(navHistory[histAt], false); } });
+$('#nav-fwd').addEventListener('click',  () => { if (histAt < navHistory.length - 1) { histAt++; goto(navHistory[histAt], false); } });
+$('#nav-up').addEventListener('click',   () => goto('hero'));
+$('#nav-home').addEventListener('click', () => goto('hero'));
+$('#go').addEventListener('click',       () => goto(navHistory[histAt], false));
+
+/* ================================================================ *
+ *  GLOBAL CLICK ROUTER
+ * ================================================================ */
+document.addEventListener('click', e => {
+  const goEl = e.target.closest('[data-goto]');
+  if (goEl) {
+    e.preventDefault();
+    goto(goEl.dataset.goto);
+    closeStart(); closeMenus();
     return;
   }
 
-  const { Engine, Runner, Bodies, Body, Composite } = Matter;
-  let W = window.innerWidth, H = window.innerHeight;
+  const openEl = e.target.closest('[data-open]');
+  if (openEl) { e.preventDefault(); openProject(+openEl.dataset.open); return; }
 
-  const engine = Engine.create();
-  engine.gravity.y = 1;
-  const world = engine.world;
-
-  // floor + side walls (thick, so fast chips can't tunnel through)
-  const t = 200;
-  const floor = Bodies.rectangle(W / 2, H + t / 2, W * 3, t, { isStatic: true });
-  const left  = Bodies.rectangle(-t / 2, H / 2, t, H * 3, { isStatic: true });
-  const right = Bodies.rectangle(W + t / 2, H / 2, t, H * 3, { isStatic: true });
-  Composite.add(world, [floor, left, right]);
-
-  // the APPOLO button is a solid obstacle — chips bounce off it and pile on top
-  const kr = keycap.getBoundingClientRect();
-  const keycapBody = Bodies.rectangle(
-    kr.left + kr.width / 2, kr.top + kr.height / 2, kr.width, kr.height,
-    { isStatic: true, chamfer: { radius: 14 } }
-  );
-  Composite.add(world, keycapBody);
-
-  // drop the chips in one at a time from the top
-  let dropIndex = 0;
-  let dropTimer = null;
-  function dropNext() {
-    if (dropIndex >= items.length) return;
-    const it = items[dropIndex++];
-    const x = it.w / 2 + 20 + Math.random() * (W - it.w - 40);
-    const body = Bodies.rectangle(x, -40, it.w, it.h, {
-      restitution: 0.5, friction: 0.5, frictionAir: 0.01, density: 0.002,
-      chamfer: { radius: Math.min(it.h / 2 - 1, 14) }
-    });
-    Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.12);
-    it.body = body;
-    it.el.style.opacity = '1';
-    Composite.add(world, body);
-    dropTimer = setTimeout(dropNext, 230 + Math.random() * 160);
+  const closeEl = e.target.closest('[data-close]');
+  if (closeEl) {
+    const id = closeEl.dataset.close;
+    if (id === 'player') closePlayer();
+    else document.getElementById(id).classList.remove('open');
+    return;
   }
-  dropTimer = setTimeout(dropNext, 450);
 
-  let raf, running = true;
-  function frame() {
-    if (!running) return;
-    items.forEach(it => {
-      if (!it.body) return;
-      const { x, y } = it.body.position;
-      it.el.style.transform =
-        `translate(${x - it.w / 2}px, ${y - it.h / 2}px) rotate(${it.body.angle}rad)`;
-    });
-    raf = requestAnimationFrame(frame);
+  const actEl = e.target.closest('[data-act]');
+  if (actEl) {
+    e.preventDefault();
+    doAction(actEl.dataset.act);
+    closeStart(); closeMenus();
+    return;
   }
-  raf = requestAnimationFrame(frame);
 
-  const runner = Runner.create();
-  Runner.run(runner, engine);
+  // click into empty space in the listing clears the selection, like explorer does
+  if (e.target.closest('#work') && !e.target.closest('.row') && !e.target.closest('.row-desc')) {
+    clearSelection();
+    setPath('work');
+  }
 
-  window.addEventListener('resize', () => {
-    W = window.innerWidth; H = window.innerHeight;
-    Body.setPosition(floor, { x: W / 2, y: H + t / 2 });
-    Body.setPosition(left,  { x: -t / 2, y: H / 2 });
-    Body.setPosition(right, { x: W + t / 2, y: H / 2 });
-    const r = keycap.getBoundingClientRect();
-    Body.setPosition(keycapBody, { x: r.left + r.width / 2, y: r.top + r.height / 2 });
-  });
+  closeMenus();
+  if (!e.target.closest('#startmenu') && !e.target.closest('#start')) closeStart();
+});
 
-  window.__stopIntro = () => {
-    running = false;
-    cancelAnimationFrame(raf);
-    clearTimeout(dropTimer);
-    Runner.stop(runner);
-    Engine.clear(engine);
-  };
-})();
+function doAction(act) {
+  switch (act) {
+    case 'copy-email':   copy(EMAIL, 'my email'); break;
+    case 'copy-discord': copy(DISCORD, 'my discord'); break;
+    case 'refresh':
+      $$('.reveal').forEach(el => el.classList.remove('in'));
+      setTimeout(() => $$('.reveal').forEach(el => io.observe(el)), 30);
+      balloon('refreshed', 'nothing changed.');
+      break;
+    case 'favourite':
+      balloon('bookmark', 'press ctrl+d to save the page.');
+      break;
+    case 'close-win':
+      dialog('appolo\'s stuff', `
+        <p>there's nothing else on here. you can email me instead.</p>`, '#i-computer');
+      break;
+  }
+}
 
 /* ================================================================ *
- *  ENTRY POINT
+ *  WINDOW BUTTONS
  * ================================================================ */
-document.getElementById('enter').addEventListener('click', () => {
-  const intro = document.getElementById('intro');
-  gsap.to(intro, {
-    opacity: 0, duration: 0.5, ease: 'power2.in',
-    onComplete: () => {
-      intro.style.display = 'none';
-      if (window.__stopIntro) window.__stopIntro();
-      startLego();
-    }
-  });
+$('#btn-max').addEventListener('click', () => $('#win').classList.toggle('maxed'));
+$('#btn-min').addEventListener('click', () => {
+  $('#win').classList.add('away');
+  $('#taskbtn').classList.remove('active');
+  balloon('minimised', 'click the taskbar button to bring it back.');
+});
+$('#taskbtn').addEventListener('click', () => {
+  const w = $('#win');
+  w.classList.toggle('away');
+  $('#taskbtn').classList.toggle('active', !w.classList.contains('away'));
+});
+$('#btn-close').addEventListener('click', () => doAction('close-win'));
+
+/* ---- start menu ---- */
+function closeStart() {
+  $('#startmenu').classList.remove('open');
+  $('#start').setAttribute('aria-expanded', 'false');
+}
+$('#start').addEventListener('click', e => {
+  e.stopPropagation();
+  const open = $('#startmenu').classList.toggle('open');
+  $('#start').setAttribute('aria-expanded', String(open));
+});
+
+/* ---- clock ---- */
+function tick() {
+  const d = new Date();
+  $('#clock').textContent =
+    String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+}
+tick(); setInterval(tick, 15000);
+
+/* ---- escape closes things ---- */
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if ($('#player').classList.contains('open')) return closePlayer();
+  if ($('#msg-overlay').classList.contains('open')) return $('#msg-overlay').classList.remove('open');
+  closeMenus(); closeStart();
 });
 
 /* ================================================================ *
- *  SECTION 2 — LEGO BUILD (Three.js)
+ *  SCROLL OBSERVERS  (content pane is the scroll root)
  * ================================================================ */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+  });
+}, { root: $('#content'), rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+
+/* which folder are we in? measured off scroll position rather than an
+   IntersectionObserver, because IO only hands you the entries that *changed*,
+   so "most visible of these entries" is not the same as "most visible section". */
+function trackSection() {
+  if (suppressScroll) return;
+  const pane = $('#content');
+  const sections = $$('#content .section');
+  // scrolled to the very bottom: the last section is the one you are looking at
+  if (pane.scrollTop + pane.clientHeight >= pane.scrollHeight - 4) {
+    setPath(sections[sections.length - 1].id);
+    return;
+  }
+  const line = pane.scrollTop + 48;
+  let current = sections[0];
+  for (const s of sections) if (s.offsetTop <= line) current = s;
+  setPath(current.id);
+}
+
+/* ================================================================ *
+ *  SHOW THE DESKTOP
+ * ================================================================ */
+let shown = false;
+function showDesktop() {
+  if (shown) return;
+  shown = true;
+
+  $('#win').classList.add('shown');
+  $('#taskbar').classList.add('shown');
+  setPath('hero');
+  updateNavButtons();
+
+  $$('.reveal').forEach(el => io.observe(el));
+  $('#content').addEventListener('scroll', trackSection, { passive: true });
+
+  if (window.gsap) {
+    gsap.fromTo('#win', { opacity: 0, y: 18, scale: .985 },
+                        { opacity: 1, y: 0, scale: 1, duration: .5, ease: 'power2.out' });
+    gsap.fromTo('#taskbar', { y: 30 }, { y: 0, duration: .45, ease: 'power2.out' });
+  }
+}
+
+/* ================================================================ *
+ *  LOG ON  ->  BRICK BUILD  ->  DESKTOP
+ * ================================================================ */
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+$('#logon').addEventListener('click', () => {
+  const w = $('#welcome');
+  const done = () => { w.style.display = 'none'; startBuild(); };
+  if (window.gsap && !reduceMotion) gsap.to(w, { opacity: 0, duration: .45, ease: 'power2.in', onComplete: done });
+  else done();
+});
+
 function webglOK() {
   try {
     const c = document.createElement('canvas');
-    return !!(window.WebGLRenderingContext &&
-      (c.getContext('webgl') || c.getContext('experimental-webgl')));
-  } catch (e) { return false; }
+    return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+  } catch { return false; }
 }
 
-function startLego() {
-  if (!window.THREE || !webglOK()) { revealPortfolio(); return; }
+function startBuild() {
+  if (reduceMotion || !window.THREE || !window.gsap || !webglOK()) { showDesktop(); return; }
 
-  const host = document.getElementById('lego');
+  const host = $('#build');
   host.style.display = 'block';
 
+  let finished = false;
+  const finish = () => {
+    if (finished) return;
+    finished = true;
+    showDesktop();
+    gsap.to(host, {
+      opacity: 0, duration: .6, ease: 'power2.inOut',
+      onComplete: () => { stop = true; host.style.display = 'none'; renderer.dispose(); host.innerHTML = ''; }
+    });
+  };
+  host.addEventListener('click', finish);
+
+  /* ---- scene ---- */
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x000000);
-  // fog is set later, once we know how far the camera must sit to fit the word
 
-  const camera = new THREE.PerspectiveCamera(
-    42, window.innerWidth / window.innerHeight, 0.1, 240);
-  camera.position.set(0, 26, 28);   // also the camOrbit start (ang 0, rad 28, h 26)
+  // sky, painted into a canvas texture so it matches the desktop wallpaper
+  const sky = document.createElement('canvas');
+  sky.width = 4; sky.height = 256;
+  const sctx = sky.getContext('2d');
+  const grad = sctx.createLinearGradient(0, 0, 0, 256);
+  grad.addColorStop(0, '#1B5FC0');
+  grad.addColorStop(.35, '#3E86D2');
+  grad.addColorStop(.68, '#8CBEE8');
+  grad.addColorStop(1, '#DCEEF8');
+  sctx.fillStyle = grad; sctx.fillRect(0, 0, 4, 256);
+  scene.background = new THREE.CanvasTexture(sky);
+  scene.fog = new THREE.Fog(0xA8CFEC, 46, 132);
 
+  const camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, .1, 260);
   const renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setSize(innerWidth, innerHeight);
   host.appendChild(renderer.domElement);
 
-  scene.add(new THREE.AmbientLight(0xffffff, 0.55));
-  const key = new THREE.DirectionalLight(0xffffff, 0.95);
-  key.position.set(10, 24, 14); scene.add(key);
-  const rim = new THREE.DirectionalLight(0x66ffaa, 0.35);
-  rim.position.set(-14, 10, -10); scene.add(rim);
+  scene.add(new THREE.AmbientLight(0xffffff, .62));
+  const sun = new THREE.DirectionalLight(0xfff4dd, .95);
+  sun.position.set(12, 26, 15); scene.add(sun);
+  const bounce = new THREE.DirectionalLight(0x9fd46a, .3);
+  bounce.position.set(-12, 6, -10); scene.add(bounce);
 
+  /* ---- 5x5 pixel font ---- */
   const FONT = {
     A: ["01110","10001","11111","10001","10001"],
     P: ["11110","10001","11110","10000","10000"],
     O: ["01110","10001","10001","10001","01110"],
     L: ["10000","10000","10000","10000","11111"]
   };
-  const COLORS = {
-    A: 0x2BD46A, P: 0x7CF2A8, O: 0xF4F4F4, L: 0x39E07A
-  };
+  // the windows flag, in order
+  const FLAG = [0xF35325, 0x81BC06, 0x05A6F0, 0xFFB900];
+
+  const word = 'APPOLO';
+  const cells = [];
+  let cursor = 0;
+  [...word].forEach((ch, li) => {
+    const grid = FONT[ch];
+    const colour = FLAG[li % FLAG.length];
+    for (let r = 0; r < 5; r++)
+      for (let c = 0; c < 5; c++)
+        if (grid[r][c] === '1') cells.push({ col: cursor + c, row: r, colour });
+    cursor += 6;
+  });
+  const totalCols = cursor - 1;
 
   function makeBrick(hex) {
     const g = new THREE.Group();
     const col = new THREE.Color(hex);
-    const dark = col.clone().multiplyScalar(0.72);
-    const boxGeo = new THREE.BoxGeometry(0.92, 0.6, 0.92);
-    const top = new THREE.MeshStandardMaterial({ color: col, roughness: 0.55 });
-    const side = new THREE.MeshStandardMaterial({ color: dark, roughness: 0.6 });
-    const mats = [side, side, top, side, side, side];
-    g.add(new THREE.Mesh(boxGeo, mats));
-    const stud = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.26, 0.26, 0.16, 14), top);
-    stud.position.y = 0.38; g.add(stud);
+    const top = new THREE.MeshStandardMaterial({ color: col, roughness: .45 });
+    const side = new THREE.MeshStandardMaterial({ color: col.clone().multiplyScalar(.74), roughness: .55 });
+    g.add(new THREE.Mesh(new THREE.BoxGeometry(.92, .6, .92), [side, side, top, side, side, side]));
+    const stud = new THREE.Mesh(new THREE.CylinderGeometry(.26, .26, .16, 14), top);
+    stud.position.y = .38; g.add(stud);
     g.userData.mats = [top, side];
     return g;
   }
 
-  const word = "APPOLO";
-  const cells = [];
-  let cursor = 0;
-  for (const ch of word) {
-    const grid = FONT[ch];
-    for (let r = 0; r < 5; r++)
-      for (let c = 0; c < 5; c++)
-        if (grid[r][c] === '1') cells.push({ col: cursor + c, row: r, ch });
-    cursor += 6;
-  }
-  const totalCols = cursor - 1;
-
-  const plateW = totalCols + 8, plateD = 13;
+  /* ---- grass baseplate ---- */
+  const plateW = totalCols + 9, plateD = 14;
   const plate = new THREE.Mesh(
-    new THREE.BoxGeometry(plateW, 0.5, plateD),
-    new THREE.MeshStandardMaterial({ color: 0x1c1c1c, roughness: 0.9 }));
-  plate.position.y = -0.3; scene.add(plate);
+    new THREE.BoxGeometry(plateW, .5, plateD),
+    new THREE.MeshStandardMaterial({ color: 0x5E9B2E, roughness: .95 }));
+  plate.position.y = -.3; scene.add(plate);
 
   const studGrp = new THREE.Group();
-  const psGeo = new THREE.CylinderGeometry(0.16, 0.16, 0.1, 10);
-  const psMat = new THREE.MeshStandardMaterial({ color: 0x262626, roughness: 0.9 });
-  for (let x = -Math.floor(plateW/2)+1; x < plateW/2-1; x++)
-    for (let z = -Math.floor(plateD/2)+1; z < plateD/2-1; z++) {
+  const psGeo = new THREE.CylinderGeometry(.16, .16, .1, 10);
+  const psMat = new THREE.MeshStandardMaterial({ color: 0x6EAE38, roughness: .95 });
+  for (let x = -Math.floor(plateW / 2) + 1; x < plateW / 2 - 1; x++)
+    for (let z = -Math.floor(plateD / 2) + 1; z < plateD / 2 - 1; z++) {
       const s = new THREE.Mesh(psGeo, psMat); s.position.set(x, 0, z); studGrp.add(s);
     }
-  studGrp.scale.set(0.001, 0.001, 0.001); scene.add(studGrp);
+  studGrp.scale.setScalar(.001); scene.add(studGrp);
 
-  // ---- fit the (wide) word into the viewport ----
-  // The word is wide; on narrow / portrait screens the horizontal FOV shrinks,
-  // so push the camera back enough that APPOLO fits across the width.
-  function computeFit() {
-    const aspect = window.innerWidth / window.innerHeight;
-    const vHalf = THREE.MathUtils.degToRad(21);                 // half of the 42° vertical FOV
-    const hHalf = Math.atan(Math.tan(vHalf) * aspect);          // resulting half horizontal FOV
-    const needDist = (plateW * 0.62) / Math.tan(hHalf);         // distance to fit word + margin
-    const baseDist = Math.hypot(26, 28);                        // distance at the default framing
-    return Math.max(1, needDist / baseDist);
-  }
-  const fit = computeFit();
-  camera.position.set(0, 26 * fit, 28 * fit);
-  scene.fog = new THREE.Fog(0x000000, 50 * fit, 120 * fit);
-  camera.far = 240 * Math.max(1, fit);
+  /* ---- fit the word across the viewport ---- */
+  const aspect = innerWidth / innerHeight;
+  const vHalf = THREE.MathUtils.degToRad(21);
+  const hHalf = Math.atan(Math.tan(vHalf) * aspect);
+  const fit = Math.max(1, ((plateW * .62) / Math.tan(hHalf)) / Math.hypot(26, 28));
+  camera.far = 260 * fit;
+  scene.fog.near = 46 * fit; scene.fog.far = 132 * fit;
   camera.updateProjectionMatrix();
 
-  // ---- subtle landing dust (shared geometry, single neutral tint) ----
-  const ringGeo = new THREE.RingGeometry(0.25, 0.45, 18);
-  function spawnPuff(x, z) {
+  /* ---- dust puffs ---- */
+  const ringGeo = new THREE.RingGeometry(.25, .45, 18);
+  function puff(x, z) {
     const m = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({
-      color: 0xbfbfbf, transparent: true, opacity: 0.28, side: THREE.DoubleSide
-    }));
+      color: 0xE8F3D8, transparent: true, opacity: .32, side: THREE.DoubleSide }));
     m.rotation.x = -Math.PI / 2;
-    m.position.set(x, 0.05, z);
-    m.scale.setScalar(0.5);
+    m.position.set(x, .06, z);
+    m.scale.setScalar(.5);
     scene.add(m);
-    gsap.to(m.scale, { x: 1.5, y: 1.5, z: 1.5, duration: 0.4, ease: 'power2.out' });
-    gsap.to(m.material, {
-      opacity: 0, duration: 0.4, ease: 'power2.out',
-      onComplete: () => { scene.remove(m); m.material.dispose(); }
-    });
+    gsap.to(m.scale, { x: 1.6, y: 1.6, z: 1.6, duration: .4, ease: 'power2.out' });
+    gsap.to(m.material, { opacity: 0, duration: .4, ease: 'power2.out',
+      onComplete: () => { scene.remove(m); m.material.dispose(); } });
   }
 
+  /* ---- timeline ---- */
   const bricks = [];
   const tl = gsap.timeline();
 
-  // ---- clean plate entrance ----
-  plate.scale.set(0.001, 1, 0.001);
-  tl.to(plate.scale, { x: 1, z: 1, duration: 0.5, ease: 'back.out(1.5)' }, 0);
-  tl.to(studGrp.scale, { x: 1, y: 1, z: 1, duration: 0.4, ease: 'power2.out' }, 0.2);
+  plate.scale.set(.001, 1, .001);
+  tl.to(plate.scale, { x: 1, z: 1, duration: .5, ease: 'back.out(1.5)' }, 0);
+  tl.to(studGrp.scale, { x: 1, y: 1, z: 1, duration: .4, ease: 'power2.out' }, .2);
 
-  // ---- text bricks: tight even drop ----
-  const buildStart = 0.55;
-  const stagger = 1.7 / Math.max(1, cells.length);   // all letters land within ~1.7s
-  let lastEnd = buildStart;
+  const start = .5;
+  const step = 1.5 / Math.max(1, cells.length);
+  let lastEnd = start;
   cells.forEach((cell, i) => {
-    const b = makeBrick(COLORS[cell.ch]);
+    const b = makeBrick(cell.colour);
     const tx = cell.col - totalCols / 2;
     const tz = cell.row - 2;
     b.position.set(tx, 15 + Math.random() * 5, tz);
-    b.rotation.y = (Math.random() - 0.5) * 0.25;
+    b.rotation.y = (Math.random() - .5) * .25;
     scene.add(b); bricks.push(b);
 
-    const delay = buildStart + i * stagger;
-    tl.to(b.position, { y: 0.3, duration: 0.5, ease: 'bounce.out' }, delay);
-    tl.to(b.rotation, { y: 0, duration: 0.4, ease: 'power2.out' }, delay);
-    tl.to(b.scale, { y: 0.65, duration: 0.08, ease: 'power2.in' }, delay + 0.45);
-    tl.to(b.scale, { y: 1, duration: 0.24, ease: 'elastic.out(1.4,0.4)' }, delay + 0.53);
-    tl.add(() => spawnPuff(tx, tz), delay + 0.45);
-    lastEnd = delay + 0.55;
+    const at = start + i * step;
+    tl.to(b.position, { y: .3, duration: .5, ease: 'bounce.out' }, at);
+    tl.to(b.rotation, { y: 0, duration: .4, ease: 'power2.out' }, at);
+    tl.to(b.scale, { y: .65, duration: .08, ease: 'power2.in' }, at + .45);
+    tl.to(b.scale, { y: 1, duration: .24, ease: 'elastic.out(1.4,0.4)' }, at + .53);
+    tl.add(() => puff(tx, tz), at + .45);
+    lastEnd = at + .55;
   });
 
-  // ---- gentle camera move to a clean 3/4 view (loop reads these params) ----
-  const camTarget = new THREE.Vector3(0, 0.5, 0);
-  const camMove = { ang: 0, rad: 28 * fit, h: 26 * fit };   // scaled to fit the viewport
-  tl.to(camMove, {
-    ang: -0.5, rad: 31 * fit, h: 22 * fit,                  // ~29° arc + slight pull/lower
-    duration: 1.8, ease: 'power2.inOut'
-  }, lastEnd + 0.15);
+  const cam = { ang: 0, rad: 28 * fit, h: 26 * fit };
+  tl.to(cam, { ang: -.5, rad: 31 * fit, h: 21 * fit, duration: 1.7, ease: 'power2.inOut' }, lastEnd + .1);
 
-  // ---- hold, then clean shatter ----
   let exploding = false;
-  const center = new THREE.Vector3(0, 0.3, 0);
-  const shatterAt = lastEnd + 0.15 + 1.8 + 0.6;       // camera end + 0.6s hold
+  const centre = new THREE.Vector3(0, .3, 0);
+  const blowAt = lastEnd + .1 + 1.7 + .5;
   tl.add(() => {
     exploding = true;
     bricks.forEach(b => {
-      const dir = b.position.clone().sub(center).normalize();
-      b.userData.vel = dir.multiplyScalar(0.3 + Math.random() * 0.5);
-      b.userData.vel.y += 0.6 + Math.random() * 0.6;
+      const dir = b.position.clone().sub(centre).normalize();
+      b.userData.vel = dir.multiplyScalar(.3 + Math.random() * .5);
+      b.userData.vel.y += .6 + Math.random() * .6;
       b.userData.av = new THREE.Vector3(
-        (Math.random()-0.5)*0.4, (Math.random()-0.5)*0.4, (Math.random()-0.5)*0.4);
+        (Math.random() - .5) * .4, (Math.random() - .5) * .4, (Math.random() - .5) * .4);
       b.userData.mats.forEach(m => { m.transparent = true; });
     });
-  }, shatterAt);
+  }, blowAt);
+  tl.add(finish, blowAt + .85);
 
-  tl.add(() => { fadeToPortfolio(); }, shatterAt + 0.9);
-
-  let stopReq = false;
-  function loop() {
-    if (stopReq) return;
-    // drive camera from move params every frame (smooth + no jump)
-    camera.position.set(
-      Math.sin(camMove.ang) * camMove.rad,
-      camMove.h,
-      Math.cos(camMove.ang) * camMove.rad
-    );
+  const target = new THREE.Vector3(0, .5, 0);
+  let stop = false;
+  (function loop() {
+    if (stop) return;
+    camera.position.set(Math.sin(cam.ang) * cam.rad, cam.h, Math.cos(cam.ang) * cam.rad);
     if (exploding) {
       bricks.forEach(b => {
         const v = b.userData.vel;
-        v.y -= 0.045; b.position.add(v);
+        v.y -= .045; b.position.add(v);
         b.rotation.x += b.userData.av.x;
         b.rotation.y += b.userData.av.y;
         b.rotation.z += b.userData.av.z;
-        b.userData.mats.forEach(m => { m.opacity = Math.max(0, m.opacity - 0.013); });
+        b.userData.mats.forEach(m => { m.opacity = Math.max(0, m.opacity - .013); });
       });
     }
-    camera.lookAt(camTarget);
+    camera.lookAt(target);
     renderer.render(scene, camera);
     requestAnimationFrame(loop);
-  }
-  loop();
+  })();
 
-  function fadeToPortfolio() {
-    revealPortfolio();
-    gsap.to(host, {
-      opacity: 0, duration: 0.7, ease: 'power2.inOut',
-      onComplete: () => {
-        stopReq = true; host.style.display = 'none';
-        renderer.dispose(); host.innerHTML = '';
-      }
-    });
-  }
-
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
+  addEventListener('resize', () => {
+    if (stop) return;
+    camera.aspect = innerWidth / innerHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
-}
-
-/* ================================================================ *
- *  SECTION 3 — REVEAL + SCROLL
- * ================================================================ */
-let portfolioReady = false;
-function revealPortfolio() {
-  if (portfolioReady) return;
-  portfolioReady = true;
-
-  const portfolio = document.getElementById('portfolio');
-  const nav = document.getElementById('nav');
-  portfolio.style.display = 'block';
-  nav.style.display = 'flex';
-  document.body.classList.add('unlocked');
-  window.scrollTo(0, 0);
-
-  setupSkills();
-
-  gsap.fromTo(portfolio, { opacity: 0 }, { opacity: 1, duration: 0.9, ease: 'power2.out' });
-  gsap.fromTo(nav, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.8, delay: 0.3 });
-
-  // hero entrance
-  gsap.from('#hero .hi', { y: 20, opacity: 0, duration: 0.7, delay: 0.2, ease: 'power3.out' });
-  gsap.from('#hero .hero-h', { y: 40, opacity: 0, duration: 1.0, delay: 0.35, ease: 'power3.out' });
-  gsap.from('#hero .hero-sub', { y: 24, opacity: 0, duration: 0.9, delay: 0.6, ease: 'power3.out' });
-  gsap.from('#hero .hero-cta .btn', { y: 18, opacity: 0, duration: 0.6, delay: 0.8, stagger: 0.1, ease: 'power3.out' });
-  // draw the circle around "games"
-  const circle = document.querySelector('.circle-doodle path');
-  if (circle) {
-    const len = circle.getTotalLength();
-    circle.style.strokeDasharray = len; circle.style.strokeDashoffset = len;
-    gsap.to(circle, { strokeDashoffset: 0, duration: 1.1, delay: 1.0, ease: 'power2.inOut' });
-  }
-
-  setupScroll();
-  ScrollTrigger.refresh();
-}
-
-/* ================================================================ *
- *  SKILLS — draggable physics tags (Matter.js)
- * ================================================================ */
-function setupSkills() {
-  const SKILLS = [
-    "Lua","Roblox Studio","AI","Python","Procedural Animation","Physics",
-    "UI/UX","JavaScript","Pathfinding","State Machines","C++"
-  ];
-  const stage = document.getElementById('skills-stage');
-  const W = stage.clientWidth, H = stage.clientHeight;
-
-  if (!window.Matter) { fallbackSkills(stage, SKILLS); return; }
-
-  const { Engine, Runner, Bodies, Body, Composite, Mouse, MouseConstraint, Events } = Matter;
-
-  const engine = Engine.create();
-  engine.gravity.y = 0; engine.gravity.x = 0;   // float — they drift back, not drop
-  const world = engine.world;
-
-  const t = 60;
-  Composite.add(world, [
-    Bodies.rectangle(W/2, -t/2, W, t, { isStatic: true }),
-    Bodies.rectangle(W/2, H + t/2, W, t, { isStatic: true }),
-    Bodies.rectangle(-t/2, H/2, t, H, { isStatic: true }),
-    Bodies.rectangle(W + t/2, H/2, t, H, { isStatic: true })
-  ]);
-
-  const items = SKILLS.map((label, i) => {
-    const el = document.createElement('div');
-    el.className = 'skill-tag' + (i % 4 === 0 ? ' accent' : '');
-    el.textContent = label;
-    stage.appendChild(el);
-    const w = el.offsetWidth, h = el.offsetHeight;
-
-    const ang = (i / SKILLS.length) * Math.PI * 2;
-    const rad = Math.min(W, H) * 0.26;
-    const hx = W/2 + Math.cos(ang) * rad + (Math.random()-0.5)*40;
-    const hy = H/2 + Math.sin(ang) * rad * 0.8 + (Math.random()-0.5)*40;
-
-    const body = Bodies.rectangle(hx, hy, w, h, {
-      chamfer: { radius: h/2 }, restitution: 0.6,
-      frictionAir: 0.06, density: 0.002
-    });
-    Body.setAngle(body, (Math.random()-0.5)*0.4);
-    body.home = { x: hx, y: hy };
-    Composite.add(world, body);
-    return { el, body, w, h };
-  });
-
-  Events.on(engine, 'beforeUpdate', () => {
-    items.forEach(it => {
-      const b = it.body;
-      const dx = b.home.x - b.position.x;
-      const dy = b.home.y - b.position.y;
-      Body.applyForce(b, b.position, { x: dx * 0.000016 * b.mass, y: dy * 0.000016 * b.mass });
-    });
-  });
-
-  Events.on(engine, 'afterUpdate', () => {
-    items.forEach(it => {
-      const { x, y } = it.body.position;
-      it.el.style.transform =
-        `translate(${x - it.w/2}px, ${y - it.h/2}px) rotate(${it.body.angle}rad)`;
-    });
-  });
-
-  const mouse = Mouse.create(stage);
-  mouse.element.removeEventListener('wheel', mouse.mousewheel);   // keep page scroll over stage
-  const mc = MouseConstraint.create(engine, {
-    mouse, constraint: { stiffness: 0.2, render: { visible: false } }
-  });
-  Composite.add(world, mc);
-
-  Events.on(mc, 'startdrag', () => stage.classList.add('grabbing'));
-  Events.on(mc, 'enddrag', () => stage.classList.remove('grabbing'));
-  items.forEach(it => it.el.addEventListener('pointerdown', () => it.el.classList.add('grabbing')));
-  window.addEventListener('pointerup', () =>
-    items.forEach(it => it.el.classList.remove('grabbing')));
-
-  const runner = Runner.create();
-  Runner.run(runner, engine);
-
-  items.forEach(it => {
-    const { x, y } = it.body.position;
-    it.el.style.transform = `translate(${x - it.w/2}px, ${y - it.h/2}px)`;
-  });
-
-  window.addEventListener('resize', () => {
-    const nW = stage.clientWidth, nH = stage.clientHeight;
-    if (Math.abs(nW - W) < 2) return;
-    items.forEach(it => {
-      it.body.home.x = it.body.home.x / W * nW;
-      it.body.home.y = it.body.home.y / H * nH;
-    });
-  });
-}
-
-function fallbackSkills(stage, SKILLS) {
-  const W = stage.clientWidth, H = stage.clientHeight;
-  SKILLS.forEach((label, i) => {
-    const el = document.createElement('div');
-    el.className = 'skill-tag' + (i % 4 === 0 ? ' accent' : '');
-    el.textContent = label; el.style.cursor = 'default';
-    stage.appendChild(el);
-    const ang = (i / SKILLS.length) * Math.PI * 2;
-    const rad = Math.min(W, H) * 0.28;
-    const x = W/2 + Math.cos(ang) * rad - el.offsetWidth/2;
-    const y = H/2 + Math.sin(ang) * rad * 0.8 - el.offsetHeight/2;
-    el.style.transform = `translate(${x}px, ${y}px) rotate(${(Math.random()-0.5)*20}deg)`;
-  });
-}
-
-function setupScroll() {
-  // eyebrows + scribbles
-  gsap.utils.toArray('.eyebrow').forEach(el => {
-    gsap.from(el, {
-      x: -24, opacity: 0, duration: 0.7, ease: 'power2.out',
-      scrollTrigger: { trigger: el, start: 'top 90%' }
-    });
-  });
-  gsap.utils.toArray('.scribble path').forEach(path => {
-    const len = path.getTotalLength();
-    path.style.strokeDasharray = len; path.style.strokeDashoffset = len;
-    gsap.to(path, {
-      strokeDashoffset: 0, duration: 0.9, ease: 'power2.inOut',
-      scrollTrigger: { trigger: path, start: 'top 92%' }
-    });
-  });
-
-  // about
-  gsap.from('#about .about-copy p', {
-    y: 30, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out',
-    scrollTrigger: { trigger: '#about', start: 'top 72%' }
-  });
-  gsap.from('#about .stat', {
-    x: 24, opacity: 0, duration: 0.7, stagger: 0.12, ease: 'power3.out',
-    scrollTrigger: { trigger: '#about', start: 'top 72%' }
-  });
-
-  // projects
-  gsap.utils.toArray('.proj').forEach(p => {
-    gsap.from(p, {
-      y: 50, opacity: 0, duration: 0.8, ease: 'power3.out',
-      scrollTrigger: { trigger: p, start: 'top 86%' }
-    });
-  });
-
-  // contact
-  gsap.from('#contact .contact-h', {
-    y: 50, opacity: 0, duration: 0.9, ease: 'power3.out',
-    scrollTrigger: { trigger: '#contact', start: 'top 82%' }
-  });
-  gsap.from('#contact .contact-links a', {
-    x: -20, opacity: 0, duration: 0.6, stagger: 0.12, ease: 'power2.out',
-    scrollTrigger: { trigger: '#contact .contact-links', start: 'top 88%' }
-  });
-  gsap.from('#contact .note-reply', {
-    opacity: 0, scale: 0.7, rotation: '+=8', duration: 0.6, ease: 'back.out(2)',
-    scrollTrigger: { trigger: '#contact .contact-links', start: 'top 88%' }
+    renderer.setSize(innerWidth, innerHeight);
   });
 }
 </script>
