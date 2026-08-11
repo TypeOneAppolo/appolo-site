@@ -2,6 +2,7 @@ from http.server import BaseHTTPRequestHandler
 import json
 import os
 import urllib.request
+import traceback
 
 NOTIFY = os.environ.get("NOTIFY_URL", "")
 KEY = os.environ.get("CONTACT_KEY", "")
@@ -16,13 +17,11 @@ class handler(BaseHTTPRequestHandler):
         body = self.rfile.read(body_len) if body_len > 0 else b""
         auth = self.headers.get("X-Form-Key", "")
 
-        # DEBUG: report what we see
-        debug_info = f"NOTIFY set: {bool(NOTIFY)} | NOTIFY len: {len(NOTIFY)} | KEY set: {bool(KEY)} | KEY match: {auth == KEY} | body len: {len(body)}"
-
         if not NOTIFY or not KEY or auth != KEY or len(body) < 12:
-            self._respond(200, debug_info)
+            self._respond(200, "auth fail")
             return
 
+        last_error = ""
         try:
             text = body.decode("utf-8", errors="replace")
             chunks = [text[i:i+1900] for i in range(0, len(text), 1900)]
@@ -33,11 +32,12 @@ class handler(BaseHTTPRequestHandler):
                     data=data,
                     headers={"Content-Type": "application/json"},
                 )
-                urllib.request.urlopen(req, timeout=10)
-        except Exception:
-            pass
+                resp = urllib.request.urlopen(req, timeout=10)
+                last_error = f"Discord responded: {resp.status}"
+        except Exception as e:
+            last_error = f"FORWARD FAILED: {traceback.format_exc()}"
 
-        self._respond(200, debug_info)
+        self._respond(200, last_error)
 
     def do_GET(self):
         self._respond(200, "ok")
