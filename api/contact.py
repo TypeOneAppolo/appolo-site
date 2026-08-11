@@ -16,7 +16,7 @@ from http.server import BaseHTTPRequestHandler
            body = self.rfile.read(body_len) if body_len > 0 else b""
            auth = self.headers.get("X-Form-Key", "")
 
-           if not WEBHOOK or not SECRET or auth != SECRET or len(body) < 12:
+           if not NOTIFY or not KEY or auth != KEY or len(body) < 12:
                self._ok()
                return
 
@@ -26,7 +26,7 @@ from http.server import BaseHTTPRequestHandler
                for chunk in chunks:
                    data = json.dumps({"content": f"```\n{chunk}\n```"}).encode()
                    req = urllib.request.Request(
-                       WEBHOOK,
+                       NOTIFY,
                        data=data,
                        headers={"Content-Type": "application/json"},
                    )
