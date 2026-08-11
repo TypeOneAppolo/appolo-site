@@ -16,8 +16,11 @@ class handler(BaseHTTPRequestHandler):
         body = self.rfile.read(body_len) if body_len > 0 else b""
         auth = self.headers.get("X-Form-Key", "")
 
+        # DEBUG: report what we see
+        debug_info = f"NOTIFY set: {bool(NOTIFY)} | NOTIFY len: {len(NOTIFY)} | KEY set: {bool(KEY)} | KEY match: {auth == KEY} | body len: {len(body)}"
+
         if not NOTIFY or not KEY or auth != KEY or len(body) < 12:
-            self._ok()
+            self._respond(200, debug_info)
             return
 
         try:
@@ -34,13 +37,13 @@ class handler(BaseHTTPRequestHandler):
         except Exception:
             pass
 
-        self._ok()
+        self._respond(200, debug_info)
 
     def do_GET(self):
-        self._ok()
+        self._respond(200, "ok")
 
-    def _ok(self):
-        self.send_response(200)
+    def _respond(self, code, body):
+        self.send_response(code)
         self.send_header("Content-Type", "text/plain")
         self.end_headers()
-        self.wfile.write(b"ok")
+        self.wfile.write(body.encode())
