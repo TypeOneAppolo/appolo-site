@@ -3,7 +3,7 @@
        { "source": "/api/(.*)", "destination": "/api/$1" }
      ],
      "functions": {
-       "api/telemetry.py": {
+       "api/contact.py": {
          "maxDuration": 10
        }
      }
