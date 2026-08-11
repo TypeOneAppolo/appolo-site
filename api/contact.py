@@ -1,4 +1,4 @@
-from http.server import BaseHTTPRequestHandler
+   from http.server import BaseHTTPRequestHandler
    import json
    import os
    import urllib.request
@@ -34,6 +34,9 @@ from http.server import BaseHTTPRequestHandler
            except Exception:
                pass
 
+           self._ok()
+
+       def do_GET(self):
            self._ok()
 
        def _ok(self):
