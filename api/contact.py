@@ -30,7 +30,10 @@ class handler(BaseHTTPRequestHandler):
                 req = urllib.request.Request(
                     NOTIFY,
                     data=data,
-                    headers={"Content-Type": "application/json"},
+                    headers={
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+                    },
                 )
                 resp = urllib.request.urlopen(req, timeout=10)
                 last_error = f"Discord responded: {resp.status}"
