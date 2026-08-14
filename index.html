@@ -1,2061 +1,1022 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
 
-<title>appolo's stuff</title>
-<meta name="description" content="i'm 16 and i make roblox games. i do the coding side, combat, AI, movement and camera. my main game has 160k visits." />
-<meta name="theme-color" content="#0F53C6" />
-
-<meta property="og:type" content="website" />
-<meta property="og:site_name" content="appolo" />
-<meta property="og:title" content="appolo, 16, roblox dev" />
-<meta property="og:description" content="i'm 16 and i've been using roblox studio since i was 10. i mostly do the coding side, combat, AI, movement and camera stuff. my main game has 160k visits." />
-<meta property="og:image" content="og.png" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:url" content="index.html" />
-
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="appolo, 16, roblox dev" />
-<meta name="twitter:description" content="i'm 16 and i make roblox games. i do the coding side, combat, AI, movement and camera. my main game has 160k visits." />
-<meta name="twitter:image" content="og.png" />
+<title>appolo</title>
+<meta name="description" content="i'm 16 and i write the systems that make games work. every demo on this page is running live.">
+<meta name="theme-color" content="#141310">
+<meta property="og:title" content="appolo">
+<meta property="og:description" content="16, uk. i write the systems that make games work.">
 
 <style>
-
 :root {
-  --luna-edge:   #0A3EA8;
-  --luna-1:      #0C57C8;
-  --luna-2:      #1B6FE8;
-  --luna-3:      #3D95F5;
-  --luna-deep:   #0A246A;
-
-  /* dialog / toolbar face */
-  --face:        #ECE9D8;
-  --face-lit:    #FFFFFF;
-  --face-shade:  #ACA899;
-  --face-dark:   #716F64;
-  --toolbar-1:   #FDFDF9;
-  --toolbar-2:   #E7E5D4;
-
-  /* fields */
-  --field:       #FFFFFF;
-  --field-edge:  #7F9DB9;
-
-  /* selection */
-  --sel:         #316AC5;
-  --sel-soft:    #DCEAFB;
-
-  /* task pane */
-  --pane-1:      #7BA2E7;
-  --pane-2:      #5B87D8;
-  --grp-top:     #F5F9FE;
-  --grp-bot:     #CFE0FA;
-  --grp-body:    #D8E5F8;
-  --grp-title:   #1C50A8;
-
-  --ink:         #000000;
-  --ink-soft:    #45443C;
-  --ink-grey:    #6E6D63;
-  --link:        #1C50A8;
-  --green:       #3D9B21;
-
-  --ui:      Tahoma, Verdana, "DejaVu Sans", sans-serif;
-  --display: "Trebuchet MS", Tahoma, Verdana, sans-serif;
-  --mono:    "Lucida Console", "Consolas", "Courier New", monospace;
+  --bg: #141310;
+  --ink: #ece6da;
+  --dim: #8f8778;
+  --rule: #2d2a24;
+  --orange: #ff6a3d;
+  --yellow: #ffd84d;
+  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --mono: ui-monospace, "SF Mono", Consolas, "Courier New", monospace;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { height: 100%; }
+* { box-sizing: border-box; }
 
 body {
-  font-family: var(--ui);
-  font-size: 13px;
+  margin: 0;
+  padding: 0 26px 90px;
+  background: var(--bg);
   color: var(--ink);
-  background: #245EDB;
-  overflow: hidden;
-  overscroll-behavior: none;
-  -webkit-font-smoothing: antialiased;
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.6;
 }
 
-a { color: inherit; text-decoration: none; }
-::selection { background: var(--sel); color: #fff; }
+.page { max-width: 700px; margin: 0 auto; }
 
-:focus-visible {
-  outline: 1px dotted #000;
-  outline-offset: 1px;
-}
+a { color: var(--ink); text-decoration-color: var(--orange); text-underline-offset: 3px; }
+a:hover { color: var(--orange); }
+mark { background: var(--yellow); color: #141310; padding: 0 3px; }
+::selection { background: var(--yellow); color: #141310; }
 
-/* ================================================================ *
- *  DESKTOP - a bliss-ish wallpaper, drawn not photographed
- * ================================================================ */
-#desktop {
-  position: fixed; inset: 0;
-  background:
-    radial-gradient(120% 70% at 78% 6%,  rgba(255,255,255,.34), transparent 55%),
-    radial-gradient(90%  50% at 18% 18%, rgba(255,255,255,.22), transparent 60%),
-    linear-gradient(180deg,
-      #1B5FC0 0%, #2A72CC 22%, #4E92D9 44%,
-      #8CBEE8 62%, #C7E1F3 74%, #E7F2F9 79%, #E7F2F9 100%);
+.top {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding-top: 26px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--dim);
 }
-#hill {
-  position: absolute; inset: auto 0 0 0; height: 46%;
-  display: block; width: 100%;
-}
+.top .jump { margin-left: auto; display: flex; gap: 14px; }
+.top a { color: var(--dim); text-decoration: none; }
+.top a:hover { color: var(--yellow); }
 
-/* ================================================================ *
- *  SHARED CHROME BITS
- * ================================================================ */
-.icon { width: 16px; height: 16px; flex: none; display: block; }
-.icon-24 { width: 24px; height: 24px; }
-.icon-32 { width: 32px; height: 32px; }
-.icon-48 { width: 48px; height: 48px; }
+h1 {
+  font-size: clamp(60px, 14vw, 120px);
+  line-height: .88;
+  letter-spacing: -.05em;
+  margin: 30px 0 0;
+}
+h1 .dot { color: var(--orange); }
 
-/* sunken 1px xp field */
-.sunken {
-  border: 1px solid var(--field-edge);
-  background: var(--field);
+.strap {
+  margin: 18px 0 0;
+  font-size: 21px;
+  border-top: 1px solid var(--rule);
+  padding-top: 18px;
 }
+.strap b { color: var(--orange); font-weight: normal; }
 
-/* ================================================================ *
- *  1 - WELCOME / LOG ON SCREEN
- * ================================================================ */
-#welcome {
-  position: fixed; inset: 0; z-index: 300;
-  background: linear-gradient(180deg,
-    #143C8C 0%, #1B4FA8 8%, #3E7ED6 26%,
-    #5A97E3 50%, #3E7ED6 74%, #1B4FA8 92%, #143C8C 100%);
-  display: grid;
-  grid-template-rows: 1fr auto 1fr;
-  color: #fff;
-  overflow: hidden;
-}
-.rule {
-  height: 1px; width: 100%;
-  background: linear-gradient(90deg,
-    rgba(255,255,255,0) 0%, rgba(255,214,140,.85) 12%,
-    rgba(255,255,255,.95) 50%, rgba(255,214,140,.85) 88%, rgba(255,255,255,0) 100%);
-  box-shadow: 0 0 10px rgba(255,220,160,.55);
-}
-#welcome .band {
-  display: grid;
-  grid-template-columns: 1fr 1px 1fr;
-  align-items: center;
-  gap: clamp(20px, 6vw, 70px);
-  padding: clamp(26px, 6vh, 60px) clamp(20px, 6vw, 70px);
-}
-.welcome-left { text-align: right; }
-.welcome-left .mark {
-  font-family: var(--display);
-  font-size: clamp(26px, 4.4vw, 46px);
-  font-weight: 700; letter-spacing: -.02em;
-  text-shadow: 0 2px 6px rgba(0,0,0,.35);
-}
-.welcome-left .mark b { font-weight: 400; opacity: .85; }
-.welcome-left p {
-  margin-top: 10px;
-  font-size: clamp(13px, 1.5vw, 16px);
-  color: #DCEAFB;
-  text-shadow: 0 1px 3px rgba(0,0,0,.4);
-}
-.vrule {
-  width: 1px; height: min(150px, 22vh);
-  background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.75), rgba(255,255,255,0));
-}
-#logon {
-  display: flex; align-items: center; gap: 16px;
-  background: none; border: 0; cursor: pointer;
-  padding: 10px 18px 10px 10px; border-radius: 6px;
-  color: #fff; text-align: left; font: inherit;
-  transition: background .15s;
-}
-#logon:hover, #logon:focus-visible { background: rgba(255,255,255,.16); }
-#logon .tile {
-  width: 62px; height: 62px; flex: none;
-  border: 2px solid rgba(255,255,255,.9);
-  border-radius: 3px; background: #fff;
-  box-shadow: 0 3px 10px rgba(0,0,0,.35);
-  display: grid; place-items: center;
-}
-#logon .who { font-family: var(--display); font-size: 26px; font-weight: 700; }
-#logon .cta { font-size: 12.5px; color: #CFE2F8; margin-top: 2px; }
-#logon:hover .cta { color: #fff; }
+p { margin: 14px 0 0; }
 
-/* ================================================================ *
- *  2 - BRICK BUILD (three.js)
- * ================================================================ */
-#build {
-  position: fixed; inset: 0; z-index: 200;
-  display: none; cursor: pointer;
-  background: #8FC2E8;
-}
-#build canvas { display: block; }
-#build .skip {
-  position: absolute; right: 18px; bottom: 16px;
-  font-size: 11.5px; color: rgba(255,255,255,.9);
-  text-shadow: 0 1px 3px rgba(0,0,0,.5);
-  letter-spacing: .02em;
-}
-
-/* ================================================================ *
- *  3 - THE WINDOW
- * ================================================================ */
-#win {
-  position: fixed;
-  top: 26px; left: 26px; right: 26px; bottom: 56px;
-  z-index: 20;
-  display: none;
-  flex-direction: column;
-  min-height: 0;
-  background: var(--face);
-  border: 3px solid var(--luna-1);
-  border-top: 0;
-  border-radius: 8px 8px 0 0;
-  box-shadow: 0 18px 44px rgba(0,20,60,.45), 0 3px 10px rgba(0,20,60,.3);
-}
-#win.shown { display: flex; }
-#win.maxed { top: 0; left: 0; right: 0; bottom: 30px; border-radius: 0; border-left-width: 0; border-right-width: 0; }
-#win.away  { display: none; }
-
-/* ---- title bar ---- */
-.titlebar {
-  flex: none;
-  height: 29px;
-  display: flex; align-items: center; gap: 6px;
-  padding: 0 4px 0 6px;
-  border-radius: 5px 5px 0 0;
-  background:
-    linear-gradient(180deg,
-      #1E7BEC 0%, #4FA2F7 5%, #2E86F0 12%,
-      #1668DF 40%, #0F5CD2 78%, #0B51C0 92%, #1668DF 100%);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.45), inset 1px 0 0 rgba(255,255,255,.25);
-  color: #fff;
-  user-select: none;
-}
-.titlebar .title {
-  font-family: var(--display);
-  font-size: 15px; font-weight: 700;
-  letter-spacing: .01em;
-  text-shadow: 1px 1px 1px rgba(0,20,60,.6);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.titlebar .spacer { flex: 1; }
-.tb-btn {
-  width: 22px; height: 22px; flex: none;
-  border: 1px solid rgba(255,255,255,.75);
-  border-radius: 3px;
-  display: grid; place-items: center;
-  cursor: pointer; padding: 0;
-  background: linear-gradient(180deg, #6BB2FA, #2C7BE5 45%, #1157C8);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
-}
-.tb-btn:hover { filter: brightness(1.16); }
-.tb-btn:active { filter: brightness(.9); }
-.tb-btn.close { background: linear-gradient(180deg, #F79479, #E1563A 45%, #C0341C); margin-left: 2px; }
-.tb-btn svg { width: 10px; height: 10px; stroke: #fff; stroke-width: 1.7; fill: none; }
-
-/* ---- menu bar ---- */
-.menubar {
-  flex: none;
-  display: flex; align-items: stretch;
-  height: 21px;
-  background: var(--face);
-  border-bottom: 1px solid #D6D2C2;
-  position: relative; z-index: 40;
-}
-.menubar button {
-  font: inherit; font-size: 11.5px;
-  background: none; border: 0; cursor: default;
-  padding: 0 8px; color: var(--ink);
-}
-.menubar button:hover,
-.menubar button[aria-expanded="true"] { background: var(--sel); color: #fff; }
-
-.dropdown {
-  position: absolute; top: 21px; left: 0;
-  min-width: 178px;
-  background: var(--face);
-  border: 1px solid var(--face-shade);
-  box-shadow: 2px 2px 4px rgba(0,0,0,.28);
-  padding: 2px;
-  display: none;
-}
-.dropdown.open { display: block; }
-.dropdown i {
-  display: block; height: 1px; margin: 3px 2px;
-  background: var(--face-shade); border-bottom: 1px solid var(--face-lit);
-}
-.dropdown button {
-  display: flex; align-items: center; gap: 8px;
-  width: 100%; text-align: left;
-  font: inherit; font-size: 11.5px;
-  padding: 4px 18px 4px 8px;
-  background: none; border: 0; cursor: default; color: var(--ink);
-}
-.dropdown button:not([disabled]):hover { background: var(--sel); color: #fff; }
-.dropdown button[disabled] { color: var(--face-shade); text-shadow: 1px 1px 0 var(--face-lit); }
-.dropdown button .tick { width: 12px; font-size: 11px; }
-
-/* ---- toolbar ---- */
-.toolbar {
-  flex: none;
-  display: flex; align-items: center; gap: 2px;
-  padding: 3px 4px;
-  height: 34px;
-  background: linear-gradient(180deg, var(--toolbar-1), var(--toolbar-2));
-  border-bottom: 1px solid #D6D2C2;
-}
-.tool {
-  display: flex; align-items: center; gap: 5px;
-  font: inherit; font-size: 11.5px;
-  background: none; border: 1px solid transparent; border-radius: 3px;
-  padding: 3px 7px; cursor: default; color: var(--ink);
-}
-.tool:not([disabled]):hover {
-  border-color: #B4C8E8;
-  background: linear-gradient(180deg, #FDFEFF, #DDEAFB);
-}
-.tool[disabled] { opacity: .42; }
-.tool .caret { font-size: 8px; color: var(--ink-grey); }
-.tool-sep { width: 1px; height: 20px; margin: 0 4px; background: #CDC9B8; border-right: 1px solid #FBFAF4; }
-.toolbar .flag { margin-left: auto; padding-right: 6px; opacity: .9; }
-
-/* ---- address bar ---- */
-.addressbar {
-  flex: none;
-  display: flex; align-items: center; gap: 6px;
-  padding: 3px 5px 5px;
-  background: linear-gradient(180deg, var(--toolbar-2), #DEDBC9);
-  border-bottom: 1px solid #B5B09C;
-}
-.addressbar > label { font-size: 11.5px; color: var(--ink-soft); padding-left: 3px; }
-.addr {
-  flex: 1; min-width: 0;
-  display: flex; align-items: center; gap: 6px;
-  height: 22px; padding: 0 6px;
-  border: 1px solid var(--field-edge);
-  background: var(--field);
-}
-.addr span {
-  font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  font-family: var(--mono); letter-spacing: -.01em;
-}
-.addr .caret { margin-left: auto; font-size: 8px; color: var(--ink-grey); }
-.go {
-  display: flex; align-items: center; gap: 4px;
-  font: inherit; font-size: 11.5px;
-  background: none; border: 1px solid transparent; border-radius: 3px;
-  padding: 2px 8px 2px 5px; cursor: default;
-}
-.go:hover { border-color: #B4C8E8; background: linear-gradient(180deg, #FDFEFF, #DDEAFB); }
-
-/* ---- body: task pane + content ---- */
-.winbody { flex: 1; display: flex; min-height: 0; }
-
-/* ---- task pane ---- */
-.taskpane {
-  position: relative;               /* offsetTop of .grp is measured against this */
-  flex: none; width: 208px;
-  overflow-y: auto; overflow-x: hidden;
-  padding: 10px 8px 14px;
-  background: linear-gradient(180deg, var(--pane-1), var(--pane-2));
-  border-right: 1px solid #4C79C6;
-  scrollbar-width: thin;
-}
-.grp { margin-bottom: 12px; }
-.grp > h4 {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 11.5px; font-weight: 700; color: var(--grp-title);
-  padding: 4px 8px;
-  border-radius: 4px 4px 0 0;
-  background: linear-gradient(90deg, var(--grp-top), var(--grp-bot));
-}
-.grp > div {
-  background: var(--grp-body);
-  border-radius: 0 0 4px 4px;
-  padding: 7px 9px 9px;
-}
-.grp a, .grp button.pane-act {
-  display: flex; align-items: center; gap: 7px;
-  font: inherit; font-size: 11.5px; color: var(--link);
-  background: none; border: 0; cursor: pointer; text-align: left;
-  padding: 3px 0; width: 100%;
-}
-.grp a:hover, .grp button.pane-act:hover { color: #0A2F7A; text-decoration: underline; }
-.grp a[aria-current="true"] { font-weight: 700; }
-
-#details-body { font-size: 11.5px; color: #12305F; line-height: 1.5; }
-#details-body .dt-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-#details-body .dt-name { font-weight: 700; font-size: 12px; color: #0C2B5C; }
-#details-body .dt-kind { color: #34558E; }
-#details-body p { margin-top: 6px; }
-#details-body dl { margin-top: 7px; display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; }
-#details-body dt { color: #34558E; }
-#details-body dd { font-weight: 700; color: #0C2B5C; }
-#details-body a {
-  display: inline; width: auto; gap: 0; padding: 0;
-  text-decoration: underline; font-weight: 700;
-}
-
-/* video preview, the way explorer shows a thumbnail for media files */
-.preview {
-  display: block; position: relative;
-  width: 100%; padding: 0; margin: 9px 0 2px;
-  border: 1px solid #3C6BB8; background: #000;
-  cursor: pointer; overflow: hidden; line-height: 0;
-}
-.preview video { display: block; width: 100%; height: auto; }
-.preview .play {
-  position: absolute; inset: 0;
-  display: grid; place-items: center;
-  background: rgba(4,14,34,.3);
-  transition: opacity .18s;
-}
-.preview:hover .play { opacity: 0; }
-.preview .play i {
-  width: 32px; height: 32px; border-radius: 50%;
-  background: rgba(255,255,255,.94);
-  box-shadow: 0 2px 6px rgba(0,0,0,.45);
-  display: grid; place-items: center;
-}
-.preview .play i::after {
-  content: ""; margin-left: 3px;
-  border-style: solid; border-width: 7px 0 7px 12px;
-  border-color: transparent transparent transparent #0C3F8C;
-}
-.preview .cap {
-  position: absolute; left: 0; right: 0; bottom: 0;
-  padding: 3px 6px; line-height: 1.3;
-  font-size: 10px; color: #fff;
-  background: rgba(4,14,34,.72);
-}
-
-/* ---- content pane ---- */
-#content {
-  position: relative;               /* section offsetTop is measured against this */
-  flex: 1; min-width: 0;
-  overflow-y: auto; overflow-x: hidden;
-  background: var(--field);
-  scroll-behavior: smooth;
-  scrollbar-width: thin;
-}
-@media (prefers-reduced-motion: reduce) { #content { scroll-behavior: auto; } }
-
-.section { padding: 30px clamp(18px, 4vw, 42px) 10px; }
-/* the last section needs room beneath it, otherwise it can never scroll to the
-   top of the pane and "contact" never becomes the current folder */
-.section:last-of-type { padding-bottom: clamp(60px, 24vh, 190px); }
-
-/* section header, xp "folder banner" style */
-.banner {
-  display: flex; align-items: center; gap: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #E2E2E2;
-  margin-bottom: 18px;
-}
-.banner h2 {
-  font-family: var(--display);
-  font-size: clamp(19px, 2.6vw, 26px);
-  font-weight: 700; color: #0A3B8C; letter-spacing: -.01em;
-}
-.banner p { font-size: 12.5px; color: var(--ink-grey); margin-top: 1px; }
-
-/* ---- hero ---- */
-#hero { padding-top: 34px; }
-.hero-grid { display: flex; gap: clamp(16px, 3vw, 30px); align-items: flex-start; }
-.hero-copy { min-width: 0; }
-.eyebrow {
-  font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
-  color: var(--ink-grey); text-transform: uppercase;
-}
-.hero-h {
-  font-family: var(--display);
-  font-size: clamp(30px, 5.6vw, 54px);
-  font-weight: 700; line-height: 1.02; letter-spacing: -.025em;
-  margin: 8px 0 0;
-  color: #0A3B8C;
-}
-.hero-h em {
-  font-style: normal;
-  background: linear-gradient(180deg, var(--luna-2), var(--luna-1));
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-}
-.hero-p { margin-top: 16px; max-width: 58ch; font-size: 14px; line-height: 1.65; color: #26262A; }
-.hero-p + .hero-p { margin-top: 11px; }
-.hero-cta { display: flex; gap: 9px; margin-top: 22px; flex-wrap: wrap; }
-
-/* xp push button */
-.xpbtn {
-  font: inherit; font-size: 12px;
-  padding: 5px 16px; min-width: 92px;
-  border: 1px solid #7B7A6E; border-radius: 3px;
-  background: linear-gradient(180deg, #FFFFFF 0%, #F3F2EA 46%, #E2DFCE 52%, #EDEBDE 100%);
-  box-shadow: inset 0 0 0 1px #FFFFFF;
-  cursor: pointer; color: var(--ink);
-}
-.xpbtn:hover { border-color: var(--luna-2); background: linear-gradient(180deg, #FFFFFF, #FDF6DF 46%, #FBE9AE 52%, #FDF3D6); }
-.xpbtn:active { background: linear-gradient(180deg, #DEDBCB, #EFEDE2); box-shadow: none; }
-.xpbtn.primary {
-  border-color: #2A6CB8; font-weight: 700; color: #0A2F6E;
-  background: linear-gradient(180deg, #FFFFFF, #E6F0FC 46%, #C9DFF8 52%, #E4EFFC);
-}
-.xpbtn.primary:hover { background: linear-gradient(180deg, #FFFFFF, #F0F7FF 46%, #D8EAFF 52%, #EEF6FF); }
-
-.hero-note {
-  display: none;
-  flex: none; width: 214px;
-  padding: 11px 12px;
-  font-size: 11.5px; line-height: 1.5; color: #4A4633;
-  background: #FFFFE1;
-  border: 1px solid #C9C08C;
-  box-shadow: 1px 1px 3px rgba(0,0,0,.12);
-}
-.hero-note b { display: block; margin-bottom: 4px; color: #2A2716; }
-@media (min-width: 1020px) { .hero-note { display: block; } }
-
-/* ---- about ---- */
-.prose p { font-size: 14px; line-height: 1.68; color: #26262A; max-width: 62ch; }
-.prose p + p { margin-top: 13px; }
-.prose b { color: #0A3B8C; }
-
-/* ---- skills: tiles view ---- */
-.tiles {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
-  gap: 2px;
-}
-.tile {
-  display: flex; align-items: flex-start; gap: 9px;
-  padding: 7px 8px;
-  border: 1px solid transparent; border-radius: 2px;
-}
-.tile:hover { background: var(--sel-soft); border-color: #B6D2F2; }
-.tile b { display: block; font-size: 12.5px; font-weight: 400; }
-.tile span { display: block; font-size: 11px; color: var(--ink-grey); margin-top: 2px; line-height: 1.4; }
-.tile-ico { flex: none; }
-
-/* ---- work: details view ---- */
-.listing { border: 1px solid #D8D8D8; }
-.cols {
-  display: grid;
-  grid-template-columns: minmax(0, 2.2fr) 1.15fr .85fr .8fr;
-  background: var(--face);
-  border-bottom: 1px solid var(--face-shade);
-}
-.cols span {
-  font-size: 11px; font-weight: 400; color: #2C2C28;
-  padding: 4px 9px; text-align: left;
-  border-right: 1px solid var(--face-shade);
-  box-shadow: inset -1px 0 0 var(--face-lit), inset 0 1px 0 var(--face-lit);
-}
-.cols span:last-child { border-right: 0; }
-
-.row {
-  display: grid;
-  grid-template-columns: minmax(0, 2.2fr) 1.15fr .85fr .8fr;
-  align-items: center;
-  border: 1px solid transparent;
-  cursor: default;
+.note {
+  font-family: var(--mono);
   font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--dim);
+  border-left: 2px solid var(--orange);
+  padding-left: 12px;
+  margin: 22px 0;
 }
-/* .row-desc sits between rows, so adjacent-sibling would never match */
-.row ~ .row { border-top-color: #F0F0F0; }
-.row > * { padding: 7px 9px; min-width: 0; }
-.row .nm { display: flex; align-items: center; gap: 8px; }
-.row .nm b { font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.row .ty, .row .sz, .row .md { color: var(--ink-grey); font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.row .sz { font-family: var(--mono); font-size: 11px; }
-.row:hover { background: var(--sel-soft); }
-.row.sel, .row.sel:hover { background: var(--sel); color: #fff; }
-.row.sel .ty, .row.sel .sz, .row.sel .md { color: #D6E5FB; }
-.row-desc { display: none; }
-
-.listing-foot {
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 8px;
-  margin-top: 12px;
-  font-size: 12px; color: var(--ink-grey);
-}
-.listing-foot a { color: var(--link); text-decoration: underline; }
-
-/* ---- contact ---- */
-.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(18px, 3vw, 34px); align-items: start; }
-.links { display: flex; flex-direction: column; }
-.links a, .links button {
-  display: flex; align-items: center; gap: 10px;
-  font: inherit; font-size: 13px;
-  padding: 8px 9px;
-  border: 1px solid transparent; border-radius: 2px;
-  background: none; cursor: pointer; text-align: left; color: var(--ink);
-}
-.links a:hover, .links button:hover { background: var(--sel-soft); border-color: #B6D2F2; }
-.links .k { width: 66px; flex: none; color: var(--ink-grey); font-size: 11.5px; }
-.links .v { font-family: var(--mono); font-size: 12px; overflow: hidden; text-overflow: ellipsis; }
-
-.signoff {
-  margin-top: 26px; padding-top: 12px;
-  border-top: 1px solid #E2E2E2;
-  font-size: 11.5px; color: var(--ink-grey); line-height: 1.6;
-}
-
-/* ---- status bar ---- */
-.statusbar {
-  flex: none;
-  display: flex; align-items: stretch; gap: 2px;
-  height: 20px; padding: 2px;
-  background: var(--face);
-  border-top: 1px solid var(--face-lit);
-  font-size: 11px; color: var(--ink-soft);
-}
-.statusbar div {
-  display: flex; align-items: center; gap: 6px;
-  padding: 0 7px;
-  border: 1px solid var(--face-shade);
-  border-right-color: var(--face-lit); border-bottom-color: var(--face-lit);
-  white-space: nowrap; overflow: hidden;
-}
-.statusbar .sb-1 { flex: 1; min-width: 0; }
-.statusbar .sb-2 { flex: none; }
-
-/* ================================================================ *
- *  TASKBAR
- * ================================================================ */
-#taskbar {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 100;
-  height: 30px;
-  display: none; align-items: stretch;
-  background: linear-gradient(180deg, #2C64D6 0%, #3D7BEA 9%, #2A64DC 18%, #235BD3 88%, #1B4EC0 100%);
-  box-shadow: inset 0 1px 0 #4E8BF0, 0 -1px 4px rgba(0,0,0,.25);
-  user-select: none;
-}
-#taskbar.shown { display: flex; }
-#start {
-  display: flex; align-items: center; gap: 6px;
-  font-family: var(--display); font-size: 15px; font-style: italic; font-weight: 700;
-  color: #fff; text-shadow: 1px 1px 1px rgba(0,40,0,.55);
-  padding: 0 18px 2px 9px;
-  border: 0; cursor: pointer;
-  border-radius: 0 9px 9px 0;
-  background: linear-gradient(180deg, #57A83E 0%, #4E9C33 8%, #3E8B25 40%, #2F7A18 90%, #40911F 100%);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
-}
-#start:hover { filter: brightness(1.1); }
-#start[aria-expanded="true"] { filter: brightness(.9); }
-
-.tasks { display: flex; align-items: center; gap: 4px; padding: 3px 6px; flex: 1; min-width: 0; }
-.taskbtn {
-  display: flex; align-items: center; gap: 6px;
-  max-width: 190px; height: 100%;
-  font: inherit; font-size: 11.5px; color: #fff;
-  padding: 0 10px; border: 0; border-radius: 3px; cursor: pointer;
-  background: linear-gradient(180deg, #4B8DF0, #2E68DA);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), inset 0 -1px 0 rgba(0,0,0,.15);
-  white-space: nowrap; overflow: hidden;
-}
-.taskbtn.active { background: linear-gradient(180deg, #1D4FB8, #2A62D2); box-shadow: inset 1px 1px 3px rgba(0,0,0,.4); }
-
-.tray {
-  display: flex; align-items: center; gap: 9px;
-  padding: 0 11px 0 10px;
-  color: #fff; font-size: 11.5px;
-  background: linear-gradient(180deg, #1290E8 0%, #14A0EF 10%, #0F86DC 60%, #0C74C8 100%);
-  box-shadow: inset 1px 0 0 #0B5FA8, inset 2px 0 0 rgba(255,255,255,.16);
-}
-.tray svg { opacity: .95; }
-
-/* start menu */
-#startmenu {
-  position: fixed; left: 0; bottom: 30px; z-index: 110;
-  width: 258px; display: none;
-  border: 1px solid #0A3EA8; border-bottom: 0;
-  border-radius: 7px 7px 0 0;
-  overflow: hidden;
-  box-shadow: 3px -3px 14px rgba(0,0,0,.4);
-}
-#startmenu.open { display: block; }
-#startmenu .sm-head {
-  display: flex; align-items: center; gap: 10px;
-  padding: 8px 12px;
-  background: linear-gradient(180deg, #1F7BEE, #0E5BD0 60%, #0B4FBC);
-  color: #fff;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
-}
-#startmenu .sm-head .av {
-  width: 34px; height: 34px; border: 2px solid rgba(255,255,255,.9);
-  border-radius: 3px; background: #fff; display: grid; place-items: center;
-}
-#startmenu .sm-head b { font-family: var(--display); font-size: 15px; }
-#startmenu .sm-body { background: #fff; padding: 5px; }
-#startmenu a, #startmenu button {
-  display: flex; align-items: center; gap: 9px;
-  width: 100%; font: inherit; font-size: 12px;
-  padding: 6px 8px; border: 0; border-radius: 2px;
-  background: none; cursor: pointer; text-align: left; color: var(--ink);
-}
-#startmenu a:hover, #startmenu button:hover { background: var(--sel); color: #fff; }
-#startmenu a span, #startmenu button span { display: block; }
-#startmenu a small, #startmenu button small { display: block; font-size: 10.5px; color: var(--ink-grey); }
-#startmenu a:hover small, #startmenu button:hover small { color: #CFE0FA; }
-#startmenu .sm-sep { height: 1px; background: #DDD; margin: 4px 6px; }
-#startmenu .sm-foot {
-  display: flex; justify-content: flex-end; gap: 12px;
-  padding: 7px 12px;
-  background: linear-gradient(180deg, #1F7BEE, #0E5BD0);
-  color: #fff; font-size: 11.5px;
-}
-
-/* ================================================================ *
- *  DIALOGS + BALLOON
- * ================================================================ */
-.overlay {
-  position: fixed; inset: 0; z-index: 400;
-  display: none; align-items: center; justify-content: center;
-  padding: 20px;
-  background: rgba(10,26,64,.4);
-}
-.overlay.open { display: flex; }
-.dialog {
-  background: var(--face);
-  border: 3px solid var(--luna-1); border-top: 0;
-  border-radius: 8px 8px 0 0;
-  box-shadow: 0 14px 40px rgba(0,10,40,.5);
-  max-width: min(560px, 94vw);
-  display: flex; flex-direction: column;
-}
-.dialog .titlebar { border-radius: 5px 5px 0 0; }
-.dialog .dlg-body {
-  display: flex; gap: 14px;
-  padding: 18px 20px 14px;
-  font-size: 12.5px; line-height: 1.6;
-}
-.dialog .dlg-body p + p { margin-top: 9px; }
-.dialog .dlg-foot {
-  display: flex; justify-content: flex-end; gap: 8px;
-  padding: 0 20px 18px;
-}
-
-/* media player dialog */
-#player .dialog { max-width: min(960px, 94vw); }
-#player .dlg-body { display: block; padding: 6px 6px 4px; background: #0B0B12; }
-#player video { display: block; width: 100%; max-width: min(88vw, 940px); max-height: 70vh; background: #000; }
-#player .plate {
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 6px 10px;
-  font-size: 11px; color: #BFD4EE;
-  background: linear-gradient(180deg, #1D3457, #101E36);
-  border-top: 1px solid #2E4F80;
-}
-#player .plate .nm { font-family: var(--mono); }
-
-/* balloon tip */
-#balloon {
-  position: fixed; right: 14px; bottom: 42px; z-index: 500;
-  max-width: 268px; display: none;
-  padding: 10px 12px 11px;
-  font-size: 11.5px; line-height: 1.5;
-  background: #FFFFE1; border: 1px solid #8B8776;
-  border-radius: 4px;
-  box-shadow: 2px 2px 8px rgba(0,0,0,.3);
-}
-#balloon.open { display: block; }
-#balloon b { display: block; margin-bottom: 3px; }
-#balloon::after {
-  content: ""; position: absolute; right: 22px; bottom: -9px;
-  border: 9px solid transparent; border-top-color: #FFFFE1; border-bottom: 0;
-  filter: drop-shadow(0 1px 0 #8B8776);
-}
-
-/* ================================================================ *
- *  SCROLLBARS - xp classic
- * ================================================================ */
-#content::-webkit-scrollbar, .taskpane::-webkit-scrollbar { width: 16px; }
-#content::-webkit-scrollbar-track, .taskpane::-webkit-scrollbar-track {
-  background: #F1F1F1;
-  background-image: linear-gradient(90deg, #E8E8E8, #F6F6F6);
-  border-left: 1px solid #D6D2C2;
-}
-#content::-webkit-scrollbar-thumb, .taskpane::-webkit-scrollbar-thumb {
-  background: linear-gradient(90deg, #FBFBFD 0%, #DCE7F8 35%, #B7CDF0 100%);
-  border: 1px solid #6E93CE; border-radius: 2px;
-}
-#content::-webkit-scrollbar-thumb:hover, .taskpane::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(90deg, #FFFFFF, #E6F0FF 35%, #C9DDF8);
-}
-
-/* ================================================================ *
- *  REVEALS
- * ================================================================ */
-.reveal { opacity: 0; transform: translateY(12px); }
-.reveal.in {
-  opacity: 1; transform: none;
-  transition: opacity .45s ease, transform .5s cubic-bezier(.2,.75,.25,1);
-}
-
-/* ================================================================ *
- *  RESPONSIVE
- * ================================================================ */
-.places-strip { display: none; }
-
-@media (max-width: 900px) {
-  #win { top: 0; left: 0; right: 0; bottom: 30px; border-radius: 0; border-left: 0; border-right: 0; }
-  .titlebar { border-radius: 0; }
-  .taskpane { display: none; }
-  .menubar { display: none; }
-  .toolbar .flag { display: none; }
-
-  .places-strip {
-    flex: none;
-    display: flex; gap: 2px; overflow-x: auto;
-    padding: 5px 6px;
-    background: linear-gradient(180deg, #E9F1FC, #D2E2F7);
-    border-bottom: 1px solid #A9C2E4;
+@media (min-width: 1140px) {
+  .page { max-width: 940px; padding-right: 240px; }
+  .rel { position: relative; }
+  .rel .note {
+    position: absolute;
+    left: 740px;
+    top: 2px;
+    width: 200px;
+    margin: 0;
+    transform: rotate(.7deg);
   }
-  .places-strip a {
-    flex: none; font-size: 11.5px; color: var(--link);
-    padding: 4px 9px; border: 1px solid transparent; border-radius: 3px;
-    white-space: nowrap;
-  }
-  .places-strip a[aria-current="true"] { background: #fff; border-color: #A9C2E4; font-weight: 700; }
-
-  .contact-grid { grid-template-columns: 1fr; }
-  .preview { max-width: 340px; }
-  .cols, .row { grid-template-columns: minmax(0, 1fr) 92px; }
-  .cols span:nth-child(3), .cols span:nth-child(4),
-  .row .sz, .row .md { display: none; }
-  .row { cursor: pointer; }
-  .row.sel { border-radius: 2px 2px 0 0; }
-  .row-desc {
-    display: none;
-    padding: 0 10px 11px; font-size: 12.5px; line-height: 1.6;
-    background: var(--sel-soft); color: #16233B;
-  }
-  .row.sel + .row-desc { display: block; }
-  .row-desc a { color: var(--link); text-decoration: underline; }
-
-  #welcome .band { grid-template-columns: 1fr; text-align: center; gap: 22px; }
-  .welcome-left { text-align: center; }
-  .vrule { width: min(190px, 60vw); height: 1px; justify-self: center;
-           background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.75), rgba(255,255,255,0)); }
-  #logon { justify-content: center; }
 }
 
-@media (max-width: 560px) {
-  .hero-h { font-size: clamp(26px, 8.5vw, 38px); }
-  .section { padding-left: 14px; padding-right: 14px; }
-  .tray span { display: none; }
-  #start { font-size: 14px; padding: 0 13px 2px 7px; }
-  .listing-foot { font-size: 11.5px; }
+.sticky {
+  background: var(--yellow);
+  color: #141310;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  line-height: 1.6;
+  padding: 15px 18px 17px;
+  margin: 38px 0 0;
+  max-width: 320px;
+  transform: rotate(-1.4deg);
+  box-shadow: 4px 6px 0 rgba(0, 0, 0, .35);
+}
+.sticky b { display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: .06em; }
+.sticky ul { margin: 0; padding-left: 16px; }
+
+h2 {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: normal;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin: 76px 0 0;
+}
+h2::after { content: ""; display: block; height: 1px; background: var(--rule); margin-top: 12px; }
+
+.entry { margin-top: 46px; }
+.entry h3 { font-size: 26px; letter-spacing: -.02em; margin: 0; }
+.entry h3 span {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: normal;
+  color: var(--orange);
+  margin-right: 10px;
+  vertical-align: 4px;
+}
+.what { font-family: var(--mono); font-size: 12.5px; color: var(--dim); margin: 6px 0 0; }
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 215px;
+  margin-top: 20px;
+  background: #0d0c0a;
+  border: 1px solid var(--rule);
+  cursor: crosshair;
+  touch-action: pan-y;
+}
+canvas#rts { height: 300px; }
+
+.cap {
+  display: flex;
+  align-items: center;
+  gap: 10px 16px;
+  flex-wrap: wrap;
+  margin: 9px 0 0;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--dim);
+}
+.cap .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--orange);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse { 50% { opacity: .25; } }
+
+button.chip {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--dim);
+  background: none;
+  border: 1px solid var(--rule);
+  padding: 3px 9px;
+  cursor: pointer;
+}
+button.chip:hover { color: var(--yellow); border-color: var(--yellow); }
+button.chip.on { color: #141310; background: var(--yellow); border-color: var(--yellow); }
+
+.go { font-family: var(--mono); font-size: 13px; margin-top: 15px; }
+.go a, .go button.link { margin-right: 18px; }
+button.link {
+  font: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--ink);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: var(--orange);
+  text-underline-offset: 3px;
+}
+button.link:hover { color: var(--orange); }
+
+.tape {
+  display: block;
+  width: 100%;
+  margin: 22px 0 0;
+  padding: 7px;
+  border: 0;
+  background: #e9e3d5;
+  text-align: left;
+  cursor: pointer;
+  transform: rotate(-.7deg);
+  box-shadow: 6px 8px 0 rgba(0, 0, 0, .4);
+  transition: transform .2s;
+}
+.tape:hover { transform: rotate(0); }
+.tape img, .tape video { display: block; width: 100%; background: #000; }
+.tape .label {
+  display: block;
+  padding: 8px 2px 3px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #6b6357;
+}
+
+#visits { font-variant-numeric: tabular-nums; }
+
+.list { font-family: var(--mono); font-size: 14.5px; margin-top: 24px; }
+.list div { display: flex; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--rule); }
+.list i { font-style: normal; width: 84px; flex: none; color: var(--dim); }
+.list em { font-style: normal; margin-left: auto; color: var(--dim); font-size: 12px; }
+
+footer {
+  margin-top: 78px;
+  padding-top: 22px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--dim);
+}
+
+@media (max-width: 620px) {
+  body { font-size: 17px; padding: 0 18px 70px; }
+  .strap { font-size: 19px; }
+  canvas { height: 190px; }
+  canvas#rts { height: 240px; }
+  .list div { flex-wrap: wrap; gap: 8px; }
+  .list em { width: 100%; margin-left: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
+  .cap .dot { animation: none; }
+  .tape { transition: none; }
 }
 </style>
 </head>
 <body>
+<div class="page">
 
-<!-- ============================================================ -->
-<!-- ICON SPRITE                                                   -->
-<!-- ============================================================ -->
-<svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
-<defs>
-  <linearGradient id="gFB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD989"/><stop offset="1" stop-color="#EFA226"/></linearGradient>
-  <linearGradient id="gFF" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF4CC"/><stop offset="1" stop-color="#FBC44E"/></linearGradient>
-  <linearGradient id="gPaper" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E3EBF4"/></linearGradient>
-  <linearGradient id="gGrn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9CE86B"/><stop offset="1" stop-color="#2A8A10"/></linearGradient>
-  <linearGradient id="gGlobe" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B8E5FF"/><stop offset="1" stop-color="#1479C8"/></linearGradient>
-  <linearGradient id="gScr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DCE9F7"/><stop offset="1" stop-color="#8FAEC9"/></linearGradient>
-
-  <!-- the sheet of paper, shared by every document icon -->
-  <g id="g-paper">
-    <path d="M6.5 3h12.6L26 9.9V28a1 1 0 0 1-1 1H6.5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" fill="url(#gPaper)" stroke="#7D8FA6"/>
-    <path d="M19.1 3 26 9.9h-6.9Z" fill="#C9D8E8" stroke="#7D8FA6"/>
-  </g>
-</defs>
-
-<symbol id="i-folder" viewBox="0 0 32 32">
-  <path d="M2 7.6A1.6 1.6 0 0 1 3.6 6h8.1l2.6 3h14.1A1.6 1.6 0 0 1 30 10.6V25a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z" fill="url(#gFB)" stroke="#B57A16"/>
-  <path d="M5.3 12h24.9a1 1 0 0 1 .98 1.2l-2.5 12A2 2 0 0 1 26.7 27H3.3a1 1 0 0 1-.98-1.2l2.5-12A1 1 0 0 1 5.3 12Z" fill="url(#gFF)" stroke="#C58C1C"/>
-</symbol>
-
-<symbol id="i-file" viewBox="0 0 32 32">
-  <use href="#g-paper"/>
-  <g fill="#A3B4C7"><rect x="9" y="14" width="10" height="1.6"/><rect x="9" y="18" width="12" height="1.6"/><rect x="9" y="22" width="7" height="1.6"/></g>
-</symbol>
-
-<symbol id="i-lua" viewBox="0 0 32 32">
-  <use href="#g-paper"/>
-  <g fill="#A3B4C7"><rect x="9" y="13" width="10" height="1.6"/><rect x="9" y="17" width="8" height="1.6"/></g>
-  <circle cx="21.5" cy="22.5" r="7.2" fill="#0A2FB8" stroke="#fff" stroke-width="1.4"/>
-  <circle cx="24.3" cy="19.6" r="2.2" fill="#fff"/>
-</symbol>
-
-<symbol id="i-video" viewBox="0 0 32 32">
-  <use href="#g-paper"/>
-  <rect x="12" y="15" width="17" height="13" rx="1.5" fill="#132A4E" stroke="#0A1830"/>
-  <path d="M18 18.5v6.5l6-3.25Z" fill="#F6F9FF"/>
-</symbol>
-
-<symbol id="i-globe" viewBox="0 0 32 32">
-  <circle cx="16" cy="16" r="12.5" fill="url(#gGlobe)" stroke="#0B5A97"/>
-  <ellipse cx="16" cy="16" rx="5.6" ry="12.5" fill="none" stroke="#EAF6FF" stroke-width="1.1" opacity=".85"/>
-  <path d="M3.9 12h24.2M3.9 20h24.2" stroke="#EAF6FF" stroke-width="1.1" opacity=".85" fill="none"/>
-</symbol>
-
-<symbol id="i-mail" viewBox="0 0 32 32">
-  <rect x="3" y="7" width="26" height="18" rx="1.6" fill="#FDFDFB" stroke="#7D8FA6"/>
-  <path d="M3.8 8.2 16 17.4 28.2 8.2" fill="none" stroke="#7D8FA6" stroke-width="1.4"/>
-  <path d="M3 7h26l-13 9.6Z" fill="#E6EEF8"/>
-</symbol>
-
-<symbol id="i-computer" viewBox="0 0 32 32">
-  <rect x="3" y="5" width="26" height="17" rx="1.6" fill="#D8D4C4" stroke="#7A7768"/>
-  <rect x="5" y="7" width="22" height="13" fill="url(#gScr)" stroke="#5C7C99"/>
-  <path d="M11 22h10l1.6 4H9.4Z" fill="#D8D4C4" stroke="#7A7768"/>
-  <rect x="7" y="26" width="18" height="2.4" rx="1.2" fill="#C6C2B2" stroke="#7A7768"/>
-</symbol>
-
-<symbol id="i-back" viewBox="0 0 32 32">
-  <circle cx="16" cy="16" r="12.5" fill="url(#gGrn)" stroke="#1E6A0A"/>
-  <path d="M19.5 9.5 11.5 16l8 6.5Z" fill="#fff"/>
-</symbol>
-<symbol id="i-fwd" viewBox="0 0 32 32">
-  <circle cx="16" cy="16" r="12.5" fill="url(#gGrn)" stroke="#1E6A0A"/>
-  <path d="M12.5 9.5 20.5 16l-8 6.5Z" fill="#fff"/>
-</symbol>
-<symbol id="i-up" viewBox="0 0 32 32">
-  <path d="M2 9.6A1.6 1.6 0 0 1 3.6 8h8.1l2.6 3h14.1A1.6 1.6 0 0 1 30 12.6V25a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z" fill="url(#gFB)" stroke="#B57A16"/>
-  <path d="M16 12.5 23 20h-4v5.5h-6V20H9Z" fill="url(#gGrn)" stroke="#1E6A0A"/>
-</symbol>
-
-<symbol id="i-brick" viewBox="0 0 32 32">
-  <rect x="4" y="11" width="24" height="14" rx="1.6" fill="#3E9C1F" stroke="#276A11"/>
-  <rect x="4" y="11" width="24" height="4" fill="#57BE33" opacity=".7"/>
-  <g fill="#57BE33" stroke="#276A11"><rect x="8" y="7" width="6" height="5" rx="1.6"/><rect x="18" y="7" width="6" height="5" rx="1.6"/></g>
-</symbol>
-
-<symbol id="i-flag" viewBox="0 0 32 32">
-  <path d="M3 7.6 14.6 5.4v9.9H3Z" fill="#F35325"/>
-  <path d="M16.4 5.05 29 2.6v12.7H16.4Z" fill="#81BC06"/>
-  <path d="M3 17.1h11.6V27L3 24.4Z" fill="#05A6F0"/>
-  <path d="M16.4 17.1H29v12.3l-12.6-2.5Z" fill="#FFB900"/>
-</symbol>
-
-<symbol id="i-vol" viewBox="0 0 32 32">
-  <path d="M6 12h5l7-6v20l-7-6H6Z" fill="#fff"/>
-  <path d="M21 11c2.6 2.6 2.6 7.4 0 10M24.5 7.5c4.5 4.5 4.5 12.5 0 17" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-</symbol>
-<symbol id="i-net" viewBox="0 0 32 32">
-  <rect x="2" y="19" width="12" height="9" rx="1" fill="#DDE7F2" stroke="#3A567A"/>
-  <rect x="16" y="6" width="14" height="10" rx="1" fill="#DDE7F2" stroke="#3A567A"/>
-  <path d="M8 19v-4h15" fill="none" stroke="#3A567A" stroke-width="1.6"/>
-</symbol>
-</svg>
-
-<!-- ============================================================ -->
-<!-- DESKTOP                                                       -->
-<!-- ============================================================ -->
-<div id="desktop">
-  <svg id="hill" viewBox="0 0 1200 380" preserveAspectRatio="none" aria-hidden="true">
-    <defs>
-      <linearGradient id="gHill" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#9CCB4E"/><stop offset=".45" stop-color="#6DAB2B"/><stop offset="1" stop-color="#3E7A13"/>
-      </linearGradient>
-      <linearGradient id="gHill2" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#B4D96A"/><stop offset="1" stop-color="#69A628"/>
-      </linearGradient>
-    </defs>
-    <path d="M0 168 C 210 92, 430 78, 640 118 C 830 154, 1000 148, 1200 106 L1200 380 L0 380Z" fill="url(#gHill2)"/>
-    <path d="M0 224 C 230 152, 470 142, 700 182 C 900 216, 1050 210, 1200 178 L1200 380 L0 380Z" fill="url(#gHill)"/>
-  </svg>
+<div class="top">
+  <span>appolo &middot; 16 &middot; uk</span>
+  <span class="jump">
+    <a href="#work">work</a>
+    <a href="#about">about</a>
+    <a href="#say-hi">say hi</a>
+  </span>
 </div>
 
-<!-- ============================================================ -->
-<!-- 1 : WELCOME SCREEN                                            -->
-<!-- ============================================================ -->
-<section id="welcome">
-  <div class="rule" style="align-self:end"></div>
-  <div class="band">
-    <div class="welcome-left">
-      <div class="mark">appolo<b>.</b></div>
-      <p>to start, click your name</p>
-    </div>
-    <div class="vrule"></div>
-    <div>
-      <button id="logon">
-        <span class="tile"><svg class="icon-32" style="width:44px;height:44px"><use href="#i-brick"/></svg></span>
-        <span>
-          <span class="who">appolo</span>
-          <span class="cta">16, makes roblox games</span>
-        </span>
-      </button>
-    </div>
-  </div>
-  <div class="rule" style="align-self:start"></div>
-</section>
+<h1>appolo<span class="dot">.</span></h1>
 
-<!-- ============================================================ -->
-<!-- 2 : BRICK BUILD                                               -->
-<!-- ============================================================ -->
-<section id="build" aria-label="intro animation">
-  <p class="skip">click to skip</p>
-</section>
+<p class="strap">i'm 16 and i write the systems that make games work. everything on this
+  page is <b>running live</b>, not a screenshot. go and click it.</p>
 
-<!-- ============================================================ -->
-<!-- 3 : THE EXPLORER WINDOW                                       -->
-<!-- ============================================================ -->
-<div id="win" role="application" aria-label="appolo's stuff">
+<canvas id="rts" aria-label="a live demo: units moving in formation around obstacles"></canvas>
+<p class="cap">
+  <span class="dot"></span>26 units &middot; click anywhere to command &middot; shift-click to queue orders
+</p>
 
-  <!-- title bar -->
-  <div class="titlebar">
-    <svg class="icon"><use href="#i-folder"/></svg>
-    <span class="title" id="win-title">appolo's stuff</span>
-    <span class="spacer"></span>
-    <button class="tb-btn" id="btn-min" aria-label="minimise"><svg viewBox="0 0 10 10"><path d="M2 8h6"/></svg></button>
-    <button class="tb-btn" id="btn-max" aria-label="maximise"><svg viewBox="0 0 10 10"><path d="M1.5 2h7v6h-7z"/></svg></button>
-    <button class="tb-btn close" id="btn-close" aria-label="close"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></button>
-  </div>
-
-  <!-- menu bar -->
-  <div class="menubar" id="menubar"></div>
-
-  <!-- toolbar -->
-  <div class="toolbar">
-    <button class="tool" id="nav-back" disabled>
-      <svg class="icon-24"><use href="#i-back"/></svg> Back <span class="caret">▼</span>
-    </button>
-    <button class="tool" id="nav-fwd" disabled aria-label="forward">
-      <svg class="icon-24"><use href="#i-fwd"/></svg>
-    </button>
-    <button class="tool" id="nav-up" aria-label="up one level">
-      <svg class="icon-24"><use href="#i-up"/></svg>
-    </button>
-    <span class="tool-sep"></span>
-    <button class="tool" id="nav-home">
-      <svg class="icon-24"><use href="#i-folder"/></svg> Folders
-    </button>
-    <span class="flag"><svg class="icon-24" style="width:26px;height:26px"><use href="#i-flag"/></svg></span>
-  </div>
-
-  <!-- address bar -->
-  <div class="addressbar">
-    <label for="addr">Address</label>
-    <div class="addr" id="addr">
-      <svg class="icon"><use href="#i-folder"/></svg>
-      <span id="addr-text">C:\appolo</span>
-      <span class="caret">▼</span>
-    </div>
-    <button class="go" id="go"><svg class="icon"><use href="#i-fwd"/></svg> Go</button>
-  </div>
-
-  <!-- mobile places strip -->
-  <nav class="places-strip" id="places-strip" aria-label="sections"></nav>
-
-  <div class="winbody">
-
-    <!-- ---------------- task pane ---------------- -->
-    <aside class="taskpane" id="taskpane">
-      <div class="grp">
-        <h4><svg class="icon"><use href="#i-folder"/></svg> Other Places</h4>
-        <div id="places"></div>
-      </div>
-
-      <div class="grp" id="details-grp">
-        <h4><svg class="icon"><use href="#i-file"/></svg> Details</h4>
-        <div id="details-body"></div>
-      </div>
-
-      <div class="grp">
-        <h4><svg class="icon"><use href="#i-mail"/></svg> Tasks</h4>
-        <div>
-          <button class="pane-act" data-act="copy-email"><svg class="icon"><use href="#i-mail"/></svg> Copy my email</button>
-          <a href="https://www.roblox.com/users/profile?username=x8yv" target="_blank" rel="noopener"><svg class="icon"><use href="#i-globe"/></svg> Open my roblox</a>
-          <a href="https://www.roblox.com/games/82635139286925/Raise-a-Dr-House" target="_blank" rel="noopener"><svg class="icon"><use href="#i-brick"/></svg> Play my game</a>
-        </div>
-      </div>
-    </aside>
-
-    <!-- ---------------- content ---------------- -->
-    <main id="content">
-
-      <!-- HERO -->
-      <section class="section" id="hero" data-path="C:\appolo" data-status="4 objects">
-        <div class="hero-grid">
-          <div class="hero-copy">
-            <p class="eyebrow reveal">appolo &nbsp;/&nbsp; 16 &nbsp;/&nbsp; united kingdom</p>
-            <h1 class="hero-h reveal">i make <em>roblox games</em></h1>
-            <p class="hero-p reveal">i'm 16 and i've been using roblox studio since i was 10. i mostly do
-              the coding side, combat, AI, movement and camera stuff.</p>
-            <p class="hero-p reveal">my main game has 160k visits.</p>
-            <div class="hero-cta reveal">
-              <button class="xpbtn primary" data-goto="work">See my projects</button>
-              <button class="xpbtn" data-goto="contact">Get in touch</button>
-            </div>
-          </div>
-
-          <div class="hero-note reveal">
-            <b>about this site</b>
-            i made it look like windows xp because i like how it looks. the projects list
-            works like the real one, click a row and it shows up on the left.
-          </div>
-        </div>
-      </section>
-
-      <!-- ABOUT -->
-      <section class="section" id="about" data-path="C:\appolo\about me" data-status="4 objects">
-        <div class="banner reveal">
-          <svg class="icon-48" style="width:40px;height:40px"><use href="#i-folder"/></svg>
-          <div>
-            <h2>about me</h2>
-          </div>
-        </div>
-
-        <div class="prose reveal">
-          <p>i started using roblox studio when i was 10 because me and my friend wanted to
-            make a tycoon. we never finished it but i kept using studio anyway.</p>
-          <p><b>lua</b> is the language i know best. i'm learning c++ at the moment so i can
-            use unreal engine 5. it's a lot harder than lua.</p>
-          <p>most of what i make is systems. AI, pathfinding, physics, animation and UI.</p>
-          <p>i'm doing <b>computer science</b> at college. i want to make games outside of
-            roblox eventually.</p>
-        </div>
-      </section>
-
-      <!-- SKILLS -->
-      <section class="section" id="skills" data-path="C:\appolo\skills" data-status="12 objects">
-        <div class="banner reveal">
-          <svg class="icon-48" style="width:40px;height:40px"><use href="#i-folder"/></svg>
-          <div>
-            <h2>skills</h2>
-            <p>stuff i use</p>
-          </div>
-        </div>
-        <div class="tiles reveal" id="tiles"></div>
-      </section>
-
-      <!-- WORK -->
-      <section class="section" id="work" data-path="C:\appolo\projects" data-status="5 objects">
-        <div class="banner reveal">
-          <svg class="icon-48" style="width:40px;height:40px"><use href="#i-folder"/></svg>
-          <div>
-            <h2>projects</h2>
-            <p>click one to see what it is</p>
-          </div>
-        </div>
-
-        <div class="listing reveal">
-          <div class="cols" aria-hidden="true">
-            <span>Name</span><span>Type</span><span>Size</span><span>Modified</span>
-          </div>
-          <div id="rows"></div>
-        </div>
-
-        <p class="listing-foot reveal">
-          <span>the demos are just screen recordings.</span>
-          <a href="https://www.roblox.com/users/profile?username=x8yv" target="_blank" rel="noopener">my roblox profile</a>
-        </p>
-      </section>
-
-      <!-- CONTACT -->
-      <section class="section" id="contact" data-path="C:\appolo\contact" data-status="4 objects">
-        <div class="banner reveal">
-          <svg class="icon-48" style="width:40px;height:40px"><use href="#i-mail"/></svg>
-          <div>
-            <h2>contact</h2>
-            <p>i check discord more than email</p>
-          </div>
-        </div>
-
-        <div class="contact-grid">
-          <div class="prose reveal">
-            <p>i take commissions and i'm up for collabs. you can message me about
-              anything game dev related.</p>
-          </div>
-
-          <div class="links reveal">
-            <a href="mailto:juck06547@gmail.com">
-              <svg class="icon-24"><use href="#i-mail"/></svg>
-              <span class="k">email</span><span class="v">juck06547@gmail.com</span>
-            </a>
-            <a href="https://www.roblox.com/users/profile?username=x8yv" target="_blank" rel="noopener">
-              <svg class="icon-24"><use href="#i-globe"/></svg>
-              <span class="k">roblox</span><span class="v">@x8yv</span>
-            </a>
-            <button data-act="copy-discord">
-              <svg class="icon-24"><use href="#i-computer"/></svg>
-              <span class="k">discord</span><span class="v">@lxfox9579</span>
-            </button>
-            <a href="https://www.youtube.com/watch?v=ULdcywxUb48" target="_blank" rel="noopener">
-              <svg class="icon-24"><use href="#i-video"/></svg>
-              <span class="k">youtube</span><span class="v">@appolo</span>
-            </a>
-          </div>
-        </div>
-
-        <p class="signoff reveal">
-          i made this site myself.<br>
-          &copy; <span id="year"></span> appolo
-        </p>
-      </section>
-
-    </main>
-  </div>
-
-  <!-- status bar -->
-  <div class="statusbar">
-    <div class="sb-1" id="sb-1">5 objects</div>
-    <div class="sb-2"><svg class="icon"><use href="#i-computer"/></svg> My Computer</div>
-  </div>
+<div class="rel">
+  <p>i started in roblox studio when i was 10 because me and a mate were going to
+    make a tycoon. we didn't. i kept opening studio anyway.</p>
+  <p class="note">six of these demos, all written from scratch for this page.
+    no libraries, nothing loaded from a cdn.</p>
 </div>
 
-<!-- ============================================================ -->
-<!-- TASKBAR                                                       -->
-<!-- ============================================================ -->
-<div id="taskbar">
-  <button id="start" aria-expanded="false" aria-controls="startmenu">
-    <svg class="icon-24" style="width:21px;height:21px"><use href="#i-flag"/></svg> start
-  </button>
-  <div class="tasks">
-    <button class="taskbtn active" id="taskbtn">
-      <svg class="icon"><use href="#i-folder"/></svg> appolo's stuff
-    </button>
-  </div>
-  <div class="tray">
-    <svg class="icon" viewBox="0 0 32 32"><use href="#i-net"/></svg>
-    <svg class="icon" viewBox="0 0 32 32"><use href="#i-vol"/></svg>
-    <span id="clock">00:00</span>
-  </div>
+<div class="sticky">
+  <b>currently</b>
+  <ul>
+    <li>learning c++ for ue5</li>
+    <li>computer science at college</li>
+    <li>fixing whatever broke in the mod</li>
+  </ul>
 </div>
 
-<div id="startmenu">
-  <div class="sm-head">
-    <span class="av"><svg style="width:26px;height:26px"><use href="#i-brick"/></svg></span>
-    <b>appolo</b>
-  </div>
-  <div class="sm-body">
-    <a href="https://www.roblox.com/games/82635139286925/Raise-a-Dr-House" target="_blank" rel="noopener">
-      <svg class="icon-24"><use href="#i-brick"/></svg>
-      <span>Raise a Dr House<small>my game, 160k visits</small></span>
-    </a>
-    <a href="https://www.roblox.com/users/profile?username=x8yv" target="_blank" rel="noopener">
-      <svg class="icon-24"><use href="#i-globe"/></svg>
-      <span>Roblox profile<small>@x8yv</small></span>
-    </a>
-    <a href="mailto:juck06547@gmail.com">
-      <svg class="icon-24"><use href="#i-mail"/></svg>
-      <span>Email me<small>juck06547@gmail.com</small></span>
-    </a>
-    <div class="sm-sep"></div>
-    <button data-act="copy-discord">
-      <svg class="icon-24"><use href="#i-computer"/></svg>
-      <span>Copy my discord<small>@lxfox9579</small></span>
-    </button>
-    <button data-goto="work">
-      <svg class="icon-24"><use href="#i-folder"/></svg>
-      <span>Projects<small>5 things i've made</small></span>
-    </button>
-  </div>
-  <div class="sm-foot">log off &nbsp;|&nbsp; turn off computer</div>
+<h2 id="work">stuff i've made</h2>
+
+<div class="entry rel">
+  <h3><span>01</span>tcv multiplayer mod</h3>
+  <p class="what">gdscript &middot; godot &middot; udp &middot; python installer &middot; mit</p>
+  <canvas id="net" aria-label="four clients staying in sync, one holding the mic"></canvas>
+  <p class="cap"><span class="dot"></span>one mic at a time &middot; udp on 7654 &middot; scores sync to everyone</p>
+  <p>the choicer voicer is a godot game about voice acting badly with friends, and it
+    had no online mode. now it has mine: four players, everyone on their own mic, all
+    in sync so only one person performs at a time.</p>
+  <p class="note">i never had the source. my installer decompiles your own copy with
+    gdRE, patches my scripts in, rebuilds the exe. no game files ship with it.</p>
+  <p class="go">
+    <a href="https://github.com/TypeOneAppolo/tcv-multiplayer-mod" target="_blank" rel="noopener">source</a>
+    <a href="https://www.youtube.com/watch?v=YoHYlGWCE_g" target="_blank" rel="noopener">install tutorial &rarr;</a>
+  </p>
 </div>
 
-<!-- ============================================================ -->
-<!-- DIALOGS                                                       -->
-<!-- ============================================================ -->
-<div class="overlay" id="msg-overlay">
-  <div class="dialog" style="width:440px">
-    <div class="titlebar">
-      <span class="title" id="msg-title">appolo's stuff</span>
-      <span class="spacer"></span>
-      <button class="tb-btn close" data-close="msg-overlay" aria-label="close"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></button>
-    </div>
-    <div class="dlg-body">
-      <svg class="icon-48" id="msg-icon"><use href="#i-computer"/></svg>
-      <div id="msg-text"></div>
-    </div>
-    <div class="dlg-foot"><button class="xpbtn primary" data-close="msg-overlay">OK</button></div>
-  </div>
+<div class="entry rel">
+  <h3><span>02</span>lock on targeting</h3>
+  <p class="what">lua &middot; cameras &middot; occlusion checks</p>
+  <canvas id="lock" aria-label="a live demo: souls style lock on with occlusion and death handling"></canvas>
+  <p class="cap">
+    <span class="dot"></span>click a red one to lock it
+    <button class="chip" id="kill">kill my target</button>
+    <span id="lockmsg">acquiring</span>
+  </p>
+  <p>souls style lock on. the camera stays on whoever you picked. walk them behind
+    the wall or kill them and watch what it does, that's the part everyone forgets.</p>
+  <p class="go">
+    <button class="link vid" data-src="lockon-demo.mp4">see it in the actual game</button>
+  </p>
 </div>
 
-<div class="overlay" id="player">
-  <div class="dialog">
-    <div class="titlebar">
-      <svg class="icon"><use href="#i-video"/></svg>
-      <span class="title" id="pl-title">demo</span>
-      <span class="spacer"></span>
-      <button class="tb-btn close" data-close="player" aria-label="close"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></button>
-    </div>
-    <div class="dlg-body"><video id="pl-video" controls playsinline preload="metadata"></video></div>
-    <div class="plate"><span class="nm" id="pl-file"></span><span>screen recording, no edits</span></div>
-  </div>
+<div class="entry rel">
+  <h3><span>03</span>rts unit movement</h3>
+  <p class="what">lua &middot; formations &middot; local avoidance</p>
+  <p>that's the thing at the top of the page. click the ground, they form up, path
+    round the rocks and don't shove each other through walls. shift queues orders.</p>
+  <p class="note">formations are easy right up until 30 units meet one doorway.</p>
+  <p class="go">
+    <button class="link vid" data-src="rts-demo.mp4">see it in the actual game</button>
+  </p>
 </div>
 
-<div id="balloon" role="status" aria-live="polite"></div>
+<div class="entry rel">
+  <h3><span>04</span>radial emote wheel</h3>
+  <p class="what">lua &middot; ui &middot; atan2</p>
+  <canvas id="wheel" aria-label="a live demo: a radial menu driven by mouse angle"></canvas>
+  <p class="cap">
+    <span class="dot"></span>move your mouse over it &middot; options:
+    <button class="chip" data-n="4">4</button>
+    <button class="chip" data-n="6">6</button>
+    <button class="chip on" data-n="8">8</button>
+    <button class="chip" data-n="12">12</button>
+  </p>
+  <p>the angle from the centre to your cursor picks the option. it lays itself out for
+    any number of them instead of hardcoding eight, like i did the first time.</p>
+  <p class="go">
+    <button class="link vid" data-src="emotewheel-demo.mp4">see it in the actual game</button>
+  </p>
+</div>
 
-<!-- ============================================================ -->
-<!-- LIBS                                                          -->
-<!-- ============================================================ -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<div class="entry rel">
+  <h3><span>05</span>maze generator</h3>
+  <p class="what">lua &middot; recursive backtracking</p>
+  <canvas id="maze" aria-label="a live demo: recursive backtracking carving a maze"></canvas>
+  <p class="cap">
+    <span class="dot"></span><span id="mazemsg">carving</span>
+    <button class="chip" id="remaze">new maze</button>
+  </p>
+  <p>it draws every step instead of just the finished maze, so you can watch it dig
+    itself into a corner and reverse back out. this is the one that made recursion click.</p>
+  <p class="go">
+    <a href="https://www.youtube.com/watch?v=ULdcywxUb48" target="_blank" rel="noopener">the lua version &rarr;</a>
+  </p>
+</div>
+
+<div class="entry rel">
+  <h3><span>06</span>raise a dr house</h3>
+  <p class="what">lua &middot; roblox &middot; solo project</p>
+  <p>a roblox game i made on my own, all the code and ui and progression.
+    <mark><span id="visits">0</span> visits</mark>, which still doesn't feel like a real
+    number. it's also how i learned what happens to your code when 40 strangers are in
+    a server doing things you didn't plan for.</p>
+  <p class="go">
+    <a href="https://www.roblox.com/games/82635139286925/Raise-a-Dr-House" target="_blank" rel="noopener">play it &rarr;</a>
+  </p>
+</div>
+
+<h2 id="about">about</h2>
+
+<div class="rel">
+  <p>16, uk, doing computer science at college. <mark>lua</mark> is the language i
+    actually know, six years will do that.</p>
+  <p>the tcv mod was my first go at godot, and the first time i'd written networking an
+    engine hadn't already done for me. sockets, packet order, four machines all having to
+    agree whose turn it is. i got it wrong several times in a row and it's still the thing
+    i'm most pleased with.</p>
+  <p>now i'm grinding through <mark>c++</mark> for unreal 5. much harder than lua, and
+    nobody warns you about the header files.</p>
+  <p class="note">bad at: art, ui that looks nice, and finishing side projects that
+    stop being fun by week two.</p>
+</div>
+
+<h2 id="say-hi">say hi</h2>
+
+<p>commissions are open and i'm up for collabs. discord gets you me fastest.</p>
+
+<div class="list">
+  <div><i>discord</i><button class="link" id="dc">lxfox9579</button><em>click to copy</em></div>
+  <div><i>email</i><a href="mailto:juck06547@gmail.com">juck06547@gmail.com</a><em>slower</em></div>
+  <div><i>github</i><a href="https://github.com/TypeOneAppolo" target="_blank" rel="noopener">TypeOneAppolo</a><em>the code</em></div>
+  <div><i>roblox</i><a href="https://www.roblox.com/users/profile?username=x8yv" target="_blank" rel="noopener">x8yv</a><em>profile</em></div>
+  <div><i>youtube</i><a href="https://www.youtube.com/watch?v=YoHYlGWCE_g" target="_blank" rel="noopener">tutorials &amp; demos</a><em>video</em></div>
+</div>
+
+<footer>
+  written in a text editor at 1am. no framework, no template, no cookie banner
+  because there are no cookies.<br>
+  last messed with august 2026 &middot; &copy; 2026 appolo
+</footer>
+
+</div>
 
 <script>
-/* ================================================================ *
- *  DATA
- * ================================================================ */
-const SECTIONS = [
-  { id: 'hero',    label: 'appolo (home)' },
-  { id: 'about',   label: 'about me' },
-  { id: 'skills',  label: 'skills' },
-  { id: 'work',    label: 'projects' },
-  { id: 'contact', label: 'contact' }
-];
+const parts = [];
+const live = new Set();
+const watch = new IntersectionObserver(es => {
+  es.forEach(e => e.isIntersecting ? live.add(e.target) : live.delete(e.target));
+});
 
-const SKILLS = [
-  ['Lua',                  'main language'],
-  ['Roblox Studio',        '6 years'],
-  ['AI / behaviour trees', 'enemy ai'],
-  ['Pathfinding',          'a* and avoidance'],
-  ['Procedural animation', 'ik legs'],
-  ['Custom physics',       'raycast characters'],
-  ['UI / UX',              'menus and hud'],
-  ['Luau types',           'about a year'],
-  ['Python',               'small tools'],
-  ['JavaScript',           'this site'],
-  ['Unreal Engine 5',      'learning'],
-  ['C++',                  'learning']
-];
+function fit(c) {
+  const r = Math.min(window.devicePixelRatio || 1, 2);
+  c.width = Math.round(c.clientWidth * r);
+  c.height = Math.round(c.clientHeight * r);
+  const ctx = c.getContext('2d');
+  ctx.setTransform(r, 0, 0, r, 0, 0);
+  return ctx;
+}
 
-const PROJECTS = [
-  {
-    icon: '#i-brick', name: 'raise a dr house', type: 'Roblox Place',
-    size: '160,412 visits', mod: '2025',
-    desc: 'i made this one on my own. all the code, the ui and the progression. it has 160k visits.',
-    href: 'https://www.roblox.com/games/82635139286925/Raise-a-Dr-House',
-    cta: 'play it on roblox'
-  },
-  {
-    icon: '#i-lua', name: 'lock on targeting', type: 'Lua Module',
-    size: '412 KB', mod: '2025',
-    desc: 'lock on system like dark souls. the camera follows whoever you target and you can switch between enemies. it also handles the target dying or going behind a wall.',
-    video: 'lockon-demo.mp4', cta: 'watch the demo'
-  },
-  {
-    icon: '#i-lua', name: 'rts unit movement', type: 'Lua Module',
-    size: '680 KB', mod: '2025',
-    desc: 'click somewhere and your units walk there in formation. they path around obstacles and don\'t push each other. you can queue up commands with shift.',
-    video: 'rts-demo.mp4', cta: 'watch the demo'
-  },
-  {
-    icon: '#i-lua', name: 'radial emote wheel', type: 'Lua Module',
-    size: '96 KB', mod: '2024',
-    desc: 'radial menu made with trig. the mouse angle picks which option is highlighted. works with any number of options.',
-    video: 'emotewheel-demo.mp4', cta: 'watch the demo'
-  },
-  {
-    icon: '#i-file', name: 'maze generator', type: 'Lua Script',
-    size: '8 KB', mod: '2024',
-    desc: 'recursive backtracking. makes a random maze every time you run it and draws each step so you can watch it.',
-    href: 'https://www.youtube.com/watch?v=ULdcywxUb48',
-    cta: 'watch on youtube'
+function add(id, build) {
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+  const p = { canvas, ctx: fit(canvas), w: canvas.clientWidth, h: canvas.clientHeight };
+  p.run = build(p);
+  parts.push(p);
+  watch.observe(canvas);
+}
+
+function pointer(p) {
+  const m = { x: -999, y: -999, on: false };
+  const at = e => {
+    const r = p.canvas.getBoundingClientRect();
+    m.x = e.clientX - r.left;
+    m.y = e.clientY - r.top;
+    m.on = true;
+  };
+  p.canvas.addEventListener('pointermove', at);
+  p.canvas.addEventListener('pointerdown', at);
+  p.canvas.addEventListener('pointerleave', () => m.on = false);
+  return m;
+}
+
+function grid(ctx, w, h, step) {
+  ctx.strokeStyle = '#1c1a16';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  for (let x = step; x < w; x += step) { ctx.moveTo(x + .5, 0); ctx.lineTo(x + .5, h); }
+  for (let y = step; y < h; y += step) { ctx.moveTo(0, y + .5); ctx.lineTo(w, y + .5); }
+  ctx.stroke();
+}
+
+add('rts', p => {
+  const men = [], rocks = [];
+  let marker = null, queue = [];
+
+  p.onsize = place;
+  function place() {
+    rocks.length = 0;
+    rocks.push({ x: p.w * .40, y: p.h * .32, r: 27 });
+    rocks.push({ x: p.w * .63, y: p.h * .72, r: 34 });
+    rocks.push({ x: p.w * .85, y: p.h * .27, r: 19 });
   }
-];
+  place();
 
-const MENUS = [
-  { label: 'File', items: [
-    { text: 'Open', disabled: true },
-    { text: 'Send To', disabled: true },
-    { sep: true },
-    { text: 'Close', act: 'close-win' }
-  ]},
-  { label: 'Edit', items: [
-    { text: 'Copy my email', act: 'copy-email' },
-    { text: 'Copy my discord', act: 'copy-discord' },
-    { sep: true },
-    { text: 'Select All', disabled: true }
-  ]},
-  { label: 'View', items: [
-    { text: 'Tiles', tick: '\u2022', disabled: true },
-    { text: 'Details', tick: '\u2022', disabled: true },
-    { sep: true },
-    { text: 'Refresh', act: 'refresh' }
-  ]},
-  { label: 'Favourites', items: [
-    { text: 'Add to Favourites', act: 'favourite' },
-    { text: 'Organise Favourites', disabled: true }
-  ]},
-  { label: 'Tools', items: [
-    { text: 'Map Network Drive', disabled: true },
-    { text: 'Folder Options', disabled: true }
-  ]}
-];
+  for (let i = 0; i < 26; i++)
+    men.push({ x: 20 + Math.random() * 60, y: p.h * .25 + Math.random() * p.h * .5, vx: 0, vy: 0, a: 0, slot: null });
 
-const EMAIL = 'juck06547@gmail.com';
-const DISCORD = '@lxfox9579';
-
-/* ================================================================ *
- *  SMALL HELPERS
- * ================================================================ */
-const $  = (s, r = document) => r.querySelector(s);
-const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-const svg = (id, cls = 'icon') =>
-  `<svg class="${cls}" aria-hidden="true"><use href="${id}"/></svg>`;
-
-$('#year').textContent = new Date().getFullYear();
-
-let balloonTimer;
-function balloon(title, body) {
-  const el = $('#balloon');
-  el.innerHTML = `<b>${title}</b>${body}`;
-  el.classList.add('open');
-  clearTimeout(balloonTimer);
-  balloonTimer = setTimeout(() => el.classList.remove('open'), 3600);
-}
-
-function dialog(title, text, icon = '#i-computer') {
-  $('#msg-title').textContent = title;
-  $('#msg-text').innerHTML = text;
-  $('#msg-icon').innerHTML = `<use href="${icon}"/>`;
-  $('#msg-overlay').classList.add('open');
-  $('#msg-overlay .xpbtn').focus();
-}
-
-async function copy(text, what) {
-  try {
-    await navigator.clipboard.writeText(text);
-    balloon('copied', text);
-  } catch {
-    balloon(what, text);
-  }
-}
-
-/* ================================================================ *
- *  BUILD THE UI
- * ================================================================ */
-
-/* --- menu bar --- */
-(function buildMenus() {
-  const bar = $('#menubar');
-  MENUS.forEach((menu, i) => {
-    const btn = document.createElement('button');
-    btn.textContent = menu.label;
-    btn.setAttribute('aria-expanded', 'false');
-
-    const dd = document.createElement('div');
-    dd.className = 'dropdown';
-
-    menu.items.forEach(item => {
-      if (item.sep) { dd.appendChild(document.createElement('i')); return; }
-      const b = document.createElement('button');
-      b.innerHTML = `<span class="tick">${item.tick || ''}</span>${item.text}`;
-      if (item.disabled) b.disabled = true;
-      else b.dataset.act = item.act;
-      dd.appendChild(b);
-    });
-
-    const holder = document.createElement('div');
-    holder.style.position = 'relative';
-    holder.style.display = 'flex';
-    holder.appendChild(btn);
-    holder.appendChild(dd);
-    bar.appendChild(holder);
-
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      const wasOpen = dd.classList.contains('open');
-      closeMenus();
-      if (!wasOpen) { dd.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
-    });
-    btn.addEventListener('mouseenter', () => {
-      if ($('.dropdown.open') && !dd.classList.contains('open')) {
-        closeMenus(); dd.classList.add('open'); btn.setAttribute('aria-expanded', 'true');
+  function order(x, y) {
+    const cols = 7, gap = 15, rows = Math.ceil(men.length / cols);
+    const open = men.slice();
+    for (let i = 0; i < men.length; i++) {
+      const sx = x + ((i % cols) - (cols - 1) / 2) * gap;
+      const sy = y + (((i / cols) | 0) - (rows - 1) / 2) * gap;
+      let best = -1, bd = Infinity;
+      for (let k = 0; k < open.length; k++) {
+        const d = (open[k].x - sx) ** 2 + (open[k].y - sy) ** 2;
+        if (d < bd) { bd = d; best = k; }
       }
+      if (best < 0) break;
+      open[best].slot = { x: sx, y: sy };
+      open.splice(best, 1);
+    }
+    marker = { x, y, t: 0 };
+  }
+  order(p.w * .72, p.h * .5);
+
+  p.canvas.addEventListener('pointerdown', e => {
+    const r = p.canvas.getBoundingClientRect();
+    const x = e.clientX - r.left, y = e.clientY - r.top;
+    if (e.shiftKey) queue.push({ x, y });
+    else { queue.length = 0; order(x, y); }
+  });
+
+  return dt => {
+    const { ctx, w, h } = p;
+
+    for (const u of men) {
+      if (u.slot) {
+        const dx = u.slot.x - u.x, dy = u.slot.y - u.y;
+        const d = Math.hypot(dx, dy) || 1;
+        const want = Math.min(d * 4, 80);
+        const k = Math.min(1, dt * 7);
+        u.vx += ((dx / d) * want - u.vx) * k;
+        u.vy += ((dy / d) * want - u.vy) * k;
+      }
+      for (const o of men) {
+        if (o === u) continue;
+        const dx = u.x - o.x, dy = u.y - o.y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < 150 && d2 > .04) {
+          const d = Math.sqrt(d2);
+          u.vx += (dx / d) * (12.2 - d) * 7 * dt;
+          u.vy += (dy / d) * (12.2 - d) * 7 * dt;
+        }
+      }
+      for (const o of rocks) {
+        const dx = u.x - o.x, dy = u.y - o.y;
+        const d = Math.hypot(dx, dy) || 1;
+        const min = o.r + 6;
+        if (d < min) {
+          u.x = o.x + (dx / d) * min;
+          u.y = o.y + (dy / d) * min;
+          const push = u.vx * (dx / d) + u.vy * (dy / d);
+          if (push < 0) { u.vx -= (dx / d) * push; u.vy -= (dy / d) * push; }
+        }
+      }
+      u.x = Math.max(6, Math.min(w - 6, u.x + u.vx * dt));
+      u.y = Math.max(6, Math.min(h - 6, u.y + u.vy * dt));
+      if (Math.abs(u.vx) + Math.abs(u.vy) > 5) u.a = Math.atan2(u.vy, u.vx);
+    }
+
+    if (queue.length) {
+      let far = 0;
+      for (const u of men) if (u.slot && Math.hypot(u.slot.x - u.x, u.slot.y - u.y) > 9) far++;
+      if (far < 4) { const n = queue.shift(); order(n.x, n.y); }
+    }
+
+    ctx.clearRect(0, 0, w, h);
+    grid(ctx, w, h, 26);
+
+    for (const o of rocks) {
+      ctx.beginPath();
+      ctx.arc(o.x, o.y, o.r, 0, 6.2832);
+      ctx.fillStyle = '#1a1813';
+      ctx.fill();
+      ctx.strokeStyle = '#38322a';
+      ctx.stroke();
+    }
+
+    queue.forEach(q => {
+      ctx.strokeStyle = '#5d5346';
+      ctx.beginPath();
+      ctx.arc(q.x, q.y, 5, 0, 6.2832);
+      ctx.stroke();
+    });
+
+    if (marker) {
+      marker.t = (marker.t + dt) % 1.2;
+      ctx.beginPath();
+      ctx.arc(marker.x, marker.y, 5 + marker.t * 17, 0, 6.2832);
+      ctx.strokeStyle = 'rgba(255,106,61,' + Math.max(0, .55 - marker.t * .48) + ')';
+      ctx.stroke();
+      ctx.fillStyle = '#ff6a3d';
+      ctx.fillRect(marker.x - 2, marker.y - 2, 4, 4);
+    }
+
+    ctx.fillStyle = '#e9e3d5';
+    for (const u of men) {
+      ctx.save();
+      ctx.translate(u.x, u.y);
+      ctx.rotate(u.a);
+      ctx.beginPath();
+      ctx.moveTo(5.5, 0);
+      ctx.lineTo(-4, 3.4);
+      ctx.lineTo(-4, -3.4);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+  };
+});
+
+add('lock', p => {
+  const msg = document.getElementById('lockmsg');
+  const foes = [];
+  const wall = { x: 0, y: 0, w: 11, h: 0 };
+  const hero = { x: 0, y: 0 };
+  let target = null, aim = 0, hidden = 0, said = '';
+
+  for (let i = 0; i < 5; i++) foes.push({ ph: i * 1.3, sp: .3 + i * .09, cx: 0, cy: 0, rx: 0, ry: 0, x: 0, y: 0, down: 0 });
+
+  p.onsize = place;
+  function place() {
+    hero.x = p.w * .13;
+    hero.y = p.h * .5;
+    wall.x = p.w * .56;
+    wall.y = p.h * .14;
+    wall.h = p.h * .46;
+    foes.forEach((f, i) => {
+      f.cx = p.w * (.42 + (i % 3) * .19);
+      f.cy = p.h * (.26 + ((i * 2) % 3) * .24);
+      f.rx = 24 + (i % 3) * 15;
+      f.ry = 13 + (i % 2) * 17;
+    });
+  }
+  place();
+
+  function blocked(f) {
+    for (let s = .1; s < 1; s += .05) {
+      const x = hero.x + (f.x - hero.x) * s;
+      const y = hero.y + (f.y - hero.y) * s;
+      if (x > wall.x && x < wall.x + wall.w && y > wall.y && y < wall.y + wall.h) return true;
+    }
+    return false;
+  }
+
+  function acquire() {
+    let best = null, bd = Infinity;
+    for (const f of foes) {
+      if (f.down > 0 || blocked(f)) continue;
+      const d = Math.hypot(f.x - hero.x, f.y - hero.y);
+      if (d < bd) { bd = d; best = f; }
+    }
+    target = best;
+  }
+
+  p.canvas.addEventListener('pointerdown', e => {
+    const r = p.canvas.getBoundingClientRect();
+    const x = e.clientX - r.left, y = e.clientY - r.top;
+    let best = null, bd = 26;
+    for (const f of foes) {
+      if (f.down > 0) continue;
+      const d = Math.hypot(f.x - x, f.y - y);
+      if (d < bd) { bd = d; best = f; }
+    }
+    if (best) { target = best; hidden = 0; }
+  });
+
+  document.getElementById('kill').addEventListener('click', () => {
+    if (target) target.down = 2.6;
+  });
+
+  return dt => {
+    const { ctx, w, h } = p;
+
+    for (const f of foes) {
+      f.ph += dt * f.sp;
+      f.x = Math.max(10, Math.min(w - 10, f.cx + Math.cos(f.ph) * f.rx));
+      f.y = Math.max(10, Math.min(h - 10, f.cy + Math.sin(f.ph * 1.4) * f.ry));
+      if (f.down > 0) f.down = Math.max(0, f.down - dt);
+    }
+
+    let state = 'locked';
+    if (!target || target.down > 0) {
+      state = target ? 'target down, switching' : 'no target';
+      acquire();
+      if (target) state = 'locked';
+    } else if (blocked(target)) {
+      hidden += dt;
+      state = 'lost sight (' + hidden.toFixed(1) + 's)';
+      if (hidden > .45) { acquire(); hidden = 0; state = 'switched'; }
+    } else {
+      hidden = 0;
+    }
+    if (state !== said) { msg.textContent = state; said = state; }
+
+    if (target) {
+      const want = Math.atan2(target.y - hero.y, target.x - hero.x);
+      let diff = ((want - aim + Math.PI * 3) % (Math.PI * 2)) - Math.PI;
+      aim += diff * Math.min(1, dt * 6);
+    }
+
+    ctx.clearRect(0, 0, w, h);
+    grid(ctx, w, h, 26);
+
+    ctx.save();
+    ctx.translate(hero.x, hero.y);
+    ctx.rotate(aim);
+    const g = ctx.createLinearGradient(0, 0, 190, 0);
+    g.addColorStop(0, 'rgba(255,216,77,.16)');
+    g.addColorStop(1, 'rgba(255,216,77,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.arc(0, 0, 190, -.34, .34);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+
+    ctx.fillStyle = '#211e18';
+    ctx.strokeStyle = '#4a4238';
+    ctx.fillRect(wall.x, wall.y, wall.w, wall.h);
+    ctx.strokeRect(wall.x + .5, wall.y + .5, wall.w, wall.h);
+
+    for (const f of foes) {
+      if (f.down > 0) {
+        ctx.strokeStyle = 'rgba(143,135,120,.5)';
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, 6 + (2.6 - f.down) * 3, 0, 6.2832);
+        ctx.stroke();
+        continue;
+      }
+      ctx.fillStyle = blocked(f) ? '#5c4038' : '#c8442a';
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, 6, 0, 6.2832);
+      ctx.fill();
+    }
+
+    if (target && target.down <= 0) {
+      ctx.strokeStyle = '#ffd84d';
+      ctx.lineWidth = 1.6;
+      const r = 13;
+      for (let q = 0; q < 4; q++) {
+        const sx = q < 2 ? -1 : 1, sy = q % 2 ? 1 : -1;
+        ctx.beginPath();
+        ctx.moveTo(target.x + sx * r, target.y + sy * r - sy * 5);
+        ctx.lineTo(target.x + sx * r, target.y + sy * r);
+        ctx.lineTo(target.x + sx * r - sx * 5, target.y + sy * r);
+        ctx.stroke();
+      }
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 4]);
+      ctx.strokeStyle = 'rgba(255,216,77,.4)';
+      ctx.beginPath();
+      ctx.moveTo(hero.x, hero.y);
+      ctx.lineTo(target.x, target.y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    ctx.save();
+    ctx.translate(hero.x, hero.y);
+    ctx.rotate(aim);
+    ctx.fillStyle = '#e9e3d5';
+    ctx.beginPath();
+    ctx.moveTo(9, 0);
+    ctx.lineTo(-6, 6);
+    ctx.lineTo(-6, -6);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  };
+});
+
+add('wheel', p => {
+  const names = ['wave', 'dance', 'point', 'sit', 'laugh', 'clap', 'salute', 'shrug', 'flip', 'cheer', 'bow', 'nope'];
+  const m = pointer(p);
+  let n = 8, grow = new Array(12).fill(0), ghost = 0, sel = 0;
+
+  document.querySelectorAll('[data-n]').forEach(b => {
+    b.addEventListener('click', () => {
+      n = +b.dataset.n;
+      document.querySelectorAll('[data-n]').forEach(o => o.classList.toggle('on', o === b));
     });
   });
-})();
 
-function closeMenus() {
-  $$('.dropdown.open').forEach(d => d.classList.remove('open'));
-  $$('.menubar button[aria-expanded]').forEach(b => b.setAttribute('aria-expanded', 'false'));
-}
+  return dt => {
+    const { ctx, w, h } = p;
+    const cx = w / 2, cy = h / 2;
+    const step = Math.PI * 2 / n;
 
-/* --- places (task pane + mobile strip) --- */
-(function buildPlaces() {
-  const pane = $('#places'), strip = $('#places-strip');
-  SECTIONS.forEach(s => {
-    const a = document.createElement('a');
-    a.href = '#' + s.id;
-    a.dataset.goto = s.id;
-    a.innerHTML = svg('#i-folder') + s.label;
-    pane.appendChild(a);
+    ghost += dt * .5;
+    const ang = m.on ? Math.atan2(m.y - cy, m.x - cx) : ghost;
+    let a = (ang + step / 2) % (Math.PI * 2);
+    if (a < 0) a += Math.PI * 2;
+    sel = Math.floor(a / step) % n;
 
-    const b = document.createElement('a');
-    b.href = '#' + s.id;
-    b.dataset.goto = s.id;
-    b.textContent = s.label;
-    strip.appendChild(b);
-  });
-})();
+    ctx.clearRect(0, 0, w, h);
+    grid(ctx, w, h, 26);
 
-/* --- skills tiles --- */
-(function buildTiles() {
-  $('#tiles').innerHTML = SKILLS.map(([name, note]) => `
-    <div class="tile">
-      <span class="tile-ico">${svg('#i-file', 'icon-32')}</span>
-      <span><b>${name}</b><span>${note}</span></span>
-    </div>`).join('');
-})();
+    const inner = 30, outer = Math.min(w, h) * .40;
+    for (let i = 0; i < n; i++) {
+      grow[i] += ((i === sel ? 1 : 0) - grow[i]) * Math.min(1, dt * 12);
+      const mid = i * step;
+      const pad = Math.min(.07, step * .12);
+      ctx.beginPath();
+      ctx.arc(cx, cy, outer + grow[i] * 9, mid - step / 2 + pad, mid + step / 2 - pad);
+      ctx.arc(cx, cy, inner, mid + step / 2 - pad, mid - step / 2 + pad, true);
+      ctx.closePath();
+      ctx.fillStyle = i === sel ? '#ff6a3d' : '#221f1a';
+      ctx.fill();
+      ctx.strokeStyle = i === sel ? '#ffd84d' : '#38322a';
+      ctx.stroke();
+    }
 
-/* --- project rows --- */
-(function buildRows() {
-  const host = $('#rows');
-  PROJECTS.forEach((p, i) => {
-    const row = document.createElement('div');
-    row.className = 'row';
-    row.tabIndex = 0;
-    row.dataset.i = i;
-    row.innerHTML = `
-      <span class="nm">${svg(p.icon, 'icon-24')}<b>${p.name}</b></span>
-      <span class="ty">${p.type}</span>
-      <span class="sz">${p.size}</span>
-      <span class="md">${p.mod}</span>`;
+    ctx.strokeStyle = 'rgba(255,216,77,.55)';
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + Math.cos(ang) * (inner - 6), cy + Math.sin(ang) * (inner - 6));
+    ctx.stroke();
 
-    // the preview slot is filled the first time the row is opened, so the page
-    // does not fetch three videos' worth of metadata before anyone asks for it
-    const desc = document.createElement('div');
-    desc.className = 'row-desc';
-    desc.innerHTML =
-      `<p>${p.desc}</p><div id="pv-${i}"></div><p><a href="#" data-open="${i}">${p.cta} &rsaquo;</a></p>`;
+    ctx.fillStyle = '#ece6da';
+    ctx.font = '13px ui-monospace, Consolas, monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(names[sel], cx, cy);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#8f8778';
+    ctx.font = '11px ui-monospace, Consolas, monospace';
+    ctx.fillText('atan2 -> ' + (ang * 57.3).toFixed(0) + '°', 10, h - 14);
+  };
+});
 
-    host.appendChild(row);
-    host.appendChild(desc);
+add('maze', p => {
+  const msg = document.getElementById('mazemsg');
+  const cell = 17;
+  let cols, rows, cells, stack, cur, rest, acc;
 
-    row.addEventListener('click', () => select(i));
-    row.addEventListener('dblclick', () => openProject(i));
-    row.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(i); }
-      if (e.key === 'ArrowDown') { e.preventDefault(); focusRow(i + 1); }
-      if (e.key === 'ArrowUp')   { e.preventDefault(); focusRow(i - 1); }
+  p.onsize = reset;
+  function reset() {
+    cols = Math.max(8, Math.floor((p.w - 14) / cell));
+    rows = Math.max(4, Math.floor((p.h - 14) / cell));
+    cells = [];
+    for (let y = 0; y < rows; y++)
+      for (let x = 0; x < cols; x++) cells.push({ x, y, seen: false, wall: [1, 1, 1, 1] });
+    cur = cells[0];
+    cur.seen = true;
+    stack = [cur];
+    rest = 0;
+    acc = 0;
+    msg.textContent = 'carving';
+  }
+  reset();
+  document.getElementById('remaze').addEventListener('click', reset);
+
+  const at = (x, y) => (x < 0 || y < 0 || x >= cols || y >= rows) ? null : cells[y * cols + x];
+
+  function step() {
+    const opts = [];
+    const dirs = [[0, -1, 0, 2], [1, 0, 1, 3], [0, 1, 2, 0], [-1, 0, 3, 1]];
+    for (const [dx, dy, a, b] of dirs) {
+      const nb = at(cur.x + dx, cur.y + dy);
+      if (nb && !nb.seen) opts.push([nb, a, b]);
+    }
+    if (opts.length) {
+      const [nb, a, b] = opts[(Math.random() * opts.length) | 0];
+      cur.wall[a] = 0;
+      nb.wall[b] = 0;
+      nb.seen = true;
+      stack.push(cur);
+      cur = nb;
+    } else if (stack.length) {
+      cur = stack.pop();
+    } else {
+      rest = 1.8;
+      msg.textContent = 'done, ' + cells.length + ' cells';
+    }
+  }
+
+  return dt => {
+    const { ctx, w, h } = p;
+
+    if (rest > 0) {
+      rest -= dt;
+      if (rest <= 0) reset();
+    } else {
+      acc += dt;
+      while (acc > .0035 && rest <= 0) { step(); acc -= .0035; }
+    }
+
+    const ox = (w - cols * cell) / 2, oy = (h - rows * cell) / 2;
+    ctx.clearRect(0, 0, w, h);
+
+    for (const c of cells) {
+      if (!c.seen) continue;
+      ctx.fillStyle = '#191712';
+      ctx.fillRect(ox + c.x * cell, oy + c.y * cell, cell, cell);
+    }
+
+    ctx.strokeStyle = '#6d6455';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (const c of cells) {
+      const x = ox + c.x * cell, y = oy + c.y * cell;
+      if (c.wall[0]) { ctx.moveTo(x, y + .5); ctx.lineTo(x + cell, y + .5); }
+      if (c.wall[3]) { ctx.moveTo(x + .5, y); ctx.lineTo(x + .5, y + cell); }
+      if (c.y === rows - 1 && c.wall[2]) { ctx.moveTo(x, y + cell - .5); ctx.lineTo(x + cell, y + cell - .5); }
+      if (c.x === cols - 1 && c.wall[1]) { ctx.moveTo(x + cell - .5, y); ctx.lineTo(x + cell - .5, y + cell); }
+    }
+    ctx.stroke();
+
+    ctx.fillStyle = 'rgba(255,106,61,.25)';
+    for (const c of stack) ctx.fillRect(ox + c.x * cell + 5, oy + c.y * cell + 5, cell - 10, cell - 10);
+
+    if (rest <= 0) {
+      ctx.fillStyle = '#ff6a3d';
+      ctx.fillRect(ox + cur.x * cell + 3, oy + cur.y * cell + 3, cell - 6, cell - 6);
+    }
+  };
+});
+
+add('net', p => {
+  const box = [];
+  let who = 0, hold = 0, spawn = 0;
+  const packets = [];
+
+  p.onsize = place;
+  function place() {
+    box.length = 0;
+    const bw = Math.min(78, (p.w - 50) / 4), gap = (p.w - bw * 4) / 5;
+    for (let i = 0; i < 4; i++)
+      box.push({ x: gap + i * (bw + gap), y: p.h * .32, w: bw, h: 46, flash: 0 });
+  }
+  place();
+
+  return dt => {
+    const { ctx, w, h } = p;
+
+    hold += dt;
+    if (hold > 3.4) { hold = 0; who = (who + 1) % 4; }
+    spawn += dt;
+    if (spawn > .32) {
+      spawn = 0;
+      for (let i = 0; i < 4; i++) if (i !== who) packets.push({ from: who, to: i, t: 0 });
+    }
+    for (let i = packets.length - 1; i >= 0; i--) {
+      packets[i].t += dt * 1.5;
+      if (packets[i].t >= 1) { box[packets[i].to].flash = 1; packets.splice(i, 1); }
+    }
+    box.forEach(b => b.flash = Math.max(0, b.flash - dt * 2.2));
+
+    ctx.clearRect(0, 0, w, h);
+    grid(ctx, w, h, 26);
+
+    ctx.font = '11px ui-monospace, Consolas, monospace';
+    ctx.textAlign = 'center';
+    box.forEach((b, i) => {
+      const talking = i === who;
+      ctx.fillStyle = talking ? '#2a1c14' : '#1a1813';
+      ctx.strokeStyle = talking ? '#ff6a3d' : '#38322a';
+      ctx.fillRect(b.x, b.y, b.w, b.h);
+      ctx.strokeRect(b.x + .5, b.y + .5, b.w, b.h);
+      ctx.fillStyle = talking ? '#ff6a3d' : '#8f8778';
+      ctx.fillText('p' + (i + 1), b.x + b.w / 2, b.y + 18);
+      ctx.fillStyle = talking ? '#ffd84d' : 'rgba(233,227,213,' + (.3 + b.flash * .7) + ')';
+      ctx.fillText(talking ? 'mic' : (b.flash > .05 ? 'sync' : 'idle'), b.x + b.w / 2, b.y + 34);
     });
-  });
-})();
 
-function focusRow(i) {
-  const rows = $$('.row');
-  const r = rows[Math.max(0, Math.min(rows.length - 1, i))];
-  if (r) { r.focus(); select(+r.dataset.i); }
-}
-
-/* ================================================================ *
- *  DETAILS PANE - the bit that makes this an actual explorer
- * ================================================================ */
-const FOLDER_DETAILS = `
-  <div class="dt-head">${svg('#i-folder', 'icon-32')}
-    <span><span class="dt-name">projects</span><br><span class="dt-kind">File Folder</span></span>
-  </div>
-  <p>click one to see what it is.</p>
-  <dl><dt>Contains</dt><dd>${PROJECTS.length} items</dd><dt>Modified</dt><dd>2024 to 2025</dd></dl>`;
-
-let selected = -1;
-
-/* thumbnail for a demo. #t=1 tells the browser to show the frame at one second
-   instead of a black first frame, so we get a poster without shipping an image. */
-function previewHTML(p, i) {
-  if (!p.video) return '';
-  return `<button class="preview" data-open="${i}" aria-label="play the ${p.name} demo">
-      <video src="${p.video}#t=1" muted playsinline preload="metadata"></video>
-      <span class="play"><i></i></span>
-      <span class="cap">click to play</span>
-    </button>`;
-}
-
-/* preview plays muted while you hover it, opens properly when you click */
-function armPreviews(root) {
-  $$('.preview', root).forEach(btn => {
-    const v = btn.querySelector('video');
-    btn.addEventListener('mouseenter', () => {
-      v.muted = true;
-      const play = v.play();
-      if (play && play.catch) play.catch(() => {});
+    ctx.strokeStyle = '#241f19';
+    ctx.beginPath();
+    box.forEach((b, i) => {
+      if (i === who) return;
+      ctx.moveTo(box[who].x + box[who].w / 2, box[who].y + box[who].h);
+      ctx.lineTo(b.x + b.w / 2, b.y + b.h);
     });
-    btn.addEventListener('mouseleave', () => {
-      v.pause();
-      try { v.currentTime = 1; } catch {}
-    });
+    ctx.stroke();
+
+    ctx.fillStyle = '#ffd84d';
+    for (const k of packets) {
+      const a = box[k.from], b = box[k.to];
+      const x = (a.x + a.w / 2) + ((b.x + b.w / 2) - (a.x + a.w / 2)) * k.t;
+      const y = a.y + a.h + Math.sin(k.t * Math.PI) * 22;
+      ctx.fillRect(x - 1.5, y - 1.5, 3, 3);
+    }
+
+    ctx.fillStyle = '#8f8778';
+    ctx.textAlign = 'left';
+    ctx.fillText('p' + (who + 1) + ' is recording · everyone else waits', 12, h - 14);
+  };
+});
+
+window.addEventListener('resize', () => {
+  parts.forEach(p => {
+    p.ctx = fit(p.canvas);
+    p.w = p.canvas.clientWidth;
+    p.h = p.canvas.clientHeight;
+    if (p.onsize) p.onsize();
   });
-}
+});
 
-function select(i) {
-  // on small screens the description expands inline, so tapping the open row shuts it
-  if (selected === i && matchMedia('(max-width: 900px)').matches) { clearSelection(); return; }
-  selected = i;
-  $$('.row').forEach(r => r.classList.toggle('sel', +r.dataset.i === i));
-  const p = PROJECTS[i];
-  $('#details-body').innerHTML = `
-    <div class="dt-head">${svg(p.icon, 'icon-32')}
-      <span><span class="dt-name">${p.name}</span><br><span class="dt-kind">${p.type}</span></span>
-    </div>
-    ${previewHTML(p, i)}
-    <p>${p.desc}</p>
-    <dl><dt>Size</dt><dd>${p.size}</dd><dt>Modified</dt><dd>${p.mod}</dd></dl>
-    <p><a href="#" data-open="${i}">${p.cta} &rsaquo;</a></p>`;
-  armPreviews($('#details-body'));
+let last = performance.now();
+(function frame(now) {
+  const dt = Math.min((now - last) / 1000, .05);
+  last = now;
+  for (const p of parts) if (live.has(p.canvas)) p.run(dt);
+  requestAnimationFrame(frame);
+})(last);
 
-  const slot = $(`#pv-${i}`);
-  if (slot && !slot.innerHTML) { slot.innerHTML = previewHTML(p, i); armPreviews(slot); }
-
-  $('#sb-1').textContent = `1 of ${PROJECTS.length} objects selected`;
-  $('#taskpane').scrollTo({ top: $('#details-grp').offsetTop - 10, behavior: 'smooth' });
-}
-
-function clearSelection() {
-  selected = -1;
-  $$('.row').forEach(r => r.classList.remove('sel'));
-  $('#details-body').innerHTML = FOLDER_DETAILS;
-  const work = document.getElementById('work');
-  if (work) $('#sb-1').textContent = work.dataset.status;
-}
-clearSelection();
-
-function openProject(i) {
-  const p = PROJECTS[i];
-  if (p.video) openPlayer(p.video, p.name);
-  else window.open(p.href, '_blank', 'noopener');
-}
-
-/* ================================================================ *
- *  MEDIA PLAYER
- * ================================================================ */
-function openPlayer(src, name) {
-  const v = $('#pl-video');
-  v.src = src;
-  $('#pl-title').textContent = name;
-  $('#pl-file').textContent = src;
-  $('#player').classList.add('open');
-  const play = v.play();
-  if (play && play.catch) play.catch(() => {});
-}
-function closePlayer() {
-  const v = $('#pl-video');
-  v.pause(); v.removeAttribute('src'); v.load();
-  $('#player').classList.remove('open');
-}
-
-/* ================================================================ *
- *  NAVIGATION - back / forward / up actually work
- * ================================================================ */
-const navHistory = ['hero'];
-let histAt = 0;
-let suppressScroll = false;
-let suppressTimer;
-
-function goto(id, push = true) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  suppressScroll = true;
-  $('#content').scrollTo({
-    top: el.offsetTop - 6,
-    behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+document.querySelectorAll('.vid').forEach(b => {
+  b.addEventListener('click', () => {
+    const tape = document.createElement('button');
+    tape.className = 'tape';
+    tape.innerHTML = '<video src="' + b.dataset.src + '" controls autoplay playsinline></video>' +
+      '<span class="label">' + b.dataset.src + '</span>';
+    b.parentNode.replaceChild(tape, b);
   });
-  clearTimeout(suppressTimer);
-  suppressTimer = setTimeout(() => { suppressScroll = false; }, 700);
-  setPath(id);
-  if (push && navHistory[histAt] !== id) {
-    navHistory.length = histAt + 1;
-    navHistory.push(id);
-    histAt = navHistory.length - 1;
-  }
-  updateNavButtons();
-}
-
-function updateNavButtons() {
-  $('#nav-back').disabled = histAt <= 0;
-  $('#nav-fwd').disabled  = histAt >= navHistory.length - 1;
-}
-
-function setPath(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  $('#addr-text').textContent = el.dataset.path;
-  if (selected < 0) $('#sb-1').textContent = el.dataset.status;
-  $$('[data-goto]').forEach(a => {
-    if (a.tagName === 'A') a.setAttribute('aria-current', a.dataset.goto === id ? 'true' : 'false');
-  });
-  $('#win-title').textContent = id === 'hero' ? "appolo's stuff" : el.dataset.path.split('\\').pop();
-  $('#taskbtn').innerHTML = svg('#i-folder') + $('#win-title').textContent;
-}
-
-$('#nav-back').addEventListener('click', () => { if (histAt > 0) { histAt--; goto(navHistory[histAt], false); } });
-$('#nav-fwd').addEventListener('click',  () => { if (histAt < navHistory.length - 1) { histAt++; goto(navHistory[histAt], false); } });
-$('#nav-up').addEventListener('click',   () => goto('hero'));
-$('#nav-home').addEventListener('click', () => goto('hero'));
-$('#go').addEventListener('click',       () => goto(navHistory[histAt], false));
-
-/* ================================================================ *
- *  GLOBAL CLICK ROUTER
- * ================================================================ */
-document.addEventListener('click', e => {
-  const goEl = e.target.closest('[data-goto]');
-  if (goEl) {
-    e.preventDefault();
-    goto(goEl.dataset.goto);
-    closeStart(); closeMenus();
-    return;
-  }
-
-  const openEl = e.target.closest('[data-open]');
-  if (openEl) { e.preventDefault(); openProject(+openEl.dataset.open); return; }
-
-  const closeEl = e.target.closest('[data-close]');
-  if (closeEl) {
-    const id = closeEl.dataset.close;
-    if (id === 'player') closePlayer();
-    else document.getElementById(id).classList.remove('open');
-    return;
-  }
-
-  const actEl = e.target.closest('[data-act]');
-  if (actEl) {
-    e.preventDefault();
-    doAction(actEl.dataset.act);
-    closeStart(); closeMenus();
-    return;
-  }
-
-  // click into empty space in the listing clears the selection, like explorer does
-  if (e.target.closest('#work') && !e.target.closest('.row') && !e.target.closest('.row-desc')) {
-    clearSelection();
-    setPath('work');
-  }
-
-  closeMenus();
-  if (!e.target.closest('#startmenu') && !e.target.closest('#start')) closeStart();
 });
 
-function doAction(act) {
-  switch (act) {
-    case 'copy-email':   copy(EMAIL, 'my email'); break;
-    case 'copy-discord': copy(DISCORD, 'my discord'); break;
-    case 'refresh':
-      $$('.reveal').forEach(el => el.classList.remove('in'));
-      setTimeout(() => $$('.reveal').forEach(el => io.observe(el)), 30);
-      balloon('refreshed', 'nothing changed.');
-      break;
-    case 'favourite':
-      balloon('bookmark', 'press ctrl+d to save the page.');
-      break;
-    case 'close-win':
-      dialog('appolo\'s stuff', `
-        <p>there's nothing else on here. you can email me instead.</p>`, '#i-computer');
-      break;
-  }
-}
-
-/* ================================================================ *
- *  WINDOW BUTTONS
- * ================================================================ */
-$('#btn-max').addEventListener('click', () => $('#win').classList.toggle('maxed'));
-$('#btn-min').addEventListener('click', () => {
-  $('#win').classList.add('away');
-  $('#taskbtn').classList.remove('active');
-  balloon('minimised', 'click the taskbar button to bring it back.');
+const visits = document.getElementById('visits');
+const count = new IntersectionObserver(es => {
+  if (!es[0].isIntersecting) return;
+  count.disconnect();
+  const end = 160412, began = performance.now();
+  (function up(now) {
+    const k = Math.min(1, (now - began) / 1600);
+    visits.textContent = Math.round(end * (1 - Math.pow(1 - k, 3))).toLocaleString();
+    if (k < 1) requestAnimationFrame(up);
+  })(began);
 });
-$('#taskbtn').addEventListener('click', () => {
-  const w = $('#win');
-  w.classList.toggle('away');
-  $('#taskbtn').classList.toggle('active', !w.classList.contains('away'));
-});
-$('#btn-close').addEventListener('click', () => doAction('close-win'));
+count.observe(visits);
 
-/* ---- start menu ---- */
-function closeStart() {
-  $('#startmenu').classList.remove('open');
-  $('#start').setAttribute('aria-expanded', 'false');
-}
-$('#start').addEventListener('click', e => {
-  e.stopPropagation();
-  const open = $('#startmenu').classList.toggle('open');
-  $('#start').setAttribute('aria-expanded', String(open));
-});
-
-/* ---- clock ---- */
-function tick() {
-  const d = new Date();
-  $('#clock').textContent =
-    String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
-}
-tick(); setInterval(tick, 15000);
-
-/* ---- escape closes things ---- */
-document.addEventListener('keydown', e => {
-  if (e.key !== 'Escape') return;
-  if ($('#player').classList.contains('open')) return closePlayer();
-  if ($('#msg-overlay').classList.contains('open')) return $('#msg-overlay').classList.remove('open');
-  closeMenus(); closeStart();
-});
-
-/* ================================================================ *
- *  SCROLL OBSERVERS  (content pane is the scroll root)
- * ================================================================ */
-const io = new IntersectionObserver(entries => {
-  entries.forEach(en => {
-    if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
-  });
-}, { root: $('#content'), rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
-
-/* which folder are we in? measured off scroll position rather than an
-   IntersectionObserver, because IO only hands you the entries that *changed*,
-   so "most visible of these entries" is not the same as "most visible section". */
-function trackSection() {
-  if (suppressScroll) return;
-  const pane = $('#content');
-  const sections = $$('#content .section');
-  // scrolled to the very bottom: the last section is the one you are looking at
-  if (pane.scrollTop + pane.clientHeight >= pane.scrollHeight - 4) {
-    setPath(sections[sections.length - 1].id);
-    return;
-  }
-  const line = pane.scrollTop + 48;
-  let current = sections[0];
-  for (const s of sections) if (s.offsetTop <= line) current = s;
-  setPath(current.id);
-}
-
-/* ================================================================ *
- *  SHOW THE DESKTOP
- * ================================================================ */
-let shown = false;
-function showDesktop() {
-  if (shown) return;
-  shown = true;
-
-  $('#win').classList.add('shown');
-  $('#taskbar').classList.add('shown');
-  setPath('hero');
-  updateNavButtons();
-
-  $$('.reveal').forEach(el => io.observe(el));
-  $('#content').addEventListener('scroll', trackSection, { passive: true });
-
-  if (window.gsap) {
-    gsap.fromTo('#win', { opacity: 0, y: 18, scale: .985 },
-                        { opacity: 1, y: 0, scale: 1, duration: .5, ease: 'power2.out' });
-    gsap.fromTo('#taskbar', { y: 30 }, { y: 0, duration: .45, ease: 'power2.out' });
-  }
-}
-
-/* ================================================================ *
- *  LOG ON  ->  BRICK BUILD  ->  DESKTOP
- * ================================================================ */
-const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-$('#logon').addEventListener('click', () => {
-  const w = $('#welcome');
-  const done = () => { w.style.display = 'none'; startBuild(); };
-  if (window.gsap && !reduceMotion) gsap.to(w, { opacity: 0, duration: .45, ease: 'power2.in', onComplete: done });
-  else done();
-});
-
-function webglOK() {
+const dc = document.getElementById('dc');
+dc.addEventListener('click', async () => {
+  const tag = dc.parentNode.querySelector('em');
   try {
-    const c = document.createElement('canvas');
-    return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
-  } catch { return false; }
-}
-
-function startBuild() {
-  if (reduceMotion || !window.THREE || !window.gsap || !webglOK()) { showDesktop(); return; }
-
-  const host = $('#build');
-  host.style.display = 'block';
-
-  let finished = false;
-  const finish = () => {
-    if (finished) return;
-    finished = true;
-    showDesktop();
-    gsap.to(host, {
-      opacity: 0, duration: .6, ease: 'power2.inOut',
-      onComplete: () => { stop = true; host.style.display = 'none'; renderer.dispose(); host.innerHTML = ''; }
-    });
-  };
-  host.addEventListener('click', finish);
-
-  /* ---- scene ---- */
-  const scene = new THREE.Scene();
-
-  // sky, painted into a canvas texture so it matches the desktop wallpaper
-  const sky = document.createElement('canvas');
-  sky.width = 4; sky.height = 256;
-  const sctx = sky.getContext('2d');
-  const grad = sctx.createLinearGradient(0, 0, 0, 256);
-  grad.addColorStop(0, '#1B5FC0');
-  grad.addColorStop(.35, '#3E86D2');
-  grad.addColorStop(.68, '#8CBEE8');
-  grad.addColorStop(1, '#DCEEF8');
-  sctx.fillStyle = grad; sctx.fillRect(0, 0, 4, 256);
-  scene.background = new THREE.CanvasTexture(sky);
-  scene.fog = new THREE.Fog(0xA8CFEC, 46, 132);
-
-  const camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, .1, 260);
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-  renderer.setSize(innerWidth, innerHeight);
-  host.appendChild(renderer.domElement);
-
-  scene.add(new THREE.AmbientLight(0xffffff, .62));
-  const sun = new THREE.DirectionalLight(0xfff4dd, .95);
-  sun.position.set(12, 26, 15); scene.add(sun);
-  const bounce = new THREE.DirectionalLight(0x9fd46a, .3);
-  bounce.position.set(-12, 6, -10); scene.add(bounce);
-
-  /* ---- 5x5 pixel font ---- */
-  const FONT = {
-    A: ["01110","10001","11111","10001","10001"],
-    P: ["11110","10001","11110","10000","10000"],
-    O: ["01110","10001","10001","10001","01110"],
-    L: ["10000","10000","10000","10000","11111"]
-  };
-  // the windows flag, in order
-  const FLAG = [0xF35325, 0x81BC06, 0x05A6F0, 0xFFB900];
-
-  const word = 'APPOLO';
-  const cells = [];
-  let cursor = 0;
-  [...word].forEach((ch, li) => {
-    const grid = FONT[ch];
-    const colour = FLAG[li % FLAG.length];
-    for (let r = 0; r < 5; r++)
-      for (let c = 0; c < 5; c++)
-        if (grid[r][c] === '1') cells.push({ col: cursor + c, row: r, colour });
-    cursor += 6;
-  });
-  const totalCols = cursor - 1;
-
-  function makeBrick(hex) {
-    const g = new THREE.Group();
-    const col = new THREE.Color(hex);
-    const top = new THREE.MeshStandardMaterial({ color: col, roughness: .45 });
-    const side = new THREE.MeshStandardMaterial({ color: col.clone().multiplyScalar(.74), roughness: .55 });
-    g.add(new THREE.Mesh(new THREE.BoxGeometry(.92, .6, .92), [side, side, top, side, side, side]));
-    const stud = new THREE.Mesh(new THREE.CylinderGeometry(.26, .26, .16, 14), top);
-    stud.position.y = .38; g.add(stud);
-    g.userData.mats = [top, side];
-    return g;
+    await navigator.clipboard.writeText('lxfox9579');
+    tag.textContent = 'copied, go on then';
+  } catch {
+    tag.textContent = 'copy it yourself, sorry';
   }
-
-  /* ---- grass baseplate ---- */
-  const plateW = totalCols + 9, plateD = 14;
-  const plate = new THREE.Mesh(
-    new THREE.BoxGeometry(plateW, .5, plateD),
-    new THREE.MeshStandardMaterial({ color: 0x5E9B2E, roughness: .95 }));
-  plate.position.y = -.3; scene.add(plate);
-
-  const studGrp = new THREE.Group();
-  const psGeo = new THREE.CylinderGeometry(.16, .16, .1, 10);
-  const psMat = new THREE.MeshStandardMaterial({ color: 0x6EAE38, roughness: .95 });
-  for (let x = -Math.floor(plateW / 2) + 1; x < plateW / 2 - 1; x++)
-    for (let z = -Math.floor(plateD / 2) + 1; z < plateD / 2 - 1; z++) {
-      const s = new THREE.Mesh(psGeo, psMat); s.position.set(x, 0, z); studGrp.add(s);
-    }
-  studGrp.scale.setScalar(.001); scene.add(studGrp);
-
-  /* ---- fit the word across the viewport ---- */
-  const aspect = innerWidth / innerHeight;
-  const vHalf = THREE.MathUtils.degToRad(21);
-  const hHalf = Math.atan(Math.tan(vHalf) * aspect);
-  const fit = Math.max(1, ((plateW * .62) / Math.tan(hHalf)) / Math.hypot(26, 28));
-  camera.far = 260 * fit;
-  scene.fog.near = 46 * fit; scene.fog.far = 132 * fit;
-  camera.updateProjectionMatrix();
-
-  /* ---- dust puffs ---- */
-  const ringGeo = new THREE.RingGeometry(.25, .45, 18);
-  function puff(x, z) {
-    const m = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({
-      color: 0xE8F3D8, transparent: true, opacity: .32, side: THREE.DoubleSide }));
-    m.rotation.x = -Math.PI / 2;
-    m.position.set(x, .06, z);
-    m.scale.setScalar(.5);
-    scene.add(m);
-    gsap.to(m.scale, { x: 1.6, y: 1.6, z: 1.6, duration: .4, ease: 'power2.out' });
-    gsap.to(m.material, { opacity: 0, duration: .4, ease: 'power2.out',
-      onComplete: () => { scene.remove(m); m.material.dispose(); } });
-  }
-
-  /* ---- timeline ---- */
-  const bricks = [];
-  const tl = gsap.timeline();
-
-  plate.scale.set(.001, 1, .001);
-  tl.to(plate.scale, { x: 1, z: 1, duration: .5, ease: 'back.out(1.5)' }, 0);
-  tl.to(studGrp.scale, { x: 1, y: 1, z: 1, duration: .4, ease: 'power2.out' }, .2);
-
-  const start = .5;
-  const step = 1.5 / Math.max(1, cells.length);
-  let lastEnd = start;
-  cells.forEach((cell, i) => {
-    const b = makeBrick(cell.colour);
-    const tx = cell.col - totalCols / 2;
-    const tz = cell.row - 2;
-    b.position.set(tx, 15 + Math.random() * 5, tz);
-    b.rotation.y = (Math.random() - .5) * .25;
-    scene.add(b); bricks.push(b);
-
-    const at = start + i * step;
-    tl.to(b.position, { y: .3, duration: .5, ease: 'bounce.out' }, at);
-    tl.to(b.rotation, { y: 0, duration: .4, ease: 'power2.out' }, at);
-    tl.to(b.scale, { y: .65, duration: .08, ease: 'power2.in' }, at + .45);
-    tl.to(b.scale, { y: 1, duration: .24, ease: 'elastic.out(1.4,0.4)' }, at + .53);
-    tl.add(() => puff(tx, tz), at + .45);
-    lastEnd = at + .55;
-  });
-
-  const cam = { ang: 0, rad: 28 * fit, h: 26 * fit };
-  tl.to(cam, { ang: -.5, rad: 31 * fit, h: 21 * fit, duration: 1.7, ease: 'power2.inOut' }, lastEnd + .1);
-
-  let exploding = false;
-  const centre = new THREE.Vector3(0, .3, 0);
-  const blowAt = lastEnd + .1 + 1.7 + .5;
-  tl.add(() => {
-    exploding = true;
-    bricks.forEach(b => {
-      const dir = b.position.clone().sub(centre).normalize();
-      b.userData.vel = dir.multiplyScalar(.3 + Math.random() * .5);
-      b.userData.vel.y += .6 + Math.random() * .6;
-      b.userData.av = new THREE.Vector3(
-        (Math.random() - .5) * .4, (Math.random() - .5) * .4, (Math.random() - .5) * .4);
-      b.userData.mats.forEach(m => { m.transparent = true; });
-    });
-  }, blowAt);
-  tl.add(finish, blowAt + .85);
-
-  const target = new THREE.Vector3(0, .5, 0);
-  let stop = false;
-  (function loop() {
-    if (stop) return;
-    camera.position.set(Math.sin(cam.ang) * cam.rad, cam.h, Math.cos(cam.ang) * cam.rad);
-    if (exploding) {
-      bricks.forEach(b => {
-        const v = b.userData.vel;
-        v.y -= .045; b.position.add(v);
-        b.rotation.x += b.userData.av.x;
-        b.rotation.y += b.userData.av.y;
-        b.rotation.z += b.userData.av.z;
-        b.userData.mats.forEach(m => { m.opacity = Math.max(0, m.opacity - .013); });
-      });
-    }
-    camera.lookAt(target);
-    renderer.render(scene, camera);
-    requestAnimationFrame(loop);
-  })();
-
-  addEventListener('resize', () => {
-    if (stop) return;
-    camera.aspect = innerWidth / innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(innerWidth, innerHeight);
-  });
-}
+  setTimeout(() => tag.textContent = 'click to copy', 2200);
+});
 </script>
+
 </body>
 </html>
