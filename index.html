@@ -7,19 +7,23 @@
 
 <title>appolo</title>
 <meta name="description" content="i'm 16 and i write the systems that make games work. every demo on this page is running live.">
-<meta name="theme-color" content="#141310">
+<meta name="theme-color" content="#1a1c1e">
 <meta property="og:title" content="appolo">
 <meta property="og:description" content="16, uk. i write the systems that make games work.">
 
 <style>
 :root {
-  --bg: #141310;
-  --ink: #ece6da;
-  --dim: #8f8778;
-  --rule: #2d2a24;
-  --orange: #ff6a3d;
-  --yellow: #ffd84d;
-  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --bg: #1a1c1e;
+  --panel: #202325;
+  --panel2: #262a2c;
+  --ink: #e8e6e2;
+  --dim: #868c8f;
+  --rule: #33383b;
+  --blue: #5b9bd9;
+  --amber: #e3a75c;
+  --green: #7cc98a;
+  --red: #d9694f;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, "SF Mono", Consolas, "Courier New", monospace;
 }
 
@@ -27,382 +31,472 @@
 
 body {
   margin: 0;
-  padding: 0 26px 90px;
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--serif);
-  font-size: 18px;
-  line-height: 1.6;
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
 }
 
-.page { max-width: 700px; margin: 0 auto; }
+.page { max-width: 900px; margin: 0 auto; padding: 0 24px 100px; }
 
-a { color: var(--ink); text-decoration-color: var(--orange); text-underline-offset: 3px; }
-a:hover { color: var(--orange); }
-mark { background: var(--yellow); color: #141310; padding: 0 3px; }
-::selection { background: var(--yellow); color: #141310; }
-
-.top {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  padding-top: 26px;
+a { color: var(--ink); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+mark {
+  background: none;
+  color: var(--ink);
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: .84em;
+  background: var(--panel2);
+  border: 1px solid var(--rule);
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+::selection { background: var(--blue); color: #0e1012; }
+
+/* ---- topbar ---- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  padding: 20px 0 16px;
+  border-bottom: 1px solid var(--rule);
+}
+.brand { display: flex; align-items: baseline; gap: 10px; }
+.brand b { font-size: 15px; letter-spacing: -.01em; }
+.brand span {
+  font-family: var(--mono);
+  font-size: 11px;
   color: var(--dim);
 }
-.top .jump { margin-left: auto; display: flex; gap: 14px; }
-.top a { color: var(--dim); text-decoration: none; }
-.top a:hover { color: var(--yellow); }
-
-h1 {
-  font-size: clamp(60px, 14vw, 120px);
-  line-height: .88;
-  letter-spacing: -.05em;
-  margin: 30px 0 0;
+.tabs { display: flex; gap: 2px; font-family: var(--mono); font-size: 12px; }
+.tabs a {
+  display: block;
+  padding: 6px 11px;
+  color: var(--dim);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
 }
-h1 .dot { color: var(--orange); }
+.tabs a:hover { color: var(--ink); }
+
+/* ---- hero ---- */
+h1 {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: clamp(48px, 10vw, 92px);
+  line-height: .95;
+  letter-spacing: -.03em;
+  margin: 40px 0 0;
+}
+h1 span { color: var(--blue); }
 
 .strap {
-  margin: 18px 0 0;
-  font-size: 21px;
-  border-top: 1px solid var(--rule);
-  padding-top: 18px;
+  margin: 16px 0 0;
+  max-width: 62ch;
+  font-size: 19px;
+  color: var(--ink);
 }
-.strap b { color: var(--orange); font-weight: normal; }
+.strap b { color: var(--blue); font-weight: 600; }
 
-p { margin: 14px 0 0; }
+p { margin: 14px 0 0; max-width: 68ch; }
+.page > p, .panel p { max-width: 68ch; }
 
-.note {
+/* ---- panel: the core building block, modeled on an editor viewport/inspector window ---- */
+.panel {
+  margin-top: 22px;
+  border: 1px solid var(--rule);
+  background: var(--panel);
+}
+.panel-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--rule);
   font-family: var(--mono);
-  font-size: 12.5px;
-  line-height: 1.55;
+  font-size: 11px;
   color: var(--dim);
-  border-left: 2px solid var(--orange);
-  padding-left: 12px;
-  margin: 22px 0;
+  letter-spacing: .01em;
 }
-@media (min-width: 1140px) {
-  .page { max-width: 940px; padding-right: 240px; }
-  .rel { position: relative; }
-  .rel .note {
-    position: absolute;
-    left: 740px;
-    top: 2px;
-    width: 200px;
-    margin: 0;
-    transform: rotate(.7deg);
-  }
-}
-
-.sticky {
-  background: var(--yellow);
-  color: #141310;
-  font-family: var(--mono);
-  font-size: 13.5px;
-  line-height: 1.6;
-  padding: 15px 18px 17px;
-  margin: 38px 0 0;
-  max-width: 320px;
-  transform: rotate(-1.4deg);
-  box-shadow: 4px 6px 0 rgba(0, 0, 0, .35);
-}
-.sticky b { display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: .06em; }
-.sticky ul { margin: 0; padding-left: 16px; }
-
-h2 {
-  font-family: var(--mono);
-  font-size: 13px;
-  font-weight: normal;
-  letter-spacing: .2em;
-  text-transform: uppercase;
+.panel-bar .id::before { content: ""; }
+.panel-bar .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag {
+  border: 1px solid var(--rule);
   color: var(--dim);
-  margin: 76px 0 0;
+  padding: 1px 7px;
+  font-size: 10px;
+  letter-spacing: .04em;
 }
-h2::after { content: ""; display: block; height: 1px; background: var(--rule); margin-top: 12px; }
+.panel-body { padding: 16px 16px 18px; }
+.panel-body > p:first-child { margin-top: 0; }
 
-.entry { margin-top: 46px; }
-.entry h3 { font-size: 26px; letter-spacing: -.02em; margin: 0; }
-.entry h3 span {
-  font-family: var(--mono);
-  font-size: 13px;
-  font-weight: normal;
-  color: var(--orange);
-  margin-right: 10px;
-  vertical-align: 4px;
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--green);
 }
-.what { font-family: var(--mono); font-size: 12.5px; color: var(--dim); margin: 6px 0 0; }
+.live i {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse { 50% { opacity: .3; } }
 
 canvas {
   display: block;
   width: 100%;
-  height: 215px;
-  margin-top: 20px;
-  background: #0d0c0a;
+  height: 220px;
+  background: #16181a;
   border: 1px solid var(--rule);
   cursor: crosshair;
   touch-action: pan-y;
 }
-canvas#rts { height: 300px; }
+canvas#rts { height: 310px; }
 
-.cap {
+/* ---- status bar: segmented chips, like an editor's bottom status line ---- */
+.statusbar {
   display: flex;
-  align-items: center;
-  gap: 10px 16px;
   flex-wrap: wrap;
-  margin: 9px 0 0;
+  margin: 10px 0 0;
   font-family: var(--mono);
   font-size: 11.5px;
   color: var(--dim);
+  border: 1px solid var(--rule);
 }
-.cap .dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--orange);
-  animation: pulse 1.6s ease-in-out infinite;
+.statusbar .seg {
+  padding: 6px 11px;
+  border-right: 1px solid var(--rule);
 }
-@keyframes pulse { 50% { opacity: .25; } }
+.statusbar .seg:last-child { border-right: 0; }
 
 button.chip {
   font-family: var(--mono);
   font-size: 11.5px;
   color: var(--dim);
   background: none;
-  border: 1px solid var(--rule);
-  padding: 3px 9px;
+  border: 0;
+  padding: 0;
   cursor: pointer;
 }
-button.chip:hover { color: var(--yellow); border-color: var(--yellow); }
-button.chip.on { color: #141310; background: var(--yellow); border-color: var(--yellow); }
+button.chip:hover { color: var(--blue); }
+button.chip.on { color: var(--blue); }
 
-.go { font-family: var(--mono); font-size: 13px; margin-top: 15px; }
-.go a, .go button.link { margin-right: 18px; }
-button.link {
+/* ---- inline callout ---- */
+.callout {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--dim);
+  border-left: 2px solid var(--blue);
+  padding: 3px 0 3px 12px;
+  margin: 18px 0 0;
+  max-width: 60ch;
+}
+
+/* ---- status/inspector panel ---- */
+.kv { font-family: var(--mono); font-size: 13px; }
+.kv .row {
+  display: flex;
+  gap: 14px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.kv .row:last-child { border-bottom: 0; }
+.kv .row i { font-style: normal; width: 96px; flex: none; color: var(--dim); }
+
+/* ---- section headings ---- */
+h2 {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: normal;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin: 64px 0 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.entry-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  margin: 0 0 12px;
+}
+
+/* ---- action buttons ---- */
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.btn, button.btn {
+  font: inherit;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink);
+  background: var(--panel2);
+  border: 1px solid var(--rule);
+  padding: 7px 12px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn:hover { border-color: var(--blue); color: var(--blue); }
+
+/* ---- footage reveal ---- */
+.footage { margin-top: 16px; }
+.footage video { display: block; width: 100%; background: #000; border: 1px solid var(--rule); }
+.footage .cap {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--dim);
+  padding: 6px 0 0;
+}
+
+#visits { color: var(--amber); }
+
+.list.kv { margin-top: 18px; }
+.list .row a, .list .row button { color: var(--ink); }
+.list .row em { font-style: normal; margin-left: auto; color: var(--dim); font-size: 11px; }
+.list .row button.link {
   font: inherit;
   background: none;
   border: 0;
   padding: 0;
   color: var(--ink);
   cursor: pointer;
-  text-decoration: underline;
-  text-decoration-color: var(--orange);
-  text-underline-offset: 3px;
-}
-button.link:hover { color: var(--orange); }
-
-.tape {
-  display: block;
-  width: 100%;
-  margin: 22px 0 0;
-  padding: 7px;
-  border: 0;
-  background: #e9e3d5;
   text-align: left;
-  cursor: pointer;
-  transform: rotate(-.7deg);
-  box-shadow: 6px 8px 0 rgba(0, 0, 0, .4);
-  transition: transform .2s;
 }
-.tape:hover { transform: rotate(0); }
-.tape img, .tape video { display: block; width: 100%; background: #000; }
-.tape .label {
-  display: block;
-  padding: 8px 2px 3px;
-  font-family: var(--mono);
-  font-size: 11px;
-  color: #6b6357;
-}
-
-#visits { font-variant-numeric: tabular-nums; }
-
-.list { font-family: var(--mono); font-size: 14.5px; margin-top: 24px; }
-.list div { display: flex; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--rule); }
-.list i { font-style: normal; width: 84px; flex: none; color: var(--dim); }
-.list em { font-style: normal; margin-left: auto; color: var(--dim); font-size: 12px; }
+.list .row a:hover, .list .row button.link:hover { color: var(--blue); }
 
 footer {
-  margin-top: 78px;
-  padding-top: 22px;
+  margin-top: 70px;
+  padding-top: 20px;
   border-top: 1px solid var(--rule);
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--dim);
 }
 
 @media (max-width: 620px) {
-  body { font-size: 17px; padding: 0 18px 70px; }
-  .strap { font-size: 19px; }
+  body { font-size: 16px; }
+  .page { padding: 0 16px 80px; }
   canvas { height: 190px; }
   canvas#rts { height: 240px; }
-  .list div { flex-wrap: wrap; gap: 8px; }
-  .list em { width: 100%; margin-left: 0; }
+  .kv .row { flex-wrap: wrap; gap: 4px 14px; }
+  .list .row em { width: 100%; margin-left: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cap .dot { animation: none; }
-  .tape { transition: none; }
+  .live i { animation: none; }
 }
 </style>
 </head>
 <body>
 <div class="page">
 
-<div class="top">
-  <span>appolo &middot; 16 &middot; uk</span>
-  <span class="jump">
+<div class="topbar">
+  <div class="brand"><b>appolo</b><span>systems programmer · 16 · uk</span></div>
+  <nav class="tabs">
     <a href="#work">work</a>
     <a href="#about">about</a>
     <a href="#say-hi">say hi</a>
-  </span>
+  </nav>
 </div>
 
-<h1>appolo<span class="dot">.</span></h1>
+<h1>appolo<span>.</span></h1>
 
-<p class="strap">i'm 16 and i write the systems that make games work. everything on this
-  page is <b>running live</b>, not a screenshot. go and click it.</p>
+<p class="strap">i'm 16 and i write the systems that make games work. everything below is
+  <b>running live</b> in your browser right now, not a screenshot &mdash; go and click it.</p>
 
-<canvas id="rts" aria-label="a live demo: units moving in formation around obstacles"></canvas>
-<p class="cap">
-  <span class="dot"></span>26 units &middot; click anywhere to command &middot; shift-click to queue orders
-</p>
-
-<div class="rel">
-  <p>i started in roblox studio when i was 10 because me and a mate were going to
-    make a tycoon. we didn't. i kept opening studio anyway.</p>
-  <p class="note">six of these demos, all written from scratch for this page.
-    no libraries, nothing loaded from a cdn.</p>
+<div class="panel">
+  <div class="panel-bar">
+    <span class="id">viewport &mdash; rts_units.scene</span>
+    <span class="live"><i></i>running</span>
+  </div>
+  <div class="panel-body" style="padding:0;">
+    <canvas id="rts" aria-label="a live demo: units moving in formation around obstacles"></canvas>
+  </div>
+</div>
+<div class="statusbar">
+  <span class="seg">26 units</span>
+  <span class="seg">click to command</span>
+  <span class="seg">shift-click to queue orders</span>
 </div>
 
-<div class="sticky">
-  <b>currently</b>
-  <ul>
-    <li>learning c++ for ue5</li>
-    <li>computer science at college</li>
-    <li>fixing whatever broke in the mod</li>
-  </ul>
+<p>i started in roblox studio when i was 10 because me and a mate were going to make a
+  tycoon. we didn't. i kept opening studio anyway.</p>
+
+<div class="callout">six of the demos on this page are written from scratch for it &mdash;
+  no libraries, nothing pulled from a cdn. same reason the fonts are just system fonts.</div>
+
+<div class="panel" style="max-width:420px;">
+  <div class="panel-bar"><span class="id">status</span></div>
+  <div class="panel-body kv">
+    <div class="row"><i>learning</i><span>c++ for ue5</span></div>
+    <div class="row"><i>studying</i><span>computer science, college</span></div>
+    <div class="row"><i>fixing</i><span>whatever broke in the mod</span></div>
+  </div>
 </div>
 
-<h2 id="work">stuff i've made</h2>
+<h2 id="work">work</h2>
 
-<div class="entry rel">
-  <h3><span>01</span>tcv multiplayer mod</h3>
-  <p class="what">gdscript &middot; godot &middot; udp &middot; python installer &middot; mit</p>
-  <canvas id="net" aria-label="four clients staying in sync, one holding the mic"></canvas>
-  <p class="cap"><span class="dot"></span>one mic at a time &middot; udp on 7654 &middot; scores sync to everyone</p>
-  <p>the choicer voicer is a godot game about voice acting badly with friends, and it
-    had no online mode. now it has mine: four players, everyone on their own mic, all
-    in sync so only one person performs at a time.</p>
-  <p class="note">i never had the source. my installer decompiles your own copy with
-    gdRE, patches my scripts in, rebuilds the exe. no game files ship with it.</p>
-  <p class="go">
-    <a href="https://github.com/TypeOneAppolo/tcv-multiplayer-mod" target="_blank" rel="noopener">source</a>
-    <a href="https://www.youtube.com/watch?v=YoHYlGWCE_g" target="_blank" rel="noopener">install tutorial &rarr;</a>
-  </p>
+<div class="panel">
+  <div class="panel-bar">
+    <span class="id">net &mdash; tcv_mp.mod</span>
+    <span class="tags"><span class="tag">gdscript</span><span class="tag">godot</span><span class="tag">udp</span><span class="tag">mit</span></span>
+  </div>
+  <div class="panel-body">
+    <h3 class="entry-title">tcv multiplayer mod</h3>
+    <canvas id="net" aria-label="four clients staying in sync, one holding the mic"></canvas>
+    <div class="statusbar">
+      <span class="seg">one mic at a time</span>
+      <span class="seg">udp on 7654</span>
+      <span class="seg">scores sync to everyone</span>
+    </div>
+    <p>the choicer voicer is a godot game about voice acting badly with friends, and it
+      had no online mode. now it has mine: four players, everyone on their own mic, all
+      in sync so only one person performs at a time.</p>
+    <div class="callout">i never had the source. my installer decompiles your own copy
+      with gdRE, patches my scripts in, rebuilds the exe. no game files ship with it.</div>
+    <div class="actions">
+      <a class="btn" href="https://github.com/TypeOneAppolo/tcv-multiplayer-mod" target="_blank" rel="noopener">source</a>
+      <a class="btn" href="https://www.youtube.com/watch?v=YoHYlGWCE_g" target="_blank" rel="noopener">install tutorial</a>
+    </div>
+  </div>
 </div>
 
-<div class="entry rel">
-  <h3><span>02</span>lock on targeting</h3>
-  <p class="what">lua &middot; cameras &middot; occlusion checks</p>
-  <canvas id="lock" aria-label="a live demo: souls style lock on with occlusion and death handling"></canvas>
-  <p class="cap">
-    <span class="dot"></span>click a red one to lock it
-    <button class="chip" id="kill">kill my target</button>
-    <span id="lockmsg">acquiring</span>
-  </p>
-  <p>souls style lock on. the camera stays on whoever you picked. walk them behind
-    the wall or kill them and watch what it does, that's the part everyone forgets.</p>
-  <p class="go">
-    <button class="link vid" data-src="lockon-demo.mp4">see it in the actual game</button>
-  </p>
+<div class="panel">
+  <div class="panel-bar">
+    <span class="id">cam &mdash; lockon.cam</span>
+    <span class="tags"><span class="tag">lua</span><span class="tag">roblox</span></span>
+  </div>
+  <div class="panel-body">
+    <h3 class="entry-title">lock on targeting</h3>
+    <canvas id="lock" aria-label="a live demo: souls style lock on with occlusion and death handling"></canvas>
+    <div class="statusbar">
+      <span class="seg">click a red one to lock it</span>
+      <span class="seg"><button class="chip" id="kill">kill my target</button></span>
+      <span class="seg" id="lockmsg">acquiring</span>
+    </div>
+    <p>souls style lock on. the camera stays on whoever you picked. walk them behind
+      the wall or kill them and watch what it does &mdash; that's the part everyone forgets.</p>
+    <div class="actions">
+      <button class="btn vid" data-src="lockon-demo.mp4">watch in the actual game</button>
+    </div>
+  </div>
 </div>
 
-<div class="entry rel">
-  <h3><span>03</span>rts unit movement</h3>
-  <p class="what">lua &middot; formations &middot; local avoidance</p>
-  <p>that's the thing at the top of the page. click the ground, they form up, path
-    round the rocks and don't shove each other through walls. shift queues orders.</p>
-  <p class="note">formations are easy right up until 30 units meet one doorway.</p>
-  <p class="go">
-    <button class="link vid" data-src="rts-demo.mp4">see it in the actual game</button>
-  </p>
+<div class="panel">
+  <div class="panel-bar">
+    <span class="id">ai &mdash; rts_units.ai</span>
+    <span class="tags"><span class="tag">lua</span><span class="tag">roblox</span></span>
+  </div>
+  <div class="panel-body">
+    <h3 class="entry-title">rts unit movement</h3>
+    <p>that's the panel at the top of the page. click the ground, they form up, path
+      round the rocks and don't shove each other through walls. shift queues orders.</p>
+    <div class="callout">formations are easy right up until 30 units meet one doorway.</div>
+    <div class="actions">
+      <button class="btn vid" data-src="rts-demo.mp4">watch in the actual game</button>
+    </div>
+  </div>
 </div>
 
-<div class="entry rel">
-  <h3><span>04</span>radial emote wheel</h3>
-  <p class="what">lua &middot; ui &middot; atan2</p>
-  <canvas id="wheel" aria-label="a live demo: a radial menu driven by mouse angle"></canvas>
-  <p class="cap">
-    <span class="dot"></span>move your mouse over it &middot; options:
-    <button class="chip" data-n="4">4</button>
-    <button class="chip" data-n="6">6</button>
-    <button class="chip on" data-n="8">8</button>
-    <button class="chip" data-n="12">12</button>
-  </p>
-  <p>the angle from the centre to your cursor picks the option. it lays itself out for
-    any number of them instead of hardcoding eight, like i did the first time.</p>
-  <p class="go">
-    <button class="link vid" data-src="emotewheel-demo.mp4">see it in the actual game</button>
-  </p>
+<div class="panel">
+  <div class="panel-bar">
+    <span class="id">ui &mdash; emote_wheel.ui</span>
+    <span class="tags"><span class="tag">lua</span><span class="tag">roblox</span></span>
+  </div>
+  <div class="panel-body">
+    <h3 class="entry-title">radial emote wheel</h3>
+    <canvas id="wheel" aria-label="a live demo: a radial menu driven by mouse angle"></canvas>
+    <div class="statusbar">
+      <span class="seg">move your mouse over it</span>
+      <span class="seg">options:
+        <button class="chip" data-n="4">4</button>
+        <button class="chip" data-n="6">6</button>
+        <button class="chip on" data-n="8">8</button>
+        <button class="chip" data-n="12">12</button>
+      </span>
+    </div>
+    <p>the angle from the centre to your cursor picks the option. it lays itself out for
+      any number of them instead of hardcoding eight, like i did the first time.</p>
+    <div class="actions">
+      <button class="btn vid" data-src="emotewheel-demo.mp4">watch in the actual game</button>
+    </div>
+  </div>
 </div>
 
-<div class="entry rel">
-  <h3><span>05</span>maze generator</h3>
-  <p class="what">lua &middot; recursive backtracking</p>
-  <canvas id="maze" aria-label="a live demo: recursive backtracking carving a maze"></canvas>
-  <p class="cap">
-    <span class="dot"></span><span id="mazemsg">carving</span>
-    <button class="chip" id="remaze">new maze</button>
-  </p>
-  <p>it draws every step instead of just the finished maze, so you can watch it dig
-    itself into a corner and reverse back out. this is the one that made recursion click.</p>
-  <p class="go">
-    <a href="https://www.youtube.com/watch?v=ULdcywxUb48" target="_blank" rel="noopener">the lua version &rarr;</a>
-  </p>
+<div class="panel">
+  <div class="panel-bar">
+    <span class="id">algo &mdash; maze_gen.algo</span>
+    <span class="tags"><span class="tag">lua</span></span>
+  </div>
+  <div class="panel-body">
+    <h3 class="entry-title">maze generator</h3>
+    <canvas id="maze" aria-label="a live demo: recursive backtracking carving a maze"></canvas>
+    <div class="statusbar">
+      <span class="seg" id="mazemsg">carving</span>
+      <span class="seg"><button class="chip" id="remaze">new maze</button></span>
+    </div>
+    <p>it draws every step instead of just the finished maze, so you can watch it dig
+      itself into a corner and reverse back out. this is the one that made recursion click.</p>
+    <div class="actions">
+      <a class="btn" href="https://www.youtube.com/watch?v=ULdcywxUb48" target="_blank" rel="noopener">the lua version</a>
+    </div>
+  </div>
 </div>
 
-<div class="entry rel">
-  <h3><span>06</span>raise a dr house</h3>
-  <p class="what">lua &middot; roblox &middot; solo project</p>
-  <p>a roblox game i made on my own, all the code and ui and progression.
-    <mark><span id="visits">0</span> visits</mark>, which still doesn't feel like a real
-    number. it's also how i learned what happens to your code when 40 strangers are in
-    a server doing things you didn't plan for.</p>
-  <p class="go">
-    <a href="https://www.roblox.com/games/82635139286925/Raise-a-Dr-House" target="_blank" rel="noopener">play it &rarr;</a>
-  </p>
+<div class="panel">
+  <div class="panel-bar">
+    <span class="id">game &mdash; raise_a_dr_house.game</span>
+    <span class="tags"><span class="tag">lua</span><span class="tag">roblox</span><span class="tag">solo</span></span>
+  </div>
+  <div class="panel-body">
+    <h3 class="entry-title">raise a dr house</h3>
+    <p>a roblox game i made on my own, all the code and ui and progression.
+      <mark><span id="visits">0</span> visits</mark>, which still doesn't feel like a real
+      number. it's also how i learned what happens to your code when 40 strangers are in
+      a server doing things you didn't plan for.</p>
+    <div class="actions">
+      <a class="btn" href="https://www.roblox.com/games/82635139286925/Raise-a-Dr-House" target="_blank" rel="noopener">play it</a>
+    </div>
+  </div>
 </div>
 
 <h2 id="about">about</h2>
 
-<div class="rel">
-  <p>16, uk, doing computer science at college. <mark>lua</mark> is the language i
-    actually know, six years will do that.</p>
-  <p>the tcv mod was my first go at godot, and the first time i'd written networking an
-    engine hadn't already done for me. sockets, packet order, four machines all having to
-    agree whose turn it is. i got it wrong several times in a row and it's still the thing
-    i'm most pleased with.</p>
-  <p>now i'm grinding through <mark>c++</mark> for unreal 5. much harder than lua, and
-    nobody warns you about the header files.</p>
-  <p class="note">bad at: art, ui that looks nice, and finishing side projects that
-    stop being fun by week two.</p>
-</div>
+<p>16, uk, doing computer science at college. <mark>lua</mark> is the language i
+  actually know, six years will do that.</p>
+<p>the tcv mod was my first go at godot, and the first time i'd written networking an
+  engine hadn't already done for me. sockets, packet order, four machines all having to
+  agree whose turn it is. i got it wrong several times in a row and it's still the thing
+  i'm most pleased with.</p>
+<p>now i'm grinding through <mark>c++</mark> for unreal 5. much harder than lua, and
+  nobody warns you about the header files.</p>
+<div class="callout">bad at: art, ui that looks nice, and finishing side projects that
+  stop being fun by week two.</div>
 
 <h2 id="say-hi">say hi</h2>
 
 <p>commissions are open and i'm up for collabs. discord gets you me fastest.</p>
 
-<div class="list">
-  <div><i>discord</i><button class="link" id="dc">lxfox9579</button><em>click to copy</em></div>
-  <div><i>email</i><a href="mailto:juck06547@gmail.com">juck06547@gmail.com</a><em>slower</em></div>
-  <div><i>github</i><a href="https://github.com/TypeOneAppolo" target="_blank" rel="noopener">TypeOneAppolo</a><em>the code</em></div>
-  <div><i>roblox</i><a href="https://www.roblox.com/users/profile?username=x8yv" target="_blank" rel="noopener">x8yv</a><em>profile</em></div>
-  <div><i>youtube</i><a href="https://www.youtube.com/watch?v=YoHYlGWCE_g" target="_blank" rel="noopener">tutorials &amp; demos</a><em>video</em></div>
+<div class="list kv">
+  <div class="row"><i>discord</i><button class="link" id="dc">lxfox9579</button><em>click to copy</em></div>
+  <div class="row"><i>email</i><a href="mailto:juck06547@gmail.com">juck06547@gmail.com</a><em>slower</em></div>
+  <div class="row"><i>github</i><a href="https://github.com/TypeOneAppolo" target="_blank" rel="noopener">TypeOneAppolo</a><em>the code</em></div>
+  <div class="row"><i>roblox</i><a href="https://www.roblox.com/users/profile?username=x8yv" target="_blank" rel="noopener">x8yv</a><em>profile</em></div>
+  <div class="row"><i>youtube</i><a href="https://www.youtube.com/watch?v=YoHYlGWCE_g" target="_blank" rel="noopener">tutorials &amp; demos</a><em>video</em></div>
 </div>
 
 <footer>
-  written in a text editor at 1am. no framework, no template, no cookie banner
+  written in a text editor at 1am. no framework, no build step, no cookie banner
   because there are no cookies.<br>
-  last messed with august 2026 &middot; &copy; 2026 appolo
+  last messed with september 2026 &middot; &copy; 2026 appolo
 </footer>
 
 </div>
@@ -447,7 +541,7 @@ function pointer(p) {
 }
 
 function grid(ctx, w, h, step) {
-  ctx.strokeStyle = '#1c1a16';
+  ctx.strokeStyle = '#24272a';
   ctx.lineWidth = 1;
   ctx.beginPath();
   for (let x = step; x < w; x += step) { ctx.moveTo(x + .5, 0); ctx.lineTo(x + .5, h); }
@@ -547,14 +641,14 @@ add('rts', p => {
     for (const o of rocks) {
       ctx.beginPath();
       ctx.arc(o.x, o.y, o.r, 0, 6.2832);
-      ctx.fillStyle = '#1a1813';
+      ctx.fillStyle = '#232628';
       ctx.fill();
-      ctx.strokeStyle = '#38322a';
+      ctx.strokeStyle = '#3a3f42';
       ctx.stroke();
     }
 
     queue.forEach(q => {
-      ctx.strokeStyle = '#5d5346';
+      ctx.strokeStyle = '#5f6568';
       ctx.beginPath();
       ctx.arc(q.x, q.y, 5, 0, 6.2832);
       ctx.stroke();
@@ -564,13 +658,13 @@ add('rts', p => {
       marker.t = (marker.t + dt) % 1.2;
       ctx.beginPath();
       ctx.arc(marker.x, marker.y, 5 + marker.t * 17, 0, 6.2832);
-      ctx.strokeStyle = 'rgba(255,106,61,' + Math.max(0, .55 - marker.t * .48) + ')';
+      ctx.strokeStyle = 'rgba(91,155,217,' + Math.max(0, .55 - marker.t * .48) + ')';
       ctx.stroke();
-      ctx.fillStyle = '#ff6a3d';
+      ctx.fillStyle = '#5b9bd9';
       ctx.fillRect(marker.x - 2, marker.y - 2, 4, 4);
     }
 
-    ctx.fillStyle = '#e9e3d5';
+    ctx.fillStyle = '#e8e6e2';
     for (const u of men) {
       ctx.save();
       ctx.translate(u.x, u.y);
@@ -683,8 +777,8 @@ add('lock', p => {
     ctx.translate(hero.x, hero.y);
     ctx.rotate(aim);
     const g = ctx.createLinearGradient(0, 0, 190, 0);
-    g.addColorStop(0, 'rgba(255,216,77,.16)');
-    g.addColorStop(1, 'rgba(255,216,77,0)');
+    g.addColorStop(0, 'rgba(227,167,92,.16)');
+    g.addColorStop(1, 'rgba(227,167,92,0)');
     ctx.fillStyle = g;
     ctx.beginPath();
     ctx.moveTo(0, 0);
@@ -693,27 +787,27 @@ add('lock', p => {
     ctx.fill();
     ctx.restore();
 
-    ctx.fillStyle = '#211e18';
-    ctx.strokeStyle = '#4a4238';
+    ctx.fillStyle = '#232628';
+    ctx.strokeStyle = '#3a3f42';
     ctx.fillRect(wall.x, wall.y, wall.w, wall.h);
     ctx.strokeRect(wall.x + .5, wall.y + .5, wall.w, wall.h);
 
     for (const f of foes) {
       if (f.down > 0) {
-        ctx.strokeStyle = 'rgba(143,135,120,.5)';
+        ctx.strokeStyle = 'rgba(134,140,143,.5)';
         ctx.beginPath();
         ctx.arc(f.x, f.y, 6 + (2.6 - f.down) * 3, 0, 6.2832);
         ctx.stroke();
         continue;
       }
-      ctx.fillStyle = blocked(f) ? '#5c4038' : '#c8442a';
+      ctx.fillStyle = blocked(f) ? '#5a3e37' : '#d9694f';
       ctx.beginPath();
       ctx.arc(f.x, f.y, 6, 0, 6.2832);
       ctx.fill();
     }
 
     if (target && target.down <= 0) {
-      ctx.strokeStyle = '#ffd84d';
+      ctx.strokeStyle = '#5b9bd9';
       ctx.lineWidth = 1.6;
       const r = 13;
       for (let q = 0; q < 4; q++) {
@@ -726,7 +820,7 @@ add('lock', p => {
       }
       ctx.lineWidth = 1;
       ctx.setLineDash([3, 4]);
-      ctx.strokeStyle = 'rgba(255,216,77,.4)';
+      ctx.strokeStyle = 'rgba(91,155,217,.4)';
       ctx.beginPath();
       ctx.moveTo(hero.x, hero.y);
       ctx.lineTo(target.x, target.y);
@@ -737,7 +831,7 @@ add('lock', p => {
     ctx.save();
     ctx.translate(hero.x, hero.y);
     ctx.rotate(aim);
-    ctx.fillStyle = '#e9e3d5';
+    ctx.fillStyle = '#e8e6e2';
     ctx.beginPath();
     ctx.moveTo(9, 0);
     ctx.lineTo(-6, 6);
@@ -783,25 +877,25 @@ add('wheel', p => {
       ctx.arc(cx, cy, outer + grow[i] * 9, mid - step / 2 + pad, mid + step / 2 - pad);
       ctx.arc(cx, cy, inner, mid + step / 2 - pad, mid - step / 2 + pad, true);
       ctx.closePath();
-      ctx.fillStyle = i === sel ? '#ff6a3d' : '#221f1a';
+      ctx.fillStyle = i === sel ? '#5b9bd9' : '#262a2c';
       ctx.fill();
-      ctx.strokeStyle = i === sel ? '#ffd84d' : '#38322a';
+      ctx.strokeStyle = i === sel ? '#e3a75c' : '#33383b';
       ctx.stroke();
     }
 
-    ctx.strokeStyle = 'rgba(255,216,77,.55)';
+    ctx.strokeStyle = 'rgba(227,167,92,.55)';
     ctx.beginPath();
     ctx.moveTo(cx, cy);
     ctx.lineTo(cx + Math.cos(ang) * (inner - 6), cy + Math.sin(ang) * (inner - 6));
     ctx.stroke();
 
-    ctx.fillStyle = '#ece6da';
+    ctx.fillStyle = '#e8e6e2';
     ctx.font = '13px ui-monospace, Consolas, monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(names[sel], cx, cy);
     ctx.textAlign = 'left';
-    ctx.fillStyle = '#8f8778';
+    ctx.fillStyle = '#868c8f';
     ctx.font = '11px ui-monospace, Consolas, monospace';
     ctx.fillText('atan2 -> ' + (ang * 57.3).toFixed(0) + '°', 10, h - 14);
   };
@@ -869,11 +963,11 @@ add('maze', p => {
 
     for (const c of cells) {
       if (!c.seen) continue;
-      ctx.fillStyle = '#191712';
+      ctx.fillStyle = '#202325';
       ctx.fillRect(ox + c.x * cell, oy + c.y * cell, cell, cell);
     }
 
-    ctx.strokeStyle = '#6d6455';
+    ctx.strokeStyle = '#53585b';
     ctx.lineWidth = 1;
     ctx.beginPath();
     for (const c of cells) {
@@ -885,11 +979,11 @@ add('maze', p => {
     }
     ctx.stroke();
 
-    ctx.fillStyle = 'rgba(255,106,61,.25)';
+    ctx.fillStyle = 'rgba(227,167,92,.22)';
     for (const c of stack) ctx.fillRect(ox + c.x * cell + 5, oy + c.y * cell + 5, cell - 10, cell - 10);
 
     if (rest <= 0) {
-      ctx.fillStyle = '#ff6a3d';
+      ctx.fillStyle = '#e3a75c';
       ctx.fillRect(ox + cur.x * cell + 3, oy + cur.y * cell + 3, cell - 6, cell - 6);
     }
   };
@@ -932,17 +1026,17 @@ add('net', p => {
     ctx.textAlign = 'center';
     box.forEach((b, i) => {
       const talking = i === who;
-      ctx.fillStyle = talking ? '#2a1c14' : '#1a1813';
-      ctx.strokeStyle = talking ? '#ff6a3d' : '#38322a';
+      ctx.fillStyle = talking ? '#1c2630' : '#202325';
+      ctx.strokeStyle = talking ? '#5b9bd9' : '#33383b';
       ctx.fillRect(b.x, b.y, b.w, b.h);
       ctx.strokeRect(b.x + .5, b.y + .5, b.w, b.h);
-      ctx.fillStyle = talking ? '#ff6a3d' : '#8f8778';
+      ctx.fillStyle = talking ? '#5b9bd9' : '#868c8f';
       ctx.fillText('p' + (i + 1), b.x + b.w / 2, b.y + 18);
-      ctx.fillStyle = talking ? '#ffd84d' : 'rgba(233,227,213,' + (.3 + b.flash * .7) + ')';
+      ctx.fillStyle = talking ? '#e3a75c' : 'rgba(232,230,226,' + (.3 + b.flash * .7) + ')';
       ctx.fillText(talking ? 'mic' : (b.flash > .05 ? 'sync' : 'idle'), b.x + b.w / 2, b.y + 34);
     });
 
-    ctx.strokeStyle = '#241f19';
+    ctx.strokeStyle = '#282c2f';
     ctx.beginPath();
     box.forEach((b, i) => {
       if (i === who) return;
@@ -951,7 +1045,7 @@ add('net', p => {
     });
     ctx.stroke();
 
-    ctx.fillStyle = '#ffd84d';
+    ctx.fillStyle = '#e3a75c';
     for (const k of packets) {
       const a = box[k.from], b = box[k.to];
       const x = (a.x + a.w / 2) + ((b.x + b.w / 2) - (a.x + a.w / 2)) * k.t;
@@ -959,7 +1053,7 @@ add('net', p => {
       ctx.fillRect(x - 1.5, y - 1.5, 3, 3);
     }
 
-    ctx.fillStyle = '#8f8778';
+    ctx.fillStyle = '#868c8f';
     ctx.textAlign = 'left';
     ctx.fillText('p' + (who + 1) + ' is recording · everyone else waits', 12, h - 14);
   };
@@ -984,11 +1078,11 @@ let last = performance.now();
 
 document.querySelectorAll('.vid').forEach(b => {
   b.addEventListener('click', () => {
-    const tape = document.createElement('button');
-    tape.className = 'tape';
-    tape.innerHTML = '<video src="' + b.dataset.src + '" controls autoplay playsinline></video>' +
-      '<span class="label">' + b.dataset.src + '</span>';
-    b.parentNode.replaceChild(tape, b);
+    const wrap = document.createElement('div');
+    wrap.className = 'footage';
+    wrap.innerHTML = '<video src="' + b.dataset.src + '" controls autoplay playsinline></video>' +
+      '<div class="cap">' + b.dataset.src + '</div>';
+    b.parentNode.replaceChild(wrap, b);
   });
 });
 
@@ -1007,7 +1101,7 @@ count.observe(visits);
 
 const dc = document.getElementById('dc');
 dc.addEventListener('click', async () => {
-  const tag = dc.parentNode.querySelector('em');
+  const tag = dc.closest('.row').querySelector('em');
   try {
     await navigator.clipboard.writeText('lxfox9579');
     tag.textContent = 'copied, go on then';
